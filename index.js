@@ -2842,7 +2842,7 @@ if (message.content.startsWith("/warn")){
                 .addField("Информация по выдачи", `\`[✔] - выдать роль\`\n` + `\`[❌] - отказать в выдачи роли\`\n` + `\`[D] - удалить сообщение\``)
                 .setFooter("© Support Team | by Kory_McGregor")
                 .setTimestamp()
-                reqchat.send(accepted.join(", "), embed).then(async msgsen => {
+                reqchat.send(embed).then(async msgsen => {
                     await msgsen.react('✔')
                     await msgsen.react('❌')
                     await msgsen.react('🇩')
