@@ -628,7 +628,136 @@ bot.on('message', async message => {
     let re = /(\d+(\.\d)*)/i;	
     const authorrisbot = new Discord.RichEmbed()
     .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
-        if (message.content.startsWith("/newsp")){
+        
+       if (message.channel.name == "support"){
+    if (message.member.bot) return message.delete();
+    if (support_cooldown.has(message.author.id)) {
+        return message.delete();
+    }
+    support_cooldown.add(message.author.id);
+    setTimeout(() => {
+        if (support_cooldown.has(message.author.id)) support_cooldown.delete(message.author.id);
+    }, 300000);
+    let id_mm;
+    let rep_message;
+    let db_server = bot.guilds.find(g => g.id == "535877742449917952");
+    let db_channel = db_server.channels.find(c => c.name == "config");
+    await db_channel.fetchMessages().then(async messages => {
+        let db_msg = messages.find(m => m.content.startsWith(`MESSAGEID:`));
+        if (db_msg){
+            id_mm = db_msg.content.match(re)[0]
+            await message.channel.fetchMessages().then(async messagestwo => {
+                rep_message = await messagestwo.find(m => m.id == id_mm);
+            });
+        }
+    });
+    if (!rep_message){
+        await message.channel.send(`` +
+        `**Приветствую! Вы попали в канал поддержки сервера Yuma!**\n` +
+        `**Тут Вы сможете задать вопрос модераторам или администраторам нашего дискорда!**\n\n` +
+        `**Количество вопросов за все время: 0**\n` +
+        `**Необработанных модераторами: 0**\n` +
+        `**Вопросы на рассмотрении: 0**\n` +
+        `**Закрытых: 0**`).then(async msg => {
+            db_channel.send(`MESSAGEID: ${msg.id}`)
+            rep_message = await message.channel.fetchMessage(msg.id);
+        });
+    }
+    let info_rep = [];
+    info_rep.push(rep_message.content.split('\n')[3].match(re)[0]);
+    info_rep.push(rep_message.content.split('\n')[4].match(re)[0]);
+    info_rep.push(rep_message.content.split('\n')[5].match(re)[0]);
+    info_rep.push(rep_message.content.split('\n')[6].match(re)[0]);
+    const imageemb = new Discord.RichEmbed()
+    .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+    .setImage("https://imgur.com/LKDbJeM.gif")
+    rep_message.edit(`` +
+        `**Приветствую! Вы попали в канал поддержки сервера Yuma!**\n` +
+        `**Тут Вы сможете задать вопрос модераторам или администраторам нашего дискорда!**\n\n` +
+        `**Количество вопросов за все время: ${+info_rep[0] + 1}**\n` +
+        `**Необработанных модераторами: ${+info_rep[1] + 1}**\n` +
+        `**Вопросы на рассмотрении: ${info_rep[2]}**\n` +
+        `**Закрытых: ${info_rep[3]}**`, imageemb)
+    let s_category = message.guild.channels.find(c => c.name == "Активные жалобы");
+    if (!s_category) return message.delete(3000);
+    await message.guild.createChannel(`ticket-${+info_rep[0] + 1}`).then(async channel => {
+        message.delete();    
+        await channel.setParent(s_category.id);
+        await channel.setTopic('Жалоба в обработке.')
+        let moderator_role = await message.guild.roles.find(r => r.name == 'Support Team');
+        await channel.overwritePermissions(moderator_role, {
+        // GENERAL PERMISSIONS
+        CREATE_INSTANT_INVITE: false,
+        MANAGE_CHANNELS: false,
+        MANAGE_ROLES: false,
+        MANAGE_WEBHOOKS: false,
+        // TEXT PERMISSIONS
+        VIEW_CHANNEL: true,
+        SEND_MESSAGES: true,
+        SEND_TTS_MESSAGES: false,
+        MANAGE_MESSAGES: false,
+        EMBED_LINKS: true,
+        ATTACH_FILES: true,
+        READ_MESSAGE_HISTORY: true,
+        MENTION_EVERYONE: false,
+        USE_EXTERNAL_EMOJIS: false,
+        ADD_REACTIONS: false,
+        })  
+        await channel.overwritePermissions(message.member, {
+        // GENERAL PERMISSIONS
+        CREATE_INSTANT_INVITE: false,
+        MANAGE_CHANNELS: false,
+        MANAGE_ROLES: false,
+        MANAGE_WEBHOOKS: false,
+        // TEXT PERMISSIONS
+        VIEW_CHANNEL: true,
+        SEND_MESSAGES: true,
+        SEND_TTS_MESSAGES: false,
+        MANAGE_MESSAGES: false,
+        EMBED_LINKS: true,
+        ATTACH_FILES: true,
+        READ_MESSAGE_HISTORY: true,
+        MENTION_EVERYONE: false,
+        USE_EXTERNAL_EMOJIS: false,
+        ADD_REACTIONS: false,
+        })  
+        await channel.overwritePermissions(message.guild.roles.find(r => r.name == "@everyone"), {
+        // GENERAL PERMISSIONS
+        CREATE_INSTANT_INVITE: false,
+        MANAGE_CHANNELS: false,
+        MANAGE_ROLES: false,
+        MANAGE_WEBHOOKS: false,
+        // TEXT PERMISSIONS
+        VIEW_CHANNEL: false,
+        SEND_MESSAGES: false,
+        SEND_TTS_MESSAGES: false,
+        MANAGE_MESSAGES: false,
+        EMBED_LINKS: false,
+        ATTACH_FILES: false,
+        READ_MESSAGE_HISTORY: false,
+        MENTION_EVERYONE: false,
+        USE_EXTERNAL_EMOJIS: false,
+        ADD_REACTIONS: false,
+        })  
+        channel.send(`<@${message.author.id}> \`для команды поддержки\` <@&${moderator_role.id}>`, {embed: {
+        color: 3447003,
+        title: "Обращение к поддержке Discord",
+        fields: [{
+            name: "Отправитель",
+            value: `**Пользователь:** <@${message.author.id}>`,
+        },{
+            name: "Суть обращения",
+            value: `${message.content}`,
+        }]
+        }});
+        let sp_chat_get = message.guild.channels.find(c => c.name == "reports-log");
+        await sp_chat_get.send(`\`[CREATE]\` <@${message.author.id}> \`создал обращение к поддержке:\` <#${channel.id}>`);
+        message.channel.send(`<@${message.author.id}>, \`обращение составлено. Нажмите на\` <#${channel.id}>`).then(msg => msg.delete(15000));
+    });
+	} 
+    
+    
+    	if (message.content.startsWith("/newsp")){
         const args = message.content.slice(`/newsp`).split(/ +/);
         if (!args[1]){
             message.reply(`\`укажите день! '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));
