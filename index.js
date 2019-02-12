@@ -1,5 +1,5 @@
-const Discord = require('discord.js'); // by Artemka076#6715
-const bot = new Discord.Client(); // My Bot
+const Discord = require('discord.js');
+const bot = new Discord.Client();
 const fs = require("fs");
 
 let levelhigh = 0;
@@ -189,7 +189,7 @@ const warn_cooldown = new Set();
 bot.login(process.env.token);
 bot.on('ready', () => {
     console.log("Бот был успешно запущен!");
-    bot.user.setPresence({ game: { name: 'hacker' }, status: 'idle' })
+    bot.user.setPresence({ game: { name: 'hacker' }, status: 'online' })
 });
 
 // Система удаленного управления ботом для отключения,фиксов багов и т.д.
@@ -3600,7 +3600,6 @@ bot.on('guildBanAdd', async (guild, user) => {
         .setThumbnail(user.avatarURL)
         .setColor("#FF0000")
         .addField(`**Информация о блокировке**`, `**Заблокирован: ${user}**\n**Заблокировал: ${member}**\n**Причина: \`${reason}\`**`)
-        // .addField(`**Причина блокировки**`, `**\`${reason}\`**`)
         .setFooter(`Команда по безопасности Discord сервера.`, guild.iconURL)
         guild.channels.find(c => c.name == "general").send(embed_ban).catch(() => {
             guild.channels.find(c => c.name == "general").send(`**${user} был заблокирован.**`)
