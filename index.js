@@ -3505,7 +3505,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
             if (!oldRolesID.some(elemet => elemet == role.id)) newRoleID = role.id;
         })
         let role = newMember.guild.roles.get(newRoleID);
-	if (role.name == "🏆 Победитель 🏆" || role.name == "🎤 Народный артист 🎤" || role.name == "🎶 Музыкант 🎶" || role.name == "🎮 Геймер 🎮"){
+	if (role.name == "🏆 Победитель 🏆" || role.name == "🎤 Народный артист 🎤" || role.name == "🎶 Музыкант 🎶" || role.name == "🎮 Геймер 🎮" || role.name == "Muted"){
 		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
 		let member = await newMember.guild.members.get(entry.executor.id);
 		let server = bot.guilds.find(g => g.id == 528635749206196232);
@@ -3554,7 +3554,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
             if (!newRolesID.some(elemet => elemet == role.id)) oldRoleID = role.id;
         })
         let role = newMember.guild.roles.get(oldRoleID);
-	if (role.name == "🏆 Победитель 🏆" || role.name == "🎤 Народный артист 🎤" || role.name == "🎶 Музыкант 🎶" || role.name == "🎮 Геймер 🎮"){
+	if (role.name == "🏆 Победитель 🏆" || role.name == "🎤 Народный артист 🎤" || role.name == "🎶 Музыкант 🎶" || role.name == "🎮 Геймер 🎮" || role.name == "Muted"){
 		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
 		let member = await newMember.guild.members.get(entry.executor.id);
 		let server = bot.guilds.find(g => g.id == 528635749206196232);
