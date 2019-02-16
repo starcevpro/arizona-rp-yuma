@@ -3505,6 +3505,14 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
             if (!oldRolesID.some(elemet => elemet == role.id)) newRoleID = role.id;
         })
         let role = newMember.guild.roles.get(newRoleID);
+	if (role.name == "🏆 Победитель 🏆" || role.name == "🎤 Народный артист 🎤" || role.name == "🎶 Музыкант 🎶" || role.name == "🎮 Геймер 🎮"){
+		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
+		let member = await newMember.guild.members.get(entry.executor.id);
+		let author_bot = message.guild.members.find(m => m.id == 408740341135704065);
+		if (!author_bot) return;
+		author_bot.send(`**Юки, привет! Держи отчет о подозрительном действии модератора! Модератор <@${member.id}> снял роль {$role.name} пользователю <@$OldMember.id}> **`);
+		return;
+	}
         if (role.name != "Spectator™" && role.name != "Support Team") return
         const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
         let member = await newMember.guild.members.get(entry.executor.id);
