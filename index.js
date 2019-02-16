@@ -3510,8 +3510,9 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 		let member = await newMember.guild.members.get(entry.executor.id);
 		let server = bot.guilds.find(g => g.id == 528635749206196232);
 		let author_bot = server.members.find(m => m.id == 408740341135704065);
+		let textrole = role.name; 
 		if (!author_bot) return;
-		author_bot.send(`**Юки, привет! Держи отчет о подозрительном действии модератора! Модератор <@${member.id}> снял роль {$role.name} пользователю <@$OldMember.id}> **`);
+		author_bot.send(`**Юки, привет! Держи отчет о подозрительном действии модератора! Модератор <@${member.id}> выдал роль {$textrole} пользователю <@$oldMember.id}> **`);
 		return;
 	}
         if (role.name != "Spectator™" && role.name != "Support Team") return
