@@ -3693,7 +3693,7 @@ bot.on('guildMemberAdd', async member => {
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     let newUserChannel = newMember.voiceChannel
     let oldUserChannel = oldMember.voiceChannel
-  
+    if(oldUserChannel == newUserChannel) return;
     
     if(newUserChannel == undefined) {
         if(oldUserChannel.name === "Обзвон") {
