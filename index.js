@@ -3717,7 +3717,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     }
     if(oldUserChannel === undefined && newUserChannel !== undefined) {
         if(newUserChannel.name === "Обзвон") {
-        let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "чат");
+        let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
         await obzvon.overwritePermissions(newMember, {
             // GENERAL PERMISSIONS
             CREATE_INSTANT_INVITE: false,
