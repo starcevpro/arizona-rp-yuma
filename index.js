@@ -3659,7 +3659,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     let newUserChannel = newMember.voiceChannel
     let oldUserChannel = oldMember.voiceChannel
     
-        if(oldUserChannel.id == "531487851007967252") {
+        if(newUserChannel == undefined || newUserChannel.id !== "531487851007967252" && oldUserChannel.id == "531487851007967252") {
         let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
         await obzvon.permissionOverwrites.forEach(async perm => {
         if (perm.type == `member`){
@@ -3667,6 +3667,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
             perm.delete();
         }
         obzvon.send(`\`Пользователь\` <@${oldMember.id}> \`был удален из чата\``);
+        return;
     }
     });
     if(oldUserChannel !== undefined || oldUserChannel.id !== "531487851007967252" && newUserChannel.id == "531487851007967252") 
