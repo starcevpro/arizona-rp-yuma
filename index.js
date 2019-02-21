@@ -3659,7 +3659,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     let oldUserChannel = oldMember.voiceChannel
   
     
-    if(newUserChannel === undefined) {
+    if(newUserChannel == undefined) {
         if(oldUserChannel.name === "Обзвон") {
         let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
         await obzvon.permissionOverwrites.forEach(async perm => {
