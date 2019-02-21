@@ -3655,4 +3655,44 @@ bot.on('guildMemberAdd', async member => {
 })
 
 
-
+bot.on('voiceStateUpdate', async (oldMember, newMember) => {
+    let newUserChannel = newMember.voiceChannel
+    let oldUserChannel = oldMember.voiceChannel
+    
+        if(oldUserChannel.id == "531487851007967252") {
+        let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
+        await obzvon.permissionOverwrites.forEach(async perm => {
+        if (perm.type == `member`){
+        if (perm.id == oldMember.id){
+            perm.delete();
+        }
+        obzvon.send(`\`Пользователь\` <@${oldMember.id}> \`был удален из чата\``);
+    }
+    });
+        return;
+    if(oldUserChannel !== undefined || oldUserChannel.id !== "531487851007967252" && newUserChannel.id == "531487851007967252") 
+    {
+        let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
+        await obzvon.overwritePermissions(newMember, {
+            // GENERAL PERMISSIONS
+            CREATE_INSTANT_INVITE: false,
+            MANAGE_CHANNELS: false,
+            MANAGE_ROLES: false,
+            MANAGE_WEBHOOKS: false,
+            // TEXT PERMISSIONS
+            VIEW_CHANNEL: true,
+            SEND_MESSAGES: true,
+            SEND_TTS_MESSAGES: false,
+            MANAGE_MESSAGES: false,
+            EMBED_LINKS: false,
+            ATTACH_FILES: false,
+            READ_MESSAGE_HISTORY: false,
+            MENTION_EVERYONE: false,
+            USE_EXTERNAL_EMOJIS: false,
+            ADD_REACTIONS: false,
+        })
+        obzvon.send(`\`Пользователь\` <@${newMember.id}> \`был добавлен к чату на обзвон\``);
+        return;
+    }
+}
+}) 
