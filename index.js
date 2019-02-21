@@ -3659,7 +3659,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     let oldUserChannel = oldMember.voiceChannel
 
         
-    if(newUserChannel.id == "531487851007967252") 
+    if(newUserChannel.id == "531487851007967252" && oldUserChannel !== newUserChannel) 
     {
         let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
         await obzvon.overwritePermissions(newMember, {
@@ -3683,7 +3683,7 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
         obzvon.send(`\`Пользователь\` <@${newMember.id}> \`был добавлен к чату на обзвон\``);
         return;
     }
-	if(oldUserChannel.id == "531487851007967252" && newUserChannel.id !== "531487851007967252") {
+	if(oldUserChannel.id == "531487851007967252" || newUserChannel.id !== "531487851007967252") {
 	let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
 	await obzvon.permissionOverwrites.forEach(async perm => {
 	if (perm.type == `member`){
