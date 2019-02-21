@@ -3669,7 +3669,6 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
         obzvon.send(`\`Пользователь\` <@${oldMember.id}> \`был удален из чата\``);
     }
     });
-        return;
     if(oldUserChannel !== undefined || oldUserChannel.id !== "531487851007967252" && newUserChannel.id == "531487851007967252") 
     {
         let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
