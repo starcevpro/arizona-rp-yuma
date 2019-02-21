@@ -1346,7 +1346,7 @@ if (message.content == '/active'){
             });
         }
         if (!message.member.hasPermission("ADMINISTRATOR") && +level_mod != 3 && +level_mod != 4) return
-        message.reply(`\`Команды для модерации: /embsetup, /embfield, /embsend - отправить.\``);
+        message.reply(`\`Команды для модерации: /embsetup, /embfield, \ - отправить.\``);
         return message.delete();
     }
 
@@ -1533,6 +1533,42 @@ if (message.content == '/active'){
         if (setembed_general[3] != "не указано") embed.setTimestamp();
         message.channel.send(embed).catch(err => message.channel.send(`\`Хм.. Не получается. Возможно вы сделали что-то не так.\``));
         return message.delete();
+    }
+    if (message.content == "/mod"){
+        let level_mod = 0;
+        let db_server = bot.guilds.find(g => g.id == "531533132982124544");
+        let acc_creator = db_server.channels.find(c => c.name == message.author.id);
+        if (acc_creator){
+            await acc_creator.fetchMessages({limit: 1}).then(async messages => {
+                if (messages.size == 1){
+                    messages.forEach(async sacc => {
+			let str = sacc.content;
+                        level_mod = +str.split('\n')[0].match(re)[0];
+                    });
+                }
+            });
+        }
+        if (!message.member.hasPermission("ADMINISTRATOR") && +level_mod < 1) return message.reply('**нет прав для просмотра истории обзвона**');
+	if(message.channel.name != "closed-chat") return message.reply('**доступно только в канале обзвона**');
+	    await message.channel.overwritePermissions(message.author, {
+                // GENERAL PERMISSIONS
+                CREATE_INSTANT_INVITE: false,
+                MANAGE_CHANNELS: false,
+                MANAGE_ROLES: false,
+                MANAGE_WEBHOOKS: false,
+ 		// TEXT PERMISSIONS
+		VIEW_CHANNEL: true,
+		SEND_MESSAGES: true,
+		SEND_TTS_MESSAGES: false,
+		MANAGE_MESSAGES: false,
+		EMBED_LINKS: false,
+		ATTACH_FILES: false,
+		READ_MESSAGE_HISTORY: true,
+		MENTION_EVERYONE: false,
+		USE_EXTERNAL_EMOJIS: false,
+		ADD_REACTIONS: false,
+            })
+	    message.reply('**Доступ выдан!**');
     }
 /*
 if (message.content.startsWith("/del") && !message.content.includes("fam")){
