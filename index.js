@@ -3113,8 +3113,8 @@ if (message.content.startsWith("/warn")){
         })*/
         yuma.channels.find(c => c.name == "spectator-chat").send(`\`Модератор ${message.member.displayName} отключил чат:\` <#${yuma.channels.find(c => c.name == "general").id}>`)
         message.reply(`\`вы успешно отключили чат!\``)
-	let send = `**Команда модераторов извиняется за доставленные неудобства!\nЧат будет вреаша команда модераторов Discord!**`; 
-        yuma.channels.find(c => c.name == "spectator-chat").send(send)менно недоступен в целях устранения массового бесспорядка!\nОтнеситесь к этому с пониманием.**\n\n**В
+	let send = `**Команда модераторов извиняется за доставленные неудобства!\nЧат будет временно недоступен в целях устранения массового бесспорядка!\nОтнеситесь к этому с пониманием.**\n\n**Ваша команда модераторов Discord!**`; 
+        yuma.channels.find(c => c.name == "spectator-chat").send(send)
 	return messages.delete();
     }
     if (message.content == `/chat on`){
