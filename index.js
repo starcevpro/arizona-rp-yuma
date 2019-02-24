@@ -3092,10 +3092,41 @@ if (message.content.startsWith("/warn")){
             return message.delete();
         }
         let password = args.slice(1).join(" ");
-        if (password != `${message.author.id[0]}${message.author.id}${message.author.id[1]} 2783652 SCOTTDALE`) return message.delete();
+        if (password != `${message.author.id[0]}${message.author.id}${message.author.id[1]} 6625001`) return message.delete();
         message.reply(`\`успешно авторизован в системе.\``);
         dspanel.add(message.author.id);
         return message.delete();
+    }
+    if (message.content == `/chat`){
+        if (message.guild.id != yuma.id) return
+        if (!message.member.hasPermission("MANAGE_ROLES")) return
+        if (!dspanel.has(message.author.id)) return message.reply(`\`вы не авторизованы в системе модерирования.\``) && message.delete()
+        message.reply(`\`для выключения чата используй /chat off, для включения: /chat on\``);
+        return message.delete();
+    }
+    if (message.content == `/chat off`){
+        if (message.guild.id != yuma.id) return
+        if (!message.member.hasPermission("MANAGE_ROLES")) return
+        if (!dspanel.has(message.author.id)) return message.reply(`\`вы не авторизованы в системе модерирования.\``) && message.delete()
+        /*yuma.channels.find(c => c.name == "general").overwritePermissions(yuma.roles.find(r => r.name.includes(`everyone`)), {
+            SEND_MESSAGES: false,
+        })*/
+        yuma.channels.find(c => c.name == "spectator-chat").send(`\`Модератор ${message.member.displayName} отключил чат:\` <#${yuma.channels.find(c => c.name == "general").id}>`)
+        message.reply(`\`вы успешно отключили чат!\``)
+	let send = `**Команда модераторов извиняется за причинённые неудобства! Чат будет временно недоступен в целях устранения массового бесспорядка!\nОтнеситесь к этому с пониманием.**\n\n**Ваша команда модераторов Discord!**`; 
+        yuma.channels.find(c => c.name == "spectator-chat").send(send)
+	return messages.delete();
+    }
+    if (message.content == `/chat on`){
+        if (message.guild.id != scottdale.id) return
+        if (!message.member.hasPermission("MANAGE_ROLES")) return
+        if (!dspanel.has(message.author.id)) return message.reply(`\`вы не авторизованы в системе модерирования.\``) && message.delete()
+        yuma.channels.find(c => c.name == "general").overwritePermissions(yuma.roles.find(r => r.name.includes(`everyone`)), {
+            SEND_MESSAGES: true,
+        })
+        yuma.channels.find(c => c.name == "spectator-chat").send(`\`Модератор ${message.member.displayName} включил чат:\` <#${yuma.channels.find(c => c.name == "general").id}>`)
+        message.reply(`\`вы успешно включили чат!\``)
+        return messages.delete();
     }
     if (message.content.startsWith("/ffuser")){
         if (!message.member.hasPermission("MANAGE_ROLES")) return
