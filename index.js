@@ -5,7 +5,7 @@ const fs = require("fs");
 let levelhigh = 0;
 let lasttestid = 'net';
 
-const dspanel = new Set();
+
 const nrpnames = new Set(); // Невалидные ники будут записаны в nrpnames
 const sened = new Set(); // Уже отправленные запросы будут записаны в sened
 const snyatie = new Set(); // Уже отправленные запросы на снятие роли быдут записаны в snyatie
@@ -15,6 +15,7 @@ const support_loop = new Set(); // Кулдаун сервера
 let antislivsp1 = new Set();
 let antislivsp2 = new Set();
 
+const dspanel = new Set();
 
 let setembed_general = ["не указано", "не указано", "не указано", "не указано", "не указано", "не указано", "не указано"];
 let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
@@ -2385,7 +2386,7 @@ if (message.content.startsWith("/warn")){
     spchangg.send(`\`${message.member.displayName} очистил все предупреждения системой антислива пользователю\` <@${user.id}>`);
     message.delete()
     }
-
+    let yuma = bot.guilds.find(g => g.id == "528635749206196232");
     if (message.content.startsWith('/createfam')){
         if (!message.member.hasPermission("ADMINISTRATOR")) return message.reply(`\`эй! Эта функция только для модераторов!\``) && message.delete()
         let idmember = message.author.id;
@@ -3077,7 +3078,25 @@ if (message.content.startsWith("/warn")){
             return
         }
     }
-
+    if (message.content.startsWith(`/dspanel`)){
+        if (message.guild.id != yuma.id) return
+        if (!message.member.hasPermission("MANAGE_ROLES")) return
+        if (dspanel.has(message.author.id)){
+            dspanel.delete(message.author.id);
+            message.reply(`\`успешно вышел из системы.\``);
+            return message.delete();
+        }
+        const args = message.content.slice('/dspanel').split(/ +/)
+        if (!args[1]){
+            message.reply(`\`введите пароль.\``).then(msg => msg.delete(7000));
+            return message.delete();
+        }
+        let password = args.slice(1).join(" ");
+        if (password != `${message.author.id[0]}${message.author.id}${message.author.id[1]} 2783652 SCOTTDALE`) return message.delete();
+        message.reply(`\`успешно авторизован в системе.\``);
+        dspanel.add(message.author.id);
+        return message.delete();
+    }
     if (message.content.startsWith("/ffuser")){
         if (!message.member.hasPermission("MANAGE_ROLES")) return
         const args = message.content.slice('/ffuser').split(/ +/)
