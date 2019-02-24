@@ -1141,25 +1141,6 @@ if (message.content == '/active'){
         message.channel.send(textforobz, {embed});
         return message.delete()
     }
-    if (message.content.startsWith(`/dspanel`)){
-        if (message.guild.id != serverid) return
-        if (!message.member.hasPermission("MANAGE_ROLES")) return
-        if (dspanel.has(message.author.id)){
-            dspanel.delete(message.author.id);
-            message.reply(`\`успешно вышел из системы.\``);
-            return message.delete();
-        }
-        const args = message.content.slice('/dspanel').split(/ +/)
-        if (!args[1]){
-            message.reply(`\`введите пароль.\``).then(msg => msg.delete(7000));
-            return message.delete();
-        }
-        let password = args.slice(1).join(" ");
-        if (password != `46917 Yuma`) return message.delete();
-        message.reply(`\`успешно авторизован в системе.\``);
-        dspanel.add(message.author.id);
-        return message.delete();
-    }
     if (message.content.startsWith(`/run`)){
         if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
         const args = message.content.slice(`/run`).split(/ +/);
