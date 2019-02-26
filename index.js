@@ -2814,12 +2814,12 @@ if (message.content.startsWith("/warn")){
         if (fam_chat) await fam_chat.send(`\`[DELETED]\` \`Семья '${name}', главой которой был\` <@${family_leader.id}> \`была удалена модератором. Удалил:\` <@${message.author.id}>`);
         return message.delete();
     }
-    if (message.content.startsWith(`/snick`)){
-	if (message.content == `/snick`){
-		message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`использование: /snick [nick]\``).then(msg => msg.delete(10000));
+    if (message.content.startsWith(`/nick`)){
+	if (message.content == `/nick`){
+		message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`использование: /nick [nick]\``).then(msg => msg.delete(10000));
 		return message.delete();
 	}
-    	const args = message.content.slice(`/snick`).split(/ +/);
+    	const args = message.content.slice(`/nick`).split(/ +/);
 	//if(!args) return message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`укажите новый ник! /snick [nick]\``).then(msg => msg.delete(7000));
         let member = yuma.members.find(m => m.id == message.author.id);
     	member.setNickname(args.slice(1).join(" ")).then(() => {
