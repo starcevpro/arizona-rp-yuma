@@ -2823,7 +2823,7 @@ if (message.content.startsWith("/warn")){
 	//if(!args) return message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`укажите новый ник! /snick [nick]\``).then(msg => msg.delete(7000));
         let member = yuma.members.find(m => m.id == message.author.id);
     	member.setNickname(args.slice(1).join(" ")).then(() => {
-                message.channel.send(`\`[SET]\` \`Вам был установлен никнейм ${args.slice(1).join(" ")}\``);
+                message.channel.send(`\`[SET]\` <@${message.author.id}>  \`, вам был установлен никнейм -  ${args.slice(1).join(" ")}\``);
                 return message.delete();
             }).catch(() => {
                 message.channel.send(`\`[ERROR]\` \`ошибка изменения никнейма! Возможно у меня нет прав!\``);
