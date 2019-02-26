@@ -2821,7 +2821,8 @@ if (message.content.startsWith("/warn")){
 	}
     	const args = message.content.slice(`/snick`).split(/ +/);
 	//if(!args) return message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`укажите новый ник! /snick [nick]\``).then(msg => msg.delete(7000));
-    	message.author.setNickname(args.slice(1).join(" ")).then(() => {
+	let member = message.author;
+    	member.setNickname(args.slice(1).join(" ")).then(() => {
                 message.channel.send(`\`[SET]\` \`Вам был установлен никнейм ${args.slice(1).join(" ")}\``);
                 return message.delete();
             }).catch(() => {
