@@ -2815,9 +2815,13 @@ if (message.content.startsWith("/warn")){
         return message.delete();
     }
     if (message.content.startsWith(`/snick`)){
+	if (message.content == `/snick`){
+		message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`использование: /snick [nick]\``).then(msg => msg.delete(10000));
+		return message.delete();
+	}
     	const args = message.content.slice(`/snick`).split(/ +/);
 	let nick = args.slice(1).join(" ");
-	if(!args) return message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`укажите новый ник! /snick [nick]\``).then(msg => msg.delete(7000));
+	//if(!args) return message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`укажите новый ник! /snick [nick]\``).then(msg => msg.delete(7000));
     	message.author.setNickname(nick).then(() => {
                 message.channel.send(`\`[SET]\` \`Вам был установлен никнейм ${nick}`);
                 return message.delete();
