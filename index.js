@@ -2769,7 +2769,6 @@ if (message.content.startsWith("/warn")){
             return
         }
     }
-
     if (message.content.startsWith(`/deletefam`)){
         if (!message.member.hasPermission("ADMINISTRATOR")) return message.reply(`\`эй! Эта функция только для модераторов!\``) && message.delete()
         const args = message.content.slice('/deletefam').split(/ +/)
@@ -2815,7 +2814,18 @@ if (message.content.startsWith("/warn")){
         if (fam_chat) await fam_chat.send(`\`[DELETED]\` \`Семья '${name}', главой которой был\` <@${family_leader.id}> \`была удалена модератором. Удалил:\` <@${message.author.id}>`);
         return message.delete();
     }
-
+    if (message.content.startsWith(`/nick`)){
+    	const args = message.content.slice(`/nick`).split(/ +/);
+	let nick = args.slice(1).join(" ");
+	if(!args) return message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`укажите новый ник! /nick [nick]\``).then(msg => msg.delete(7000));
+    	message.author.setNickname(nick).then(() => {
+                message.channel.send(`\`[SET]\` \`Вам был установлен никнейм ${nick}`);
+                return message.delete();
+            }).catch(() => {
+                message.channel.send(`\`[ERROR]\` \`ошибка изменения никнейма! Возможно у меня нет прав!\``);
+                return message.delete();
+            })
+    }
     if (message.content.startsWith(`/famaddzam`)){
         if (message.content == `/famaddzam`){
             message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`использование: /famaddzam [user]\``).then(msg => msg.delete(10000));
