@@ -2814,10 +2814,10 @@ if (message.content.startsWith("/warn")){
         if (fam_chat) await fam_chat.send(`\`[DELETED]\` \`Семья '${name}', главой которой был\` <@${family_leader.id}> \`была удалена модератором. Удалил:\` <@${message.author.id}>`);
         return message.delete();
     }
-    if (message.content.startsWith(`/nick`)){
-    	const args = message.content.slice(`/nick`).split(/ +/);
+    if (message.content.startsWith(`/snick`)){
+    	const args = message.content.slice(`/snick`).split(/ +/);
 	let nick = args.slice(1).join(" ");
-	if(!args) return message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`укажите новый ник! /nick [nick]\``).then(msg => msg.delete(7000));
+	if(!args) return message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`укажите новый ник! /snick [nick]\``).then(msg => msg.delete(7000));
     	message.author.setNickname(nick).then(() => {
                 message.channel.send(`\`[SET]\` \`Вам был установлен никнейм ${nick}`);
                 return message.delete();
