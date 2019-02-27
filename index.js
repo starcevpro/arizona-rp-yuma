@@ -2386,6 +2386,17 @@ if (message.content.startsWith("/warn")){
     spchangg.send(`\`${message.member.displayName} очистил все предупреждения системой антислива пользователю\` <@${user.id}>`);
     message.delete()
     }
+    if (message.content.startsWith("/gov")){
+    if(!message.author.roles.some(r => ["✵Leader✵", "✫Deputy Leader✫"].includes(r.name))){
+        message.reply(`\`недостаточно прав доступа!\``).then(msg => msg.delete(12000));
+        return message.delete();
+    }
+    const args = message.content.slice(`/gov`).split(/ +/);
+    if(!args[0] || !args[1] || args[2]) return message.reply(`\`Используйте '/gov [часы] [минуты] [фракция]'\``)
+    if(args[1] == 5 || args[1] == 15 || args[1] == 25 || args[1] == 35 || args[1] == 45 || args[1] == 55) return message.reply(`\`Запрещено правилами займа гос.волны'\``)
+    message.channel.send(`\`[GOV]\` \` Фракция ${args[2]} | Лидер или заместитель: \` <@${message.author.id}> \` занял гос.волну на ${args[0]}:${args[1]} \`);
+    return;
+    }
     let yuma = bot.guilds.find(g => g.id == "528635749206196232");
     if (message.content.startsWith('/createfam')){
         if (!message.member.hasPermission("ADMINISTRATOR")) return message.reply(`\`эй! Эта функция только для модераторов!\``) && message.delete()
