@@ -2392,10 +2392,10 @@ if (message.content.startsWith("/warn")){
         return message.delete();
     }*/
     const args = message.content.slice(`/gov`).split(/ +/);
-    if(!args[0] || !args[1] || !args[2]) return message.reply(`\`Используйте '/gov [часы] [минуты] [фракция]'\``)
-    if(args[1] == 5 || args[1] == 15 || args[1] == 25 || args[1] == 35 || args[1] == 45 || args[1] == 55) return message.reply(`\`Запрещено правилами займа гос.волны'\``)
-    //message.channel.send(`\`[GOV]\` \` Фракция ${args[2]} | Лидер или заместитель: \` <@${message.author.id}> \` занял гос.волну на ${args[0]}:${args[1]} \``);
-    message.channel.send(args);
+    if(!args[1] || !args[2] || !args[3]) return message.reply(`\`Используйте '/gov [часы] [минуты] [фракция]'\``)
+    if(args[2] == 5 || args[2] == 15 || args[2] == 25 || args[2] == 35 || args[2] == 45 || args[2] == 55) return message.reply(`\`Запрещено правилами займа гос.волны'\``)
+    message.channel.send(`\`[GOV]\` \` Фракция ${args[3]} | Лидер или заместитель: \` <@${message.author.id}> \` занял гос.волну на ${args[1]}:${args[2]} \``);
+    //message.channel.send(args);
     return;
     }
     let yuma = bot.guilds.find(g => g.id == "528635749206196232");
