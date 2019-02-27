@@ -2393,7 +2393,7 @@ if (message.content.startsWith("/warn")){
     }*/
     const args = message.content.slice(`/gov`).split(/ +/);
     if(!args[1] || !args[2] || !args[3]) return message.reply(`\`Используйте '/gov [часы] [минуты] [фракция]'\``)
-    if(args[2] == 5 || args[2] == 15 || args[2] == 25 || args[2] == 35 || args[2] == 45 || args[2] == 55) return message.reply(`\`Запрещено правилами займа гос.волны'\``)
+    if(args[2] != 0 || args[2] != 10 || args[2] != 20 || args[2] != 30 || args[2] != 40 || args[2] != 50) return message.reply(`\`Запрещено правилами займа гос.волны\``)
     message.channel.send(`\`[GOV]\` \` Фракция ${args[3]} | Лидер или заместитель: \` <@${message.author.id}> \` занял гос.волну на ${args[1]}:${args[2]} \``);
     //message.channel.send(args);
     return;
