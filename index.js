@@ -2398,7 +2398,12 @@ if (message.content.startsWith("/warn")){
     if(!args[1] || !args[2] || !args[3]) return message.reply(`\`Используйте '/gov [часы] [минуты] [фракция]'\``)
     if(args[2] != 0 && args[2] != 10 && args[2] != 20 && args[2] != 30 && args[2] != 40 && args[2] != 50) return message.reply(`\`Запрещено правилами займа гос.волны\``)
     let govinfo = yuma.channels.find(c => c.name == "gov-info");
-    govinfo.send(`\`[GOV]\` \`  Лидер или заместитель фракции ${args[3]}: \` <@${message.author.id}> \` занял гос.волну на ${args[1]}:${args[2]} \``);
+    let info_user = "Лидер";
+    if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
+	    info_user = "Лидер";
+	}else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
+	    info_user = "Заместитель лидера";
+    govinfo.send(`\`[GOV]\` \`  ${info_user} ${args[3]}: \` <@${message.author.id}> \` занял гос.волну на ${args[1]}:${args[2]} \``);
     message.reply('Окей, информация опубликована!');
     return;
     }
@@ -2413,7 +2418,14 @@ if (message.content.startsWith("/warn")){
     if(!args[1] || !args[2] || !args[3]) return message.reply(`\`Используйте '/cancelgov [часы] [минуты] [фракция]'\``)
     if(args[2] != 0 && args[2] != 10 && args[2] != 20 && args[2] != 30 && args[2] != 40 && args[2] != 50) return message.reply(`\`Запрещено правилами займа гос.волны\``)
     let govinfo = yuma.channels.find(c => c.name == "gov-info");
-    govinfo.send(`\`[GOV]\` \`  Лидер или заместитель фракции ${args[3]}: \` <@${message.author.id}> \` освободил гос.волну на ${args[1]}:${args[2]} \``);
+    let info_user = "Лидер";
+    if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
+	info_user = "Лидер";
+    }
+    else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
+	info_user = "Заместитель лидера";
+    }
+    govinfo.send(`\`[GOV]\` \`  ${info_user} ${args[3]}: \` <@${message.author.id}> \` освободил гос.волну на ${args[1]}:${args[2]} \``);
     message.reply('Окей, информация опубликована!');
     return;
     }
