@@ -2387,10 +2387,10 @@ if (message.content.startsWith("/warn")){
     message.delete()
     }
     if (message.content.startsWith("/gov")){
-    if(!message.author.roles.some(r => ["✵Leader✵", "✫Deputy Leader✫"].includes(r.name))){
+    /*if(!message.author.roles.some(r => ["✵Leader✵", "✫Deputy Leader✫"].includes(r.name))){
         message.reply(`\`недостаточно прав доступа!\``).then(msg => msg.delete(12000));
         return message.delete();
-    }
+    }*/
     const args = message.content.slice(`/gov`).split(/ +/);
     if(!args[0] || !args[1] || !args[2]) return message.reply(`\`Используйте '/gov [часы] [минуты] [фракция]'\``)
     if(args[1] == 5 || args[1] == 15 || args[1] == 25 || args[1] == 35 || args[1] == 45 || args[1] == 55) return message.reply(`\`Запрещено правилами займа гос.волны'\``)
