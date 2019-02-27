@@ -2386,11 +2386,13 @@ if (message.content.startsWith("/warn")){
     spchangg.send(`\`${message.member.displayName} очистил все предупреждения системой антислива пользователю\` <@${user.id}>`);
     message.delete()
     }
+    let yuma = bot.guilds.find(g => g.id == "528635749206196232");
     if (message.content.startsWith("/gov")){
-    /*if(!message.author.roles.some(r => ["✵Leader✵", "✫Deputy Leader✫"].includes(r.name))){
+    let user = yuma.members.find(m => m.id == message.author.id);
+    if(!user.roles.some(r => ["✵Leader✵", "✫Deputy Leader✫"].includes(r.name))){
         message.reply(`\`недостаточно прав доступа!\``).then(msg => msg.delete(12000));
         return message.delete();
-    }*/
+    }
     const args = message.content.slice(`/gov`).split(/ +/);
     if(!args[1] || !args[2] || !args[3]) return message.reply(`\`Используйте '/gov [часы] [минуты] [фракция]'\``)
     if(args[2] != 0 && args[2] != 10 && args[2] != 20 && args[2] != 30 && args[2] != 40 && args[2] != 50) return message.reply(`\`Запрещено правилами займа гос.волны\``)
@@ -2398,7 +2400,7 @@ if (message.content.startsWith("/warn")){
     //message.channel.send(args);
     return;
     }
-    let yuma = bot.guilds.find(g => g.id == "528635749206196232");
+    
     if (message.content.startsWith('/createfam')){
         if (!message.member.hasPermission("ADMINISTRATOR")) return message.reply(`\`эй! Эта функция только для модераторов!\``) && message.delete()
         let idmember = message.author.id;
