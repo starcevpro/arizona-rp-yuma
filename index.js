@@ -2401,8 +2401,10 @@ if (message.content.startsWith("/warn")){
     let info_user = "Лидер";
     if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
 	    info_user = "Лидер";
-	}else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
+	}
+    else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
 	    info_user = "Заместитель лидера";
+    }
     govinfo.send(`\`[GOV]\` \`  ${info_user} ${args[3]}: \` <@${message.author.id}> \` занял гос.волну на ${args[1]}:${args[2]} \``);
     message.reply('Окей, информация опубликована!');
     return;
