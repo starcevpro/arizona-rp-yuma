@@ -3799,89 +3799,45 @@ bot.on('guildMemberAdd', async member => {
 })
 
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
-    let newUserChannel = newMember.voiceChannel
-    let oldUserChannel = oldMember.voiceChannel
-    if(oldUserChannel == newUserChannel) return;
-    
-    if(newUserChannel == undefined) {
-        if(oldUserChannel.name === "Обзвон") {
-        let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
-        await obzvon.permissionOverwrites.forEach(async perm => {
-        if (perm.type == `member`){
-        if (perm.id == oldMember.id){
-            perm.delete();
+    if (oldMember.voiceChannelID == newMember.voiceChannelID) return
+    if (newMember.hasPermission("ADMINISTRATOR")) return
+    let member_oldchannel = newMember.guild.channels.get(oldMember.voiceChannelID);
+    let member_newchannel = newMember.guild.channels.get(newMember.voiceChannelID);
+    if (member_newchannel){
+        if (member_newchannel.name == '→ Обзвон ←'){
+            let edit_channel = newMember.guild.channels.find(c => c.name == "closed-accept");
+            if (!edit_channel) return console.log('[ERROR] Не возможно найти текстовой канал конференции.');
+            await edit_channel.overwritePermissions(newMember, {
+                // GENERAL PERMISSIONS
+                CREATE_INSTANT_INVITE: false,
+                MANAGE_CHANNELS: false,
+                MANAGE_ROLES: false,
+                MANAGE_WEBHOOKS: false,
+                // TEXT PERMISSIONS
+                VIEW_CHANNEL: true,
+                SEND_MESSAGES: true,
+                SEND_TTS_MESSAGES: false,
+                MANAGE_MESSAGES: false,
+                EMBED_LINKS: true,
+                ATTACH_FILES: true,
+                READ_MESSAGE_HISTORY: false,
+                MENTION_EVERYONE: false,
+                USE_EXTERNAL_EMOJIS: false,
+                ADD_REACTIONS: false,
+            }, 'подключение (конференция)');
+            edit_channel.send(`**<@${newMember.id}> \`успешно подключился.\`**`).then(msg => msg.delete(30000));
         }
-	obzvon.send(`\`Пользователь\` <@${oldMember.id}> \`был удален из чата\``);
     }
-    });
-        return;
-    }
-        return;
-    }
-    if(oldUserChannel !== undefined && newUserChannel.name == "Обзвон") 
-    {
-        let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
-        await obzvon.overwritePermissions(newMember, {
-            // GENERAL PERMISSIONS
-            CREATE_INSTANT_INVITE: false,
-            MANAGE_CHANNELS: false,
-            MANAGE_ROLES: false,
-            MANAGE_WEBHOOKS: false,
-            // TEXT PERMISSIONS
-            VIEW_CHANNEL: true,
-            SEND_MESSAGES: true,
-            SEND_TTS_MESSAGES: false,
-            MANAGE_MESSAGES: false,
-            EMBED_LINKS: false,
-            ATTACH_FILES: false,
-            READ_MESSAGE_HISTORY: false,
-            MENTION_EVERYONE: false,
-            USE_EXTERNAL_EMOJIS: false,
-            ADD_REACTIONS: false,
-        })
-        obzvon.send(`\`Пользователь\` <@${newMember.id}> \`был добавлен к чату на обзвон\``);
-        return;
-    }
-    if(oldUserChannel !== undefined && newUserChannel !== undefined) 
-    {
-        if(oldUserChannel.name === "Обзвон") 
-    {
-        let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
-        await obzvon.permissionOverwrites.forEach(async perm => {
-        if (perm.type == `member`){
-        if (perm.id == oldMember.id){
-            perm.delete();
+    if (member_oldchannel){
+        if (member_oldchannel.name == '→ Обзвон ←'){
+        let edit_channel = newMember.guild.channels.find(c => c.name == "closed-accept");
+            if (!edit_channel) return console.log('[ERROR] Не возможно найти текстовой канал конференции.');
+            edit_channel.permissionOverwrites.forEach(async (perm) => {
+                if (perm.type != 'member') return
+                if (perm.id != newMember.id) return
+                await perm.delete('отключение (конференция)');
+            });
+            edit_channel.send(`**<@${newMember.id}> \`отключился.\`**`).then(msg => msg.delete(15000));
         }
-        obzvon.send(`\`Пользователь\` <@${oldMember.id}> \`был удален из чата\``);
     }
-    });
-        return;
-    }
-        return;
-    }
-    if(oldUserChannel === undefined && newUserChannel !== undefined) {
-        if(newUserChannel.name === "Обзвон") {
-        let obzvon = bot.guilds.find(g => g.id == "528635749206196232").channels.find(c => c.name == "closed-chat");
-        await obzvon.overwritePermissions(newMember, {
-            // GENERAL PERMISSIONS
-            CREATE_INSTANT_INVITE: false,
-            MANAGE_CHANNELS: false,
-            MANAGE_ROLES: false,
-            MANAGE_WEBHOOKS: false,
-            // TEXT PERMISSIONS
-            VIEW_CHANNEL: true,
-            SEND_MESSAGES: true,
-            SEND_TTS_MESSAGES: false,
-            MANAGE_MESSAGES: false,
-            EMBED_LINKS: false,
-            ATTACH_FILES: false,
-            READ_MESSAGE_HISTORY: false,
-            MENTION_EVERYONE: false,
-            USE_EXTERNAL_EMOJIS: false,
-            ADD_REACTIONS: false,
-        })
-        obzvon.send(`\`Пользователь\` <@${newMember.id}> \`был добавлен к чату на обзвон\``);
-        return;
-    }
-    } 
-}) 
+});
