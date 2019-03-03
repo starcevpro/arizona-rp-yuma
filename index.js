@@ -4133,7 +4133,7 @@ bot.on('message', async (message) => {
                     let modify = msg.embeds[0].fields[2].value.split('\n');
                     await fractions.forEach(async (string, i) => {
                         if (string.includes(tags[args.slice(1).join(' ').toUpperCase()])){
-                            if (!date.some(v => v.includes('Не назначено'))){
+                            if (!date[i].includes('Не назначено')){
                                 let date_modify = new Date((moscow_date) + 10800000);
                                 date[i] = '\` » ' + 'Не назначено' + '\`';
                                 modify[0] = modify[1];
