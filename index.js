@@ -101,7 +101,7 @@ async function tabl_edit_update(){
                                 modify[1] = modify[2];
                                 modify[2] = modify[3];
                                 modify[3] = modify[4];
-                                modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` <@${bot.user.id}> \`отменил собеседование\` ${fractions[i]}**`;
+                                modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` <@${bot.user.id}> \`отменил собеседование\` ${fractions[i]} \`(прошло)\`**`;
                                 modify_func_get = true;
                             }
                         }
@@ -3910,9 +3910,11 @@ bot.on('message', async (message) => {
             return message.delete();
         }
         if (!args[1] || !args[2] || !args[3]){
-            message.reply(`**\`использование: /gov 2019-01-01 00:00:00 LSPD\`**`);
+            message.reply(`**\`использование: /gov час минуты LSPD\`**`);
             return message.delete();
         }
+        args[2] = `${args[1]}:${args[2]}:00`;
+        args[1] = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
         let date_yymmdd = args[1].split('-');
         let date_hhmmss = args[2].split(':');
         if (date_yymmdd.length != 3 || date_hhmmss.length != 3){
