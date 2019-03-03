@@ -3914,7 +3914,7 @@ bot.on('message', async (message) => {
             return message.delete();
         }
         args[2] = `${args[1]}:${args[2]}:00`;
-        args[1] = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        args[1] = `${moscow_date.getFullYear()}-${(moscow_date.getMonth() + 1).toString().padStart(2, '0')}-${moscow_date.getDate().toString().padStart(2, '0')}`;
         let date_yymmdd = args[1].split('-');
         let date_hhmmss = args[2].split(':');
         if (date_yymmdd.length != 3 || date_hhmmss.length != 3){
