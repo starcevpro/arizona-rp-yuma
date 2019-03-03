@@ -98,7 +98,7 @@ async function tabl_edit_update(){
                             let date_yymmdd = string.split(' ')[0].split('-');
                             let date_hhmmss = string.split(' ')[1].split(':');
                             let newdate = await new Date(date_yymmdd[0], date_yymmdd[1] - 1, date_yymmdd[2], date_hhmmss[0], date_hhmmss[1], date_hhmmss[2]);
-                            if (newdate.toString() == 'Invalid Date' || newdate.valueOf() < new Date((new Date()) + 10800000).valueOf()){
+                            if (newdate.toString() == 'Invalid Date' || newdate.valueOf() < (new Date((new Date()) + 10800000).valueOf())){
                                 let date_modify = new Date((new Date()) + 10800000);
                                 date[i] = '\` » Не назначено\`';      
                                 modify[0] = modify[1];
@@ -3918,7 +3918,7 @@ bot.on('message', async (message) => {
             return message.delete();
         }
         let date = new Date(date_yymmdd[0], date_yymmdd[1] - 1, date_yymmdd[2], date_hhmmss[0], date_hhmmss[1], date_hhmmss[2]);
-        if (date.toString() == 'Invalid Date' || date.valueOf() < new Date((new Date()) + 10800000).valueOf()){
+        if (date.toString() == 'Invalid Date' || date.valueOf() < (new Date((new Date()) + 10800000).valueOf())){
             message.reply(`**\`использование: /gov 2019-01-01 00:00:00 LSPD\nПримечание: Возможно вы написали дату в прошлом, или она не верна.\`**`);
             return message.delete();
         }
