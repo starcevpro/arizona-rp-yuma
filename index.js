@@ -3920,7 +3920,7 @@ bot.on('message', async (message) => {
             return message.delete();
         }
         if (!args[1] || !args[2] || !args[3]){
-            message.reply(`**\`использование: /gov час минуты LSPD\`**`);
+            message.reply(`**\`использование: /gov [часы] [минуты] [фракция]\`**`);
             return message.delete();
         }
         args[2] = `${args[1]}:${args[2]}:00`;
@@ -3928,12 +3928,12 @@ bot.on('message', async (message) => {
         let date_yymmdd = args[1].split('-');
         let date_hhmmss = args[2].split(':');
         if (date_yymmdd.length != 3 || date_hhmmss.length != 3){
-            message.reply(`**\`использование: /gov час минуты LSPD\nПримечание: Пишите с минусами и двоеточиями.\`**`);
+            message.reply(`**\`использование: /gov [часы] [минуты] [фракция]\`**`);
             return message.delete();
         }
         let date = new Date(date_yymmdd[0], date_yymmdd[1] - 1, date_yymmdd[2], date_hhmmss[0], date_hhmmss[1], date_hhmmss[2]);
         if (date.toString() == 'Invalid Date' || date.valueOf() < new Date((moscow_date) + 10800000).valueOf()){
-            message.reply(`**\`использование: /gov 2019-01-01 00:00:00 LSPD\nПримечание: Возможно вы написали дату в прошлом, или она не верна.\`**`);
+            message.reply(`**\`использование: /gov [часы] [минуты] [фракция]\nПримечание: Дата указана не верно. ('Написано в прошлом времени')\`**`);
             return message.delete();
         }
         let formate_date = `${date.getFullYear()}-` + 
@@ -3944,11 +3944,11 @@ bot.on('message', async (message) => {
         `${date.getSeconds().toString().padStart(2, '0')}`;
         let newDate = [formate_date.split(' ')[0].split('-')[0], formate_date.split(' ')[0].split('-')[1], formate_date.split(' ')[0].split('-')[2], formate_date.split(' ')[1].split(':')[0],formate_date.split(' ')[1].split(':')[1],formate_date.split(' ')[1].split(':')[2]];
         if (newDate[4] != 00 && newDate[4] != 15 && newDate[4] != 30 && newDate[4] != 45){
-            message.reply(`**\`использование: /gov час минуты LSPD\nПримечание: Занимать собеседование можно в '00', '15', '30', '45'.\`**`);
+            message.reply(`**\`использование: /gov [часы] [минуты] [фракция]\nПримечание: Занимать собеседование можно в '00', '15', '30', '45'.\`**`);
             return message.delete();
         }
         if (!manytags.some(tag => tag == args.slice(3).join(' ').toUpperCase())){
-            message.reply(`**\`использование: /gov час минуты LSPD\nПримечание: Организация '${args.slice(3).join(' ')}' не найдена.\`**`);
+            message.reply(`**\`использование: /gov [часы] [минуты] [фракция]\nПримечание: Организация '${args.slice(3).join(' ')}' не найдена.\`**`);
             return message.delete();
         }
         if (!message.member.roles.some(r => r.name == tags[args.slice(3).join(' ').toUpperCase()]) && !message.member.hasPermission("ADMINISTRATOR")){
@@ -4087,11 +4087,11 @@ bot.on('message', async (message) => {
             return message.delete();
         }
         if (!args[1]){
-            message.reply(`**\`использование: /cancelgov LSPD\`**`);
+            message.reply(`**\`использование: /cancelgov [фракция]\`**`);
             return message.delete();
         }
         if (!manytags.some(tag => tag == args.slice(1).join(' ').toUpperCase())){
-            message.reply(`**\`использование: /cancelgov LSPD\nПримечание: Организация '${args.slice(3).join(' ')}' не найдена.\`**`);
+            message.reply(`**\`использование: /cancelgov [фракция]\nПримечание: Организация '${args.slice(3).join(' ')}' не найдена.\`**`);
             return message.delete();
         }
         if (!message.member.roles.some(r => r.name == tags[args.slice(1).join(' ').toUpperCase()]) && !message.member.hasPermission("ADMINISTRATOR")){
