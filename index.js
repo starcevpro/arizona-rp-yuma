@@ -28,6 +28,105 @@ punishment_rep = ({
     "kick": "Вы были отключены от Discord-сервера.",
 })
 
+async function tabl_edit_update(){
+    setInterval(async () => {
+        let serverid_get = '528635749206196232';
+        let channel = bot.guilds.get(serverid_get).channels.find(c => c.name == 'gov-info');
+        if (!channel) return console.error('канал не найден...');
+        channel.fetchMessages({limit: 100}).then(async messages => {
+            if (messages.size <= 0){
+                let fractions = ['\`⋆ Government ⋆\` ',
+                '\`⋆ Central Bank of Los-Santos ⋆\` ',
+                '\`⋆ Driving School ⋆\` ',
+                '\`⋆ Los-Santos Police Department ⋆\` ',
+                '\`⋆ San-Fierro Police Department ⋆\` ',
+                '\`⋆ Las Venturas Police Department ⋆\` ',
+                '\`⋆ Red County Sheriff Department ⋆\` ',
+                '\`⋆ Los-Santos Army ⋆\` ',
+                '\`⋆ San-Fierro Army ⋆\` ',
+                '\`⋆ Maximum Security Prison ⋆\` ',
+                '\`⋆ Los-Santos Medical Center ⋆\` ',
+                '\`⋆ San-Fierro Medical Center ⋆\` ',
+                '\`⋆ Las-Venturas Medical Center ⋆\` ',
+                '\`⋆ Radiocentre Los-Santos ⋆\` ',
+                '\`⋆ Radiocentre San-Fierro ⋆\` ',
+                '\`⋆ Radiocentre Las-Venturas ⋆\` '];
+                let date = ['\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`'];
+                let modify = ['**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                `**\`Создана фракционная таблица организаций. Источник: Система\`**`];
+                const embed = new Discord.RichEmbed();
+                embed.setTitle('**Arizona Role Play » Собеседования**');
+                embed.setColor('#FF0000');
+                embed.setTimestamp(new Date());
+                embed.setFooter('Support Team » Central DataBase', bot.guilds.get(serverid_get).iconURL);
+                embed.addField('Организация', fractions.join('\n'), true);
+                embed.addField('Дата', date.join('\n'), true);
+                embed.addField('Последние изменения', modify.join('\n'), false);
+                channel.send(embed);
+            }else if (messages.size == 1){
+                messages.forEach(async msg => {
+                    if (!msg.embeds) return
+                    if (!msg.embeds[0].title) return
+                    if (msg.embeds[0].title != '**Arizona Role Play » Собеседования**') return
+                    let modify_func_get = false;
+                    let fractions = msg.embeds[0].fields[0].value.split('\n');
+                    let date = msg.embeds[0].fields[1].value.split('\n');
+                    let modify = msg.embeds[0].fields[2].value.split('\n');
+                    await date.forEach(async (string, i) => {
+                        string = string.replace(' » ', '');
+                        string = string.replace('\`', '');
+                        string = string.replace('\`', '');
+                        if (string != 'Не назначено'){
+                            let date_yymmdd = string.split(' ')[0].split('-');
+                            let date_hhmmss = string.split(' ')[1].split(':');
+                            let newdate = await new Date(date_yymmdd[0], date_yymmdd[1] - 1, date_yymmdd[2], date_hhmmss[0], date_hhmmss[1], date_hhmmss[2]);
+                            if (newdate.toString() == 'Invalid Date' || newdate.valueOf() < new Date((new Date()) + 10800000).valueOf()){
+                                let date_modify = new Date((new Date()) + 10800000);
+                                date[i] = '\` » Не назначено\`';      
+                                modify[0] = modify[1];
+                                modify[1] = modify[2];
+                                modify[2] = modify[3];
+                                modify[3] = modify[4];
+                                modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` <@${bot.user.id}> \`отменил собеседование\` ${fractions[i]}**`;
+                                modify_func_get = true;
+                            }
+                        }
+                    });
+                    const embed = new Discord.RichEmbed();
+                    embed.setTitle('**Arizona Role Play » Собеседования**');
+                    embed.setColor('#FF0000');
+                    embed.setTimestamp(new Date());
+                    embed.setFooter('Support Team » Central DataBase', bot.guilds.get(serverid_get).iconURL);
+                    embed.addField(msg.embeds[0].fields[0].name, fractions.join('\n'), msg.embeds[0].fields[0].inline);
+                    embed.addField(msg.embeds[0].fields[1].name, date.join('\n'), msg.embeds[0].fields[1].inline);
+                    embed.addField(msg.embeds[0].fields[2].name, modify.join('\n'), msg.embeds[0].fields[2].inline);
+                    if (modify_func_get) msg.edit(embed);
+                });
+            }else{
+                return console.error('канал содержит более 1 сообщения.');
+            }
+        });
+    }, 60000);
+}
+
 tags = ({
     "ПРА-ВО": "⋆ Government ⋆",
     "ГЦЛ": "⋆ Driving School ⋆",
@@ -191,6 +290,7 @@ bot.login(process.env.token);
 bot.on('ready', () => {
     console.log("Бот был успешно запущен!");
     bot.user.setPresence({ game: { name: 'hacker' }, status: 'online' })
+    tabl_edit_update();
 });
 
 // Система удаленного управления ботом для отключения,фиксов багов и т.д.
@@ -3841,3 +3941,270 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
         }
     }
 })
+
+bot.on('message', async (message) => {
+    if (message.channel.type == 'dm') return
+    if (message.author.bot) return
+    const args = message.content.split(' ');
+    if (args[0] == '/gov'){
+        if (!message.member.roles.some(r => ['✵Leader✵', '✫Deputy Leader✫'].includes(r.name)) && !message.member.hasPermission("ADMINISTRATOR")){
+            message.reply(`**\`ошибка прав доступа.\`**`).then(msg => msg.delete(12000));
+            return message.delete();
+        }
+        if (!args[1] || !args[2] || !args[3]){
+            message.reply(`**\`использование: /gov 2019-01-01 00:00:00 LSPD\`**`);
+            return message.delete();
+        }
+        let date_yymmdd = args[1].split('-');
+        let date_hhmmss = args[2].split(':');
+        if (date_yymmdd.length != 3 || date_hhmmss.length != 3){
+            message.reply(`**\`использование: /gov 2019-01-01 00:00:00 LSPD\nПримечание: Пишите с минусами и двоеточиями.\`**`);
+            return message.delete();
+        }
+        let date = new Date(date_yymmdd[0], date_yymmdd[1] - 1, date_yymmdd[2], date_hhmmss[0], date_hhmmss[1], date_hhmmss[2]);
+        if (date.toString() == 'Invalid Date' || date.valueOf() < new Date((new Date()) + 10800000).valueOf()){
+            message.reply(`**\`использование: /gov 2019-01-01 00:00:00 LSPD\nПримечание: Возможно вы написали дату в прошлом, или она не верна.\`**`);
+            return message.delete();
+        }
+        let formate_date = `${date.getFullYear()}-` + 
+        `${(date.getMonth() + 1).toString().padStart(2, '0')}-` +
+        `${date.getDate().toString().padStart(2, '0')} ` + 
+        `${date.getHours().toString().padStart(2, '0')}:` + 
+        `${date.getMinutes().toString().padStart(2, '0')}:` + 
+        `${date.getSeconds().toString().padStart(2, '0')}`;
+        let newDate = [formate_date.split(' ')[0].split('-')[0], formate_date.split(' ')[0].split('-')[1], formate_date.split(' ')[0].split('-')[2], formate_date.split(' ')[1].split(':')[0],formate_date.split(' ')[1].split(':')[1],formate_date.split(' ')[1].split(':')[2]];
+        if (newDate[4] != 00 && newDate[4] != 15 && newDate[4] != 30 && newDate[4] != 45){
+            message.reply(`**\`использование: /gov 2019-01-01 00:00:00 LSPD\nПримечание: Занимать собеседование можно в '00', '15', '30', '45'.\`**`);
+            return message.delete();
+        }
+        if (!manytags.some(tag => tag == args.slice(3).join(' ').toUpperCase())){
+            message.reply(`**\`использование: /gov 2019-01-01 00:00:00 LSPD\nПримечание: Организация '${args.slice(3).join(' ')}' не найдена.\`**`);
+            return message.delete();
+        }
+        if (!message.member.roles.some(r => r.name == tags[args.slice(3).join(' ').toUpperCase()]) && !message.member.hasPermission("ADMINISTRATOR")){
+            message.reply(`**\`ошибка! У вас нет прав доступа для изменения '${tags[args.slice(3).join(' ').toUpperCase()]}'\`**`);
+            return message.delete();
+        }
+        let channel = message.guild.channels.find(c => c.name == 'gov-info');
+        if (!channel) return message.reply(`**\`Канал 'gov-info' не был найден! Попросите системных модераторов создать текстовой канал.\`**`);
+        channel.fetchMessages({limit: 100}).then(async messages => {
+            if (messages.size <= 0){
+                let fractions = ['\`⋆ Government ⋆\` ',
+                '\`⋆ Central Bank of Los-Santos ⋆\` ',
+                '\`⋆ Driving School ⋆\` ',
+                '\`⋆ Los-Santos Police Department ⋆\` ',
+                '\`⋆ San-Fierro Police Department ⋆\` ',
+                '\`⋆ Las Venturas Police Department ⋆\` ',
+                '\`⋆ Red County Sheriff Department ⋆\` ',
+                '\`⋆ Los-Santos Army ⋆\` ',
+                '\`⋆ San-Fierro Army ⋆\` ',
+                '\`⋆ Maximum Security Prison ⋆\` ',
+                '\`⋆ Los-Santos Medical Center ⋆\` ',
+                '\`⋆ San-Fierro Medical Center ⋆\` ',
+                '\`⋆ Las-Venturas Medical Center ⋆\` ',
+                '\`⋆ Radiocentre Los-Santos ⋆\` ',
+                '\`⋆ Radiocentre San-Fierro ⋆\` ',
+                '\`⋆ Radiocentre Las-Venturas ⋆\` '];
+                let date = ['\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`'];
+                let modify = ['**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                `**\`Создана фракционная таблица организаций. Источник: Система\`**`];
+                await fractions.forEach(async (string, i) => {
+                    if (string.includes(tags[args.slice(3).join(' ').toUpperCase()])){
+                        if (!date.some(v => v.includes(formate_date))){
+                            let date_modify = new Date((new Date()) + 10800000);
+                            date[i] = '\` » ' + formate_date + '\`';
+                            modify[0] = modify[1];
+                            modify[1] = modify[2];
+                            modify[2] = modify[3];
+                            modify[3] = modify[4];
+                            modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` ${message.member} \`назначил собеседование в ${args.slice(3).join(' ').toUpperCase()} на ${newDate[3]}:${newDate[4]}\`**`;
+                            message.reply(`**\`вы успешно назначили собеседование в организацию '${tags[args.slice(3).join(' ').toUpperCase()]}' на ${formate_date}. Нажмите на\` <#${channel.id}> \`для просмотра.\`**`);
+                            message.delete();
+                        }else{
+                            message.reply(`**\`собеседование на данное время уже занято! Нажмите на\` <#${channel.id}> \`для просмотра.\`**`);
+                            message.delete();
+                        }
+                    }
+                });
+                const embed = new Discord.RichEmbed();
+                embed.setTitle('**Arizona Role Play » Собеседования**');
+                embed.setColor('#FF0000');
+                embed.setTimestamp(new Date());
+                embed.setFooter('Support Team » Central DataBase', message.guild.iconURL);
+                embed.addField('Организация', fractions.join('\n'), true);
+                embed.addField('Дата', date.join('\n'), true);
+                embed.addField('Последние изменения', modify.join('\n'), false);
+                channel.send(embed);
+                return message.delete();
+            }else if (messages.size == 1){
+                messages.forEach(async msg => {
+                    if (!msg.embeds) return
+                    if (!msg.embeds[0].title) return
+                    if (msg.embeds[0].title != '**Arizona Role Play » Собеседования**') return
+                    let fractions = msg.embeds[0].fields[0].value.split('\n');
+                    let date = msg.embeds[0].fields[1].value.split('\n');
+                    let modify = msg.embeds[0].fields[2].value.split('\n');
+                    await fractions.forEach(async (string, i) => {
+                        if (string.includes(tags[args.slice(3).join(' ').toUpperCase()])){
+                            if (!date.some(v => v.includes(formate_date))){
+                                let date_modify = new Date((new Date()) + 10800000);
+                                date[i] = '\` » ' + formate_date + '\`';
+                                modify[0] = modify[1];
+                                modify[1] = modify[2];
+                                modify[2] = modify[3];
+                                modify[3] = modify[4];
+                                modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` ${message.member} \`назначил собеседование в ${args.slice(3).join(' ').toUpperCase()} на ${newDate[3]}:${newDate[4]}\`**`;
+                                message.reply(`**\`вы успешно назначили собеседование в организацию '${tags[args.slice(3).join(' ').toUpperCase()]}' на ${formate_date}. Нажмите на\` <#${channel.id}> \`для просмотра.\`**`);
+                                message.delete();
+                            }else{
+                                message.reply(`**\`собеседование на данное время уже занято! Нажмите на\` <#${channel.id}> \`для просмотра.\`**`);
+                                message.delete();
+                            }
+                        }
+                    });
+                    const embed = new Discord.RichEmbed();
+                    embed.setTitle('**Arizona Role Play » Собеседования**');
+                    embed.setColor('#FF0000');
+                    embed.setTimestamp(new Date());
+                    embed.setFooter('Support Team » Central DataBase', message.guild.iconURL);
+                    embed.addField(msg.embeds[0].fields[0].name, fractions.join('\n'), msg.embeds[0].fields[0].inline);
+                    embed.addField(msg.embeds[0].fields[1].name, date.join('\n'), msg.embeds[0].fields[1].inline);
+                    embed.addField(msg.embeds[0].fields[2].name, modify.join('\n'), msg.embeds[0].fields[2].inline);
+                    msg.edit(embed);
+                });
+            }else{
+                message.reply(`**\`ошибка! В канале сообщений больше чем одно.\`**`);
+                return message.delete();
+            }
+        });
+    }
+    if (args[0] == '/cancelgov'){
+        if (!message.member.roles.some(r => ['✵Leader✵', '✫Deputy Leader✫'].includes(r.name)) && !message.member.hasPermission("ADMINISTRATOR")){
+            message.reply(`**\`ошибка прав доступа.\`**`).then(msg => msg.delete(12000));
+            return message.delete();
+        }
+        if (!args[1]){
+            message.reply(`**\`использование: /cancelgov LSPD\`**`);
+            return message.delete();
+        }
+        if (!manytags.some(tag => tag == args.slice(1).join(' ').toUpperCase())){
+            message.reply(`**\`использование: /cancelgov LSPD\nПримечание: Организация '${args.slice(3).join(' ')}' не найдена.\`**`);
+            return message.delete();
+        }
+        if (!message.member.roles.some(r => r.name == tags[args.slice(1).join(' ').toUpperCase()]) && !message.member.hasPermission("ADMINISTRATOR")){
+            message.reply(`**\`ошибка! У вас нет прав доступа для изменения '${tags[args.slice(1).join(' ').toUpperCase()]}'\`**`);
+            return message.delete();
+        }
+        let channel = message.guild.channels.find(c => c.name == 'gov-info');
+        if (!channel) return message.reply(`**\`Канал 'gov-info' не был найден! Попросите системных модераторов создать текстовой канал.\`**`);
+        channel.fetchMessages({limit: 100}).then(async messages => {
+            if (messages.size <= 0){
+                let fractions = ['\`⋆ Government ⋆\` ',
+                '\`⋆ Central Bank of Los-Santos ⋆\` ',
+                '\`⋆ Driving School ⋆\` ',
+                '\`⋆ Los-Santos Police Department ⋆\` ',
+                '\`⋆ San-Fierro Police Department ⋆\` ',
+                '\`⋆ Las Venturas Police Department ⋆\` ',
+                '\`⋆ Red County Sheriff Department ⋆\` ',
+                '\`⋆ Los-Santos Army ⋆\` ',
+                '\`⋆ San-Fierro Army ⋆\` ',
+                '\`⋆ Maximum Security Prison ⋆\` ',
+                '\`⋆ Los-Santos Medical Center ⋆\` ',
+                '\`⋆ San-Fierro Medical Center ⋆\` ',
+                '\`⋆ Las-Venturas Medical Center ⋆\` ',
+                '\`⋆ Radiocentre Los-Santos ⋆\` ',
+                '\`⋆ Radiocentre San-Fierro ⋆\` ',
+                '\`⋆ Radiocentre Las-Venturas ⋆\` '];
+                let date = ['\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`',
+                '\` » Не назначено\`'];
+                let modify = ['**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                `**\`Создана фракционная таблица организаций. Источник: Система\`**`];
+                const embed = new Discord.RichEmbed();
+                embed.setTitle('**Arizona Role Play » Собеседования**');
+                embed.setColor('#FF0000');
+                embed.setTimestamp(new Date());
+                embed.setFooter('Support Team » Central DataBase', message.guild.iconURL);
+                embed.addField('Организация', fractions.join('\n'), true);
+                embed.addField('Дата', date.join('\n'), true);
+                embed.addField('Последние изменения', modify.join('\n'), false);
+                channel.send(embed);
+                message.reply(`**\`создана таблица по собеседованиям. Для просмотра нажмите на\` <#${channel.id}>**`);
+                return message.delete();
+            }else if (messages.size == 1){
+                messages.forEach(async msg => {
+                    if (!msg.embeds) return
+                    if (!msg.embeds[0].title) return
+                    if (msg.embeds[0].title != '**Arizona Role Play » Собеседования**') return
+                    let fractions = msg.embeds[0].fields[0].value.split('\n');
+                    let date = msg.embeds[0].fields[1].value.split('\n');
+                    let modify = msg.embeds[0].fields[2].value.split('\n');
+                    await fractions.forEach(async (string, i) => {
+                        if (string.includes(tags[args.slice(1).join(' ').toUpperCase()])){
+                            if (!date.some(v => v.includes('Не назначено'))){
+                                let date_modify = new Date((new Date()) + 10800000);
+                                date[i] = '\` » ' + 'Не назначено' + '\`';
+                                modify[0] = modify[1];
+                                modify[1] = modify[2];
+                                modify[2] = modify[3];
+                                modify[3] = modify[4];
+                                modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` ${message.member} \`отменил собеседование в ${args.slice(1).join(' ').toUpperCase()}\`**`;
+                                message.reply(`**\`вы успешно отменили собеседование в организацию '${tags[args.slice(1).join(' ').toUpperCase()]}'. Нажмите на\` <#${channel.id}> \`для просмотра.\`**`);
+                                message.delete();
+                            }else{
+                                message.reply(`**\`собеседование в данную фракцию не назначено, зачем его отменять?! Нажмите на\` <#${channel.id}> \`для просмотра.\`**`);
+                                message.delete();
+                            }
+                        }
+                    });
+                    const embed = new Discord.RichEmbed();
+                    embed.setTitle('**Arizona Role Play » Собеседования**');
+                    embed.setColor('#FF0000');
+                    embed.setTimestamp(new Date());
+                    embed.setFooter('Support Team » Central DataBase', message.guild.iconURL);
+                    embed.addField(msg.embeds[0].fields[0].name, fractions.join('\n'), msg.embeds[0].fields[0].inline);
+                    embed.addField(msg.embeds[0].fields[1].name, date.join('\n'), msg.embeds[0].fields[1].inline);
+                    embed.addField(msg.embeds[0].fields[2].name, modify.join('\n'), msg.embeds[0].fields[2].inline);
+                    msg.edit(embed);
+                });
+            }else{
+                message.reply(`**\`ошибка! В канале сообщений больше чем одно.\`**`);
+                return message.delete();
+            }
+        });
+    }
+});
