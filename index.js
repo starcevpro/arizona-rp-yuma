@@ -24,8 +24,8 @@ let setembed_addline = ["нет", "нет", "нет", "нет", "нет", "не�
 let serverid = '528635749206196232'
 
 async function tabl_edit_update(){
-    let moscow_date = new Date((new Date().valueOf()) + 10800000);
     setInterval(async () => {
+        let moscow_date = new Date((new Date().valueOf()) + 10800000);
         let serverid_get = '528635749206196232';
         let channel = bot.guilds.get(serverid_get).channels.find(c => c.name == 'gov-info');
         if (!channel) return console.error('канал не найден...');
