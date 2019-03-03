@@ -71,7 +71,7 @@ async function tabl_edit_update(){
                 const embed = new Discord.RichEmbed();
                 embed.setTitle('**Arizona Role Play » Собеседования**');
                 embed.setColor('#FF0000');
-                embed.setTimestamp(moscow_date);
+                embed.setTimestamp(new Date());
                 embed.setFooter('Support Team » Central DataBase', bot.guilds.get(serverid_get).iconURL);
                 embed.addField('Организация', fractions.join('\n'), true);
                 embed.addField('Дата', date.join('\n'), true);
@@ -109,7 +109,7 @@ async function tabl_edit_update(){
                     const embed = new Discord.RichEmbed();
                     embed.setTitle('**Arizona Role Play » Собеседования**');
                     embed.setColor('#FF0000');
-                    embed.setTimestamp(moscow_date);
+                    embed.setTimestamp(new Date());
                     embed.setFooter('Support Team » Central DataBase', bot.guilds.get(serverid_get).iconURL);
                     embed.addField(msg.embeds[0].fields[0].name, fractions.join('\n'), msg.embeds[0].fields[0].inline);
                     embed.addField(msg.embeds[0].fields[1].name, date.join('\n'), msg.embeds[0].fields[1].inline);
@@ -4007,7 +4007,7 @@ bot.on('message', async (message) => {
                 const embed = new Discord.RichEmbed();
                 embed.setTitle('**Arizona Role Play » Собеседования**');
                 embed.setColor('#FF0000');
-                embed.setTimestamp(moscow_date);
+                embed.setTimestamp(new Date());
                 embed.setFooter('Support Team » Central DataBase', message.guild.iconURL);
                 embed.addField('Организация', fractions.join('\n'), true);
                 embed.addField('Дата', date.join('\n'), true);
@@ -4117,7 +4117,7 @@ bot.on('message', async (message) => {
                 const embed = new Discord.RichEmbed();
                 embed.setTitle('**Arizona Role Play » Собеседования**');
                 embed.setColor('#FF0000');
-                embed.setTimestamp(moscow_date);
+                embed.setTimestamp(new Date());
                 embed.setFooter('Support Team » Central DataBase', message.guild.iconURL);
                 embed.addField('Организация', fractions.join('\n'), true);
                 embed.addField('Дата', date.join('\n'), true);
@@ -4154,7 +4154,7 @@ bot.on('message', async (message) => {
                     const embed = new Discord.RichEmbed();
                     embed.setTitle('**Arizona Role Play » Собеседования**');
                     embed.setColor('#FF0000');
-                    embed.setTimestamp(moscow_date);
+                    embed.setTimestamp(new Date());
                     embed.setFooter('Support Team » Central DataBase', message.guild.iconURL);
                     embed.addField(msg.embeds[0].fields[0].name, fractions.join('\n'), msg.embeds[0].fields[0].inline);
                     embed.addField(msg.embeds[0].fields[1].name, date.join('\n'), msg.embeds[0].fields[1].inline);
