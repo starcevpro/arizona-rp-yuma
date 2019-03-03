@@ -67,6 +67,11 @@ async function tabl_edit_update(){
                 '**Изменения не найдены! Возможно их еще не было!**',
                 '**Изменения не найдены! Возможно их еще не было!**',
                 '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
                 `**\`Создана фракционная таблица организаций. Источник: Система\`**`];
                 const embed = new Discord.RichEmbed();
                 embed.setTitle('**Arizona Role Play » Собеседования**');
@@ -101,7 +106,12 @@ async function tabl_edit_update(){
                                 modify[1] = modify[2];
                                 modify[2] = modify[3];
                                 modify[3] = modify[4];
-                                modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` <@${bot.user.id}> \`отменил собеседование\` ${fractions[i]} \`(прошло)\`**`;
+                                modify[4] = modify[5];
+                                modify[5] = modify[6];
+                                modify[6] = modify[7];
+                                modify[7] = modify[8];
+                                modify[8] = modify[9];
+                                modify[9] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` <@${bot.user.id}> \`отменил собеседование\` ${fractions[i]} \`(прошло)\`**`;
                                 modify_func_get = true;
                             }
                         }
@@ -3985,6 +3995,11 @@ bot.on('message', async (message) => {
                 '**Изменения не найдены! Возможно их еще не было!**',
                 '**Изменения не найдены! Возможно их еще не было!**',
                 '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
                 `**\`Создана фракционная таблица организаций. Источник: Система\`**`];
                 await fractions.forEach(async (string, i) => {
                     if (string.includes(tags[args.slice(3).join(' ').toUpperCase()])){
@@ -3995,7 +4010,12 @@ bot.on('message', async (message) => {
                             modify[1] = modify[2];
                             modify[2] = modify[3];
                             modify[3] = modify[4];
-                            modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` ${message.member} \`назначил собеседование в ${args.slice(3).join(' ').toUpperCase()} на ${newDate[3]}:${newDate[4]}\`**`;
+                            modify[4] = modify[5];
+                            modify[5] = modify[6];
+                            modify[6] = modify[7];
+                            modify[7] = modify[8];
+                            modify[8] = modify[9];
+                            modify[9] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` ${message.member} \`назначил собеседование в ${args.slice(3).join(' ').toUpperCase()} на ${newDate[3]}:${newDate[4]}\`**`;
                             message.reply(`**\`вы успешно назначили собеседование в организацию '${tags[args.slice(3).join(' ').toUpperCase()]}' на ${formate_date}. Нажмите на\` <#${channel.id}> \`для просмотра.\`**`);
                             message.delete();
                         }else{
@@ -4031,7 +4051,12 @@ bot.on('message', async (message) => {
                                 modify[1] = modify[2];
                                 modify[2] = modify[3];
                                 modify[3] = modify[4];
-                                modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` ${message.member} \`назначил собеседование в ${args.slice(3).join(' ').toUpperCase()} на ${newDate[3]}:${newDate[4]}\`**`;
+                                modify[4] = modify[5];
+                                modify[5] = modify[6];
+                                modify[6] = modify[7];
+                                modify[7] = modify[8];
+                                modify[8] = modify[9];
+                                modify[9] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` ${message.member} \`назначил собеседование в ${args.slice(3).join(' ').toUpperCase()} на ${newDate[3]}:${newDate[4]}\`**`;
                                 message.reply(`**\`вы успешно назначили собеседование в организацию '${tags[args.slice(3).join(' ').toUpperCase()]}' на ${formate_date}. Нажмите на\` <#${channel.id}> \`для просмотра.\`**`);
                                 message.delete();
                             }else{
@@ -4113,6 +4138,11 @@ bot.on('message', async (message) => {
                 '**Изменения не найдены! Возможно их еще не было!**',
                 '**Изменения не найдены! Возможно их еще не было!**',
                 '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
+                '**Изменения не найдены! Возможно их еще не было!**',
                 `**\`Создана фракционная таблица организаций. Источник: Система\`**`];
                 const embed = new Discord.RichEmbed();
                 embed.setTitle('**Arizona Role Play » Собеседования**');
@@ -4142,7 +4172,12 @@ bot.on('message', async (message) => {
                                 modify[1] = modify[2];
                                 modify[2] = modify[3];
                                 modify[3] = modify[4];
-                                modify[4] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` ${message.member} \`отменил собеседование в ${args.slice(1).join(' ').toUpperCase()}\`**`;
+                                modify[4] = modify[5];
+                                modify[5] = modify[6];
+                                modify[6] = modify[7];
+                                modify[7] = modify[8];
+                                modify[8] = modify[9];
+                                modify[9] = `**\`[${date_modify.getHours().toString().padStart(2, '0')}:${date_modify.getMinutes().toString().padStart(2, '0')}:${date_modify.getSeconds().toString().padStart(2, '0')}]\` ${message.member} \`отменил собеседование в ${args.slice(1).join(' ').toUpperCase()}\`**`;
                                 message.reply(`**\`вы успешно отменили собеседование в организацию '${tags[args.slice(1).join(' ').toUpperCase()]}'. Нажмите на\` <#${channel.id}> \`для просмотра.\`**`);
                                 message.delete();
                             }else{
