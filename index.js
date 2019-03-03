@@ -2396,7 +2396,7 @@ if (message.content.startsWith("/warn")){
     }
     const args = message.content.slice(`/gov`).split(/ +/);
     if(!args[1] || !args[2] || !args[3]) return message.reply(`\`Используйте '/gov [часы] [минуты] [фракция]'\``)
-    if(args[2] != 0 && args[2] != 15 && args[2] != args[2] != 30 && args[2] != 45) return message.reply(`\`Запрещено правилами займа гос.волны\``)
+    if(args[2] != 0 && args[2] != 15 && args[2] != 30 && args[2] != 45) return message.reply(`\`Запрещено правилами займа гос.волны\``)
     let govinfo = yuma.channels.find(c => c.name == "gov-info");
     let info_user = "Лидер";
     if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
@@ -2418,7 +2418,7 @@ if (message.content.startsWith("/warn")){
     }
     const args = message.content.slice(`/cancelgov`).split(/ +/);
     if(!args[1] || !args[2] || !args[3]) return message.reply(`\`Используйте '/cancelgov [часы] [минуты] [фракция]'\``)
-    if(args[2] != 0 && args[2] != 15 && args[2] != args[2] != 30 && args[2] != 45) return message.reply(`\`Запрещено правилами займа гос.волны\``)
+    if(args[2] != 0 && args[2] != 15 && args[2] != 30 && args[2] != 45) return message.reply(`\`Запрещено правилами займа гос.волны\``)
     let govinfo = yuma.channels.find(c => c.name == "gov-info");
     let info_user = "Лидер";
     if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
