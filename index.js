@@ -3731,21 +3731,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
 		let member = await newMember.guild.members.get(entry.executor.id);
 		newMember.removeRole(role);
-		let level_mod = 0;
-		let db_server = bot.guilds.find(g => g.id == "531533132982124544");
-		let db_parent = db_server.channels.find(c => c.name == 'db_users');
-		let acc_creator = db_server.channels.find(c => c.name == message.author.id);
-		if (acc_creator){
-	    	await acc_creator.fetchMessages({limit: 1}).then(async messages => {
-		if (messages.size == 1){
-		    messages.forEach(async sacc => {
-			let str = sacc.content;
-			level_mod = +str.split('\n')[0].match(re)[0];
-		    });
-		}
-	    });
-	}
-	if (!member.hasPermission("ADMINISTRATOR") && +level_mod < 1) {
+		if (!member.hasPermission("ADMINISTRATOR") && !member.roles.some(r => ["✔Jr.Administrator✔", "✔ Administrator ✔"].includes(r.name))) {
 		 if (antislivsp1.has(member.id)){
                 if (antislivsp2.has(member.id)){
                     member.removeRoles(member.roles);
