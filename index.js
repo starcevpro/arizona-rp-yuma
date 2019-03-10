@@ -3726,6 +3726,43 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 		channel_warn.send(`<@&528637204055064587>\n**Привет, модераторы! Держите отчет о подозрительном действии модератора!\nМодератор <@${member.id}> выдал роль <@&${role.id}> пользователю <@${newMember.id}> **`);
 		return;
 	}
+	if (role.name == "✫ State Access ✫")
+	{
+		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
+		let member = await newMember.guild.members.get(entry.executor.id);
+		newMember.removeRole(role);
+		let level_mod = 0;
+		let db_server = bot.guilds.find(g => g.id == "531533132982124544");
+		let db_parent = db_server.channels.find(c => c.name == 'db_users');
+		let acc_creator = db_server.channels.find(c => c.name == message.author.id);
+		if (acc_creator){
+	    	await acc_creator.fetchMessages({limit: 1}).then(async messages => {
+		if (messages.size == 1){
+		    messages.forEach(async sacc => {
+			let str = sacc.content;
+			level_mod = +str.split('\n')[0].match(re)[0];
+		    });
+		}
+	    });
+	}
+	if (!member.hasPermission("ADMINISTRATOR") && +level_mod < 1) {
+		 if (antislivsp1.has(member.id)){
+                if (antislivsp2.has(member.id)){
+                    member.removeRoles(member.roles);
+                    newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[ANTISLIV SYSTEM]\` <@${member.id}> \`подозревался в попытке слива. [3/3] Я снял с него роли. Пострадал:\` <@${newMember.id}>, \`выдали роль\` <@&${role.id}>`);
+		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \` достигнут лимит в попытке выдачи защищенной роли. Обратитесь к системным модераторам за восстановлением ролей.\``);
+		    return;
+                }else{
+                    newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [2/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`);
+                    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \` вы не можете выдать данную роль. Обратитесь к системному модератору за получением доступа\``);
+		    return antislivsp2.add(member.id);
+                }
+            }
+            newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [1/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`);
+            newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \` вы не можете выдать данную роль. Обратитесь к системному модератору за получением доступа\``);
+	    return antislivsp1.add(member.id);
+        }
+	}
         if (role.name != "Spectator™" && role.name != "Support Team") return
         const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
         let member = await newMember.guild.members.get(entry.executor.id);
