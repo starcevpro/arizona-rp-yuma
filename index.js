@@ -2372,7 +2372,31 @@ if (message.content.startsWith("/warn")){
     }
   });
 }
-    
+	
+if (message.content.startsWith("/givesa")){
+if (!message.member.hasPermission("MANAGE_ROLES")) return message.delete();
+let level_mod = 0;
+let db_server = bot.guilds.find(g => g.id == "531533132982124544");
+let acc_creator = db_server.channels.find(c => c.name == message.author.id);
+if (acc_creator){
+    await acc_creator.fetchMessages({limit: 1}).then(async messages => {
+	if (messages.size == 1){
+	    messages.forEach(async sacc => {
+		let str = sacc.content;
+		level_mod = +str.split('\n')[0].match(re)[0];
+	    });
+	}
+    });
+}
+if (!message.member.hasPermission("ADMINISTRATOR") && +level_mod < 1) return message.reply(`\`ошибка выполнения! получите особый доступ\``).then(msg => msg.delete(9000));
+let user = message.guild.member(message.mentions.users.first());
+if(!user) return message.reply(`\`ошибка выполнения! '/givesa [пользователь]'\``).then(msg => msg.delete(9000));
+let rolesa = message.guild.roles.find(r => r.name == "✫ State Access ✫");
+if(!rolesa) return message.reply(`\`ошибка выполнения! Обратитесь к системному модератору с этой ошибкой\``).then(msg => msg.delete(9000));
+user.addRole(rolesa);
+message.reply(`\`доступ к государственным каналам этому пользователю выдан!\``).then(msg => msg.delete(9000));
+return message.delete();
+}
         if (message.content.toLowerCase() == '/famhelp'){
         message.channel.send(`**<@${message.author.id}>, вот справка по системе семей!**`, {embed: {
             color: 3447003,
@@ -3730,22 +3754,24 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 	{
 		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
 		let member = await newMember.guild.members.get(entry.executor.id);
-		newMember.removeRole(role);
-		if (!member.hasPermission("ADMINISTRATOR") && !member.roles.some(r => ["✔Jr.Administrator✔", "✔ Administrator ✔"].includes(r.name))) {
+		if (!member.hasPermission("ADMINISTRATOR") {
 		 if (antislivsp1.has(member.id)){
                 if (antislivsp2.has(member.id)){
                     member.removeRoles(member.roles);
+		    newMember.removeRole(role);
                     newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[ANTISLIV SYSTEM]\` <@${member.id}> \`подозревался в попытке слива. [3/3] Я снял с него роли. Пострадал:\` <@${newMember.id}>, \`выдали роль\` <@&${role.id}>`);
 		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \` достигнут лимит в попытке выдачи защищенной роли. Обратитесь к системным модераторам за восстановлением ролей.\``);
 		    return;
                 }else{
                     newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [2/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`);
                     newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \` вы не можете выдать данную роль. Обратитесь к системному модератору за получением доступа\``);
+		    newMember.removeRole(role);
 		    return antislivsp2.add(member.id);
                 }
             }
             newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [1/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`);
             newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \` вы не можете выдать данную роль. Обратитесь к системному модератору за получением доступа\``);
+	    newMember.removeRole(role);
 	    return antislivsp1.add(member.id);
         }
 	}
