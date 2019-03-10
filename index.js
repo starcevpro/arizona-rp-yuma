@@ -2373,30 +2373,6 @@ if (message.content.startsWith("/warn")){
   });
 }
 	
-if (message.content.startsWith("/givesa")){
-if (!message.member.hasPermission("MANAGE_ROLES")) return message.delete();
-let level_mod = 0;
-let db_server = bot.guilds.find(g => g.id == "531533132982124544");
-let acc_creator = db_server.channels.find(c => c.name == message.author.id);
-if (acc_creator){
-    await acc_creator.fetchMessages({limit: 1}).then(async messages => {
-	if (messages.size == 1){
-	    messages.forEach(async sacc => {
-		let str = sacc.content;
-		level_mod = +str.split('\n')[0].match(re)[0];
-	    });
-	}
-    });
-}
-if (!message.member.hasPermission("ADMINISTRATOR") && +level_mod < 1) return message.reply(`\`ошибка выполнения! получите особый доступ\``).then(msg => msg.delete(9000));
-let user = message.guild.member(message.mentions.users.first());
-if(!user) return message.reply(`\`ошибка выполнения! '/givesa [пользователь]'\``).then(msg => msg.delete(9000));
-let rolesa = message.guild.roles.find(r => r.name == "✫ State Access ✫");
-if(!rolesa) return message.reply(`\`ошибка выполнения! Обратитесь к системному модератору с этой ошибкой\``).then(msg => msg.delete(9000));
-user.addRole(rolesa);
-message.reply(`\`доступ к государственным каналам этому пользователю выдан!\``).then(msg => msg.delete(9000));
-return message.delete();
-}
         if (message.content.toLowerCase() == '/famhelp'){
         message.channel.send(`**<@${message.author.id}>, вот справка по системе семей!**`, {embed: {
             color: 3447003,
