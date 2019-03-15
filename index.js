@@ -3344,10 +3344,81 @@ if (message.content.startsWith("/warn")){
         }
     }
 
-    if (message.content.startsWith("/accinfo")){
-        if (!message.member.hasPermission("MANAGE_ROLES")) return
-        let user = message.guild.member(message.mentions.users.first());
-        if (user){
+if (message.content.startsWith("/accinfo")){
+    if (!message.member.hasPermission("MANAGE_ROLES")) return
+    let user = message.guild.member(message.mentions.users.first());
+    if (user){
+        let userroles;
+        await user.roles.filter(role => {
+            if (userroles == undefined){
+                if (!role.name.includes("everyone")) userroles = `<@&${role.id}>`
+            }else{
+                if (!role.name.includes("everyone")) userroles = userroles + `, <@&${role.id}>`
+            }
+        })
+        let perms;
+        if (user.permissions.hasPermission("ADMINISTRATOR") || user.permissions.hasPermission("MANAGE_ROLES")){
+            perms = "[!] Пользователь модератор [!]";
+        }else{
+            perms = "У пользователя нет админ прав."
+        }
+        let info_user = "Игрок";
+        if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
+        info_user = "Управляющий администратор Yuma";
+        }else if (user.roles.some(r => ["Тех.поддержка сервера"].includes(r.name))){
+        info_user = "Технический администратор Yuma";
+        }else if (user.roles.some(r => ["✯ Следящие за хелперами ✯"].includes(r.name))){
+        info_user = "Воспитатель детского сада Yuma";
+        }else if (user.roles.some(r => ["Discord Master"].includes(r.name))){
+        info_user = "Системный модератор Yuma";
+        }else if (user.roles.some(r => ["Главная администрация серверов"].includes(r.name))){
+        info_user = "Гл.администратор других серверов";
+        }else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name))){
+        info_user = "Администратор сервера Yuma";
+        }else if (user.roles.some(r => ["✔ Helper ✔"].includes(r.name))){
+        info_user = "Хелпер сервера Yuma";
+        }else if (user.roles.some(r => ["Support Team"].includes(r.name))){
+        info_user = "Старший модератор Yuma";
+        }else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
+        info_user = "Модератор Yuma";
+        }else if (user.roles.some(r => ["✮Ministers✮"].includes(r.name))){
+        info_user = "Министр Yuma";
+        }else if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
+        info_user = "Лидер Yuma";
+        }else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
+        info_user = "Заместитель лидера Yuma";
+        }
+        if (userroles == undefined){
+            userroles = `отсутствуют.`
+        }
+        let date = user.user.createdAt;
+        let registed = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
+        date = user.joinedAt
+        let joindate = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
+        const embed = new Discord.RichEmbed()
+        .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+        .setColor("#FF0000")
+        .setFooter(`Аккаунт пользователя: ${user.displayName}`, user.user.avatarURL)
+        .setTimestamp()
+        .addField(`Дата создания аккаунта и входа на сервер`, `**Аккаунт создан:** \`${registed}\`\n**Вошел к нам:** \`${joindate}\``)
+        .addField("Roles and Permissions", `**Роли:** ${userroles}\n**PERMISSIONS:** \`${perms}\``)
+        .addField(`Статус пользователя`, `\`${info_user}`/``)
+        message.reply(`**вот информация по поводу аккаунта <@${user.id}>**`, embed)
+        return message.delete();
+    }else{
+        const args = message.content.slice('/accinfo').split(/ +/)
+        if (!args[1]) return
+        let name = args.slice(1).join(" ");
+        let foundmember = false;
+        await message.guild.members.filter(f_member => {
+            if (f_member.displayName.includes(name)){
+                foundmember = f_member
+            }else if(f_member.user.tag.includes(name)){
+                foundmember = f_member
+            }
+        })
+        if (foundmember){
+            let user = foundmember
             let userroles;
             await user.roles.filter(role => {
                 if (userroles == undefined){
@@ -3365,93 +3436,49 @@ if (message.content.startsWith("/warn")){
             if (userroles == undefined){
                 userroles = `отсутствуют.`
             }
+            let info_user = "Игрок";
+            if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
+            info_user = "Управляющий администратор Yuma";
+            }else if (user.roles.some(r => ["Тех.поддержка сервера"].includes(r.name))){
+            info_user = "Технический администратор Yuma";
+            }else if (user.roles.some(r => ["✯ Следящие за хелперами ✯"].includes(r.name))){
+            info_user = "Воспитатель детского сада Yuma";
+            }else if (user.roles.some(r => ["Discord Master"].includes(r.name))){
+            info_user = "Системный модератор Yuma";
+            }else if (user.roles.some(r => ["Главная администрация серверов"].includes(r.name))){
+            info_user = "Гл.администратор других серверов";
+            }else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name))){
+            info_user = "Администратор сервера Yuma";
+            }else if (user.roles.some(r => ["✔ Helper ✔"].includes(r.name))){
+            info_user = "Хелпер сервера Yuma";
+            }else if (user.roles.some(r => ["Support Team"].includes(r.name))){
+            info_user = "Старший модератор Yuma";
+            }else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
+            info_user = "Модератор Yuma";
+            }else if (user.roles.some(r => ["✮Ministers✮"].includes(r.name))){
+            info_user = "Министр Yuma";
+            }else if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
+            info_user = "Лидер Yuma";
+            }else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
+            info_user = "Заместитель лидера Yuma";
+            }
             let date = user.user.createdAt;
             let registed = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
             date = user.joinedAt
             let joindate = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
             const embed = new Discord.RichEmbed()
             .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
-	        .setColor("#FF0000")
+            .setColor("#FF0000")
             .setFooter(`Аккаунт пользователя: ${user.displayName}`, user.user.avatarURL)
             .setTimestamp()
-            .addField(`Дата создания аккаунта и входа на сервер`, `**Аккаунт создан:** \`${registed}\`\n**Вошел к нам:** \`${joindate}\``)
+            .addField(`Краткая информация`, `**Аккаунт создан:** \`${registed}\`\n**Вошел к нам:** \`${joindate}\``)
             .addField("Roles and Permissions", `**Роли:** ${userroles}\n**PERMISSIONS:** \`${perms}\``)
+            .addField(`Статус пользователя`, `\`${info_user}`/``)
             message.reply(`**вот информация по поводу аккаунта <@${user.id}>**`, embed)
-            return message.delete();
-        }else{
-            const args = message.content.slice('/accinfo').split(/ +/)
-            if (!args[1]) return
-            let name = args.slice(1).join(" ");
-            let foundmember = false;
-            await message.guild.members.filter(f_member => {
-                if (f_member.displayName.includes(name)){
-                    foundmember = f_member
-                }else if(f_member.user.tag.includes(name)){
-                    foundmember = f_member
-                }
-            })
-            if (foundmember){
-                let user = foundmember
-                let userroles;
-                await user.roles.filter(role => {
-                    if (userroles == undefined){
-                        if (!role.name.includes("everyone")) userroles = `<@&${role.id}>`
-                    }else{
-                        if (!role.name.includes("everyone")) userroles = userroles + `, <@&${role.id}>`
-                    }
-                })
-                let perms;
-                if (user.permissions.hasPermission("ADMINISTRATOR") || user.permissions.hasPermission("MANAGE_ROLES")){
-                    perms = "[!] Пользователь модератор [!]";
-                }else{
-                    perms = "У пользователя нет админ прав."
-                }
-                if (userroles == undefined){
-                    userroles = `отсутствуют.`
-                }
-		/*let info_user = "Игрок";
-		if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
-		    info_user = "Управляющий администратор Yuma";
-		}else if (user.roles.some(r => ["Тех.поддержка сервера"].includes(r.name))){
-		    info_user = "Технический администратор Yuma";
-		}else if (user.roles.some(r => ["✯ Следящие за хелперами ✯"].includes(r.name))){
-		    info_user = "Воспитатель детского сада Yuma";
-		}else if (user.roles.some(r => ["Discord Master"].includes(r.name))){
-		    info_user = "Системный модератор Yuma";
-		}else if (user.roles.some(r => ["Главная администрация серверов"].includes(r.name))){
-		    info_user = "Гл.администратор других серверов";
-		}else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name))){
-		    info_user = "Администратор сервера Yuma";
-		}else if (user.roles.some(r => ["✔ Helper ✔"].includes(r.name))){
-		    info_user = "Хелпер сервера Yuma";
-		}else if (user.roles.some(r => ["Support Team"].includes(r.name))){
-		    info_user = "Старший модератор Yuma";
-		}else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
-		    info_user = "Модератор Yuma";
-		}else if (user.roles.some(r => ["✮Ministers✮"].includes(r.name))){
-		    info_user = "Министр Yuma";
-		}else if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
-		    info_user = "Лидер Yuma";
-		}else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
-		    info_user = "Заместитель лидера Yuma";
-		}*/
-                let date = user.user.createdAt;
-                let registed = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
-                date = user.joinedAt
-                let joindate = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
-                const embed = new Discord.RichEmbed()
-                .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
-                .setColor("#FF0000")
-                .setFooter(`Аккаунт пользователя: ${user.displayName}`, user.user.avatarURL)
-                .setTimestamp()
-                .addField(`Краткая информация`, `**Аккаунт создан:** \`${registed}\`\n**Вошел к нам:** \`${joindate}\``)
-                .addField("Roles and Permissions", `**Роли:** ${userroles}\n**PERMISSIONS:** \`${perms}\``)
-		//.addField(`Статус пользователя`, `\`${info_user)\``)
-                message.reply(`**вот информация по поводу аккаунта <@${user.id}>**`, embed)
-            }
-            return message.delete();
         }
+        return message.delete();
     }
+}
     
     if (message.content.toLowerCase().includes("сними") || message.content.toLowerCase().includes("снять")){
         if (!message.member.roles.some(r => canremoverole.includes(r.name)) && !message.member.hasPermission("MANAGE_ROLES")) return
