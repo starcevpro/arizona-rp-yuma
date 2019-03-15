@@ -3402,7 +3402,7 @@ if (message.content.startsWith("/accinfo")){
         .setTimestamp()
         .addField(`Дата создания аккаунта и входа на сервер`, `**Аккаунт создан:** \`${registed}\`\n**Вошел к нам:** \`${joindate}\``)
         .addField("Roles and Permissions", `**Роли:** ${userroles}\n**PERMISSIONS:** \`${perms}\``)
-        .addField(`Статус пользователя`, `\`${info_user}`/``)
+        .addField(`Статус пользователя`, `\`${info_user}\``)
         message.reply(`**вот информация по поводу аккаунта <@${user.id}>**`, embed)
         return message.delete();
     }else{
@@ -3472,7 +3472,7 @@ if (message.content.startsWith("/accinfo")){
             .setTimestamp()
             .addField(`Краткая информация`, `**Аккаунт создан:** \`${registed}\`\n**Вошел к нам:** \`${joindate}\``)
             .addField("Roles and Permissions", `**Роли:** ${userroles}\n**PERMISSIONS:** \`${perms}\``)
-            .addField(`Статус пользователя`, `\`${info_user}`/``)
+            .addField(`Статус пользователя`, `\`${info_user}\``)
             message.reply(`**вот информация по поводу аккаунта <@${user.id}>**`, embed)
         }
         return message.delete();
