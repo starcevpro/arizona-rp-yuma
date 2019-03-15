@@ -3346,10 +3346,9 @@ if (message.content.startsWith("/warn")){
     }
 
 if (message.content.startsWith("/accinfo")){
-    if (!message.member.hasPermission("MANAGE_ROLES")) return
     let user = message.guild.member(message.mentions.users.first());
     let info_user = "Игрок";
-    if (!message.member.hasPermission("MANAGE_ROLES")) {
+    if(message.member.hasPermission("MANAGE_ROLES")) {
 
         if (user){
             let userroles;
