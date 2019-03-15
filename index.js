@@ -3362,31 +3362,31 @@ if (message.content.startsWith("/accinfo")){
         }else{
             perms = "У пользователя нет админ прав."
         }
-        let info_user = "Игрок";
+        var info_user = "Игрок";
         if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
-        info_user = "Управляющий администратор Yuma";
+        	info_user = "Управляющий администратор Yuma";
         }else if (user.roles.some(r => ["Тех.поддержка сервера"].includes(r.name))){
-        info_user = "Технический администратор Yuma";
+        	info_user = "Технический администратор Yuma";
         }else if (user.roles.some(r => ["✯ Следящие за хелперами ✯"].includes(r.name))){
-        info_user = "Воспитатель детского сада Yuma";
+        	info_user = "Воспитатель детского сада Yuma";
         }else if (user.roles.some(r => ["Discord Master"].includes(r.name))){
-        info_user = "Системный модератор Yuma";
+        	info_user = "Системный модератор Yuma";
         }else if (user.roles.some(r => ["Главная администрация серверов"].includes(r.name))){
-        info_user = "Гл.администратор других серверов";
+        	info_user = "Гл.администратор других серверов";
         }else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name))){
-        info_user = "Администратор сервера Yuma";
+        	info_user = "Администратор сервера Yuma";
         }else if (user.roles.some(r => ["✔ Helper ✔"].includes(r.name))){
-        info_user = "Хелпер сервера Yuma";
+        	info_user = "Хелпер сервера Yuma";
         }else if (user.roles.some(r => ["Support Team"].includes(r.name))){
-        info_user = "Старший модератор Yuma";
+        	info_user = "Старший модератор Yuma";
         }else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
-        info_user = "Модератор Yuma";
+        	info_user = "Модератор Yuma";
         }else if (user.roles.some(r => ["✮Ministers✮"].includes(r.name))){
-        info_user = "Министр Yuma";
+        	info_user = "Министр Yuma";
         }else if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
-        info_user = "Лидер Yuma";
+        	info_user = "Лидер Yuma";
         }else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
-        info_user = "Заместитель лидера Yuma";
+        	info_user = "Заместитель лидера Yuma";
         }
         if (userroles == undefined){
             userroles = `отсутствуют.`
@@ -3436,9 +3436,9 @@ if (message.content.startsWith("/accinfo")){
             if (userroles == undefined){
                 userroles = `отсутствуют.`
             }
-            let info_user = "Игрок";
+            var info_user = "Игрок";
             if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
-            info_user = "Управляющий администратор Yuma";
+                info_user = "Управляющий администратор Yuma";
             }else if (user.roles.some(r => ["Тех.поддержка сервера"].includes(r.name))){
             info_user = "Технический администратор Yuma";
             }else if (user.roles.some(r => ["✯ Следящие за хелперами ✯"].includes(r.name))){
