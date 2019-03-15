@@ -3362,18 +3362,6 @@ if (message.content.startsWith("/accinfo")){
         }else{
             perms = "У пользователя нет админ прав."
         }
-        var info_user = "Пользователь";
-	if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
-           info_user = "Управляющий администратор Yuma";
-        }else if (user.roles.some(r => ["Discord Master"].includes(r.name))){
-        	info_user = "Системный модератор Yuma";
-        }else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔", "✔ Helper ✔"].includes(r.name))){
-        	info_user = "Администратор сервера Yuma";
-        }else if (user.roles.some(r => ["Support Team"].includes(r.name))){
-        	info_user = "Старший модератор Yuma";
-	}else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
-        	info_user = "Модератор Yuma";
-	}
         if (userroles == undefined){
             userroles = `отсутствуют.`
         }
@@ -3388,7 +3376,6 @@ if (message.content.startsWith("/accinfo")){
         .setTimestamp()
         .addField(`Дата создания аккаунта и входа на сервер`, `**Аккаунт создан:** \`${registed}\`\n**Вошел к нам:** \`${joindate}\``)
         .addField("Roles and Permissions", `**Роли:** ${userroles}\n**PERMISSIONS:** \`${perms}\``)
-        .addField(`Статус пользователя`, `\`${info_user}`/``)
         message.reply(`**вот информация по поводу аккаунта <@${user.id}>**`, embed)
         return message.delete();
     }else{
@@ -3421,19 +3408,7 @@ if (message.content.startsWith("/accinfo")){
             }
             if (userroles == undefined){
                 userroles = `отсутствуют.`
-            }
-            var info_user = "Пользователь";
-	if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
-	   info_user = "Управляющий администратор Yuma";
-	}else if (user.roles.some(r => ["Discord Master"].includes(r.name))){
-		info_user = "Системный модератор Yuma";
-	}else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔", "✔ Helper ✔"].includes(r.name))){
-		info_user = "Администратор сервера Yuma";
-	}else if (user.roles.some(r => ["Support Team"].includes(r.name))){
-		info_user = "Старший модератор Yuma";
-	}else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
-		info_user = "Модератор Yuma";
-	}
+	    }
             let date = user.user.createdAt;
             let registed = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
             date = user.joinedAt
@@ -3445,7 +3420,6 @@ if (message.content.startsWith("/accinfo")){
             .setTimestamp()
             .addField(`Краткая информация`, `**Аккаунт создан:** \`${registed}\`\n**Вошел к нам:** \`${joindate}\``)
             .addField("Roles and Permissions", `**Роли:** ${userroles}\n**PERMISSIONS:** \`${perms}\``)
-            .addField(`Статус пользователя`, `\`${info_user}`/``)
             message.reply(`**вот информация по поводу аккаунта <@${user.id}>**`, embed)
         }
         return message.delete();
