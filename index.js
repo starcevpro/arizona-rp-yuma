@@ -3362,32 +3362,18 @@ if (message.content.startsWith("/accinfo")){
         }else{
             perms = "У пользователя нет админ прав."
         }
-        var info_user = "Игрок";
-        if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
-        	info_user = "Управляющий администратор Yuma";
-        }else if (user.roles.some(r => ["Тех.поддержка сервера"].includes(r.name))){
-        	info_user = "Технический администратор Yuma";
-        }else if (user.roles.some(r => ["✯ Следящие за хелперами ✯"].includes(r.name))){
-        	info_user = "Воспитатель детского сада Yuma";
+        var info_user = "Пользователь";
+	if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
+           info_user = "Управляющий администратор Yuma";
         }else if (user.roles.some(r => ["Discord Master"].includes(r.name))){
         	info_user = "Системный модератор Yuma";
-        }else if (user.roles.some(r => ["Главная администрация серверов"].includes(r.name))){
-        	info_user = "Гл.администратор других серверов";
-        }else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name))){
+        }else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔", "✔ Helper ✔"].includes(r.name))){
         	info_user = "Администратор сервера Yuma";
-        }else if (user.roles.some(r => ["✔ Helper ✔"].includes(r.name))){
-        	info_user = "Хелпер сервера Yuma";
         }else if (user.roles.some(r => ["Support Team"].includes(r.name))){
         	info_user = "Старший модератор Yuma";
-        }else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
+	}else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
         	info_user = "Модератор Yuma";
-        }else if (user.roles.some(r => ["✮Ministers✮"].includes(r.name))){
-        	info_user = "Министр Yuma";
-        }else if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
-        	info_user = "Лидер Yuma";
-        }else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
-        	info_user = "Заместитель лидера Yuma";
-        }
+	}
         if (userroles == undefined){
             userroles = `отсутствуют.`
         }
@@ -3436,32 +3422,18 @@ if (message.content.startsWith("/accinfo")){
             if (userroles == undefined){
                 userroles = `отсутствуют.`
             }
-            var info_user = "Игрок";
-            if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
-                info_user = "Управляющий администратор Yuma";
-            }else if (user.roles.some(r => ["Тех.поддержка сервера"].includes(r.name))){
-            info_user = "Технический администратор Yuma";
-            }else if (user.roles.some(r => ["✯ Следящие за хелперами ✯"].includes(r.name))){
-            info_user = "Воспитатель детского сада Yuma";
-            }else if (user.roles.some(r => ["Discord Master"].includes(r.name))){
-            info_user = "Системный модератор Yuma";
-            }else if (user.roles.some(r => ["Главная администрация серверов"].includes(r.name))){
-            info_user = "Гл.администратор других серверов";
-            }else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name))){
-            info_user = "Администратор сервера Yuma";
-            }else if (user.roles.some(r => ["✔ Helper ✔"].includes(r.name))){
-            info_user = "Хелпер сервера Yuma";
-            }else if (user.roles.some(r => ["Support Team"].includes(r.name))){
-            info_user = "Старший модератор Yuma";
-            }else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
-            info_user = "Модератор Yuma";
-            }else if (user.roles.some(r => ["✮Ministers✮"].includes(r.name))){
-            info_user = "Министр Yuma";
-            }else if (user.roles.some(r => ["✵Leader✵"].includes(r.name))){
-            info_user = "Лидер Yuma";
-            }else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
-            info_user = "Заместитель лидера Yuma";
-            }
+            var info_user = "Пользователь";
+	if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
+	   info_user = "Управляющий администратор Yuma";
+	}else if (user.roles.some(r => ["Discord Master"].includes(r.name))){
+		info_user = "Системный модератор Yuma";
+	}else if (user.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔", "✔ Helper ✔"].includes(r.name))){
+		info_user = "Администратор сервера Yuma";
+	}else if (user.roles.some(r => ["Support Team"].includes(r.name))){
+		info_user = "Старший модератор Yuma";
+	}else if (user.roles.some(r => ["Spectator™"].includes(r.name))){
+		info_user = "Модератор Yuma";
+	}
             let date = user.user.createdAt;
             let registed = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
             date = user.joinedAt
