@@ -3400,16 +3400,16 @@ if (message.content.startsWith("/warn")){
                         if (!role.name.includes("everyone")) userroles = userroles + `, <@&${role.id}>`
                     }
                 })
-                /*let perms;
+                let perms;
                 if (user.permissions.hasPermission("ADMINISTRATOR") || user.permissions.hasPermission("MANAGE_ROLES")){
                     perms = "[!] Пользователь модератор [!]";
                 }else{
                     perms = "У пользователя нет админ прав."
-                }*/
+                }
                 if (userroles == undefined){
                     userroles = `отсутствуют.`
                 }
-		let info_user = "Игрок";
+		/*let info_user = "Игрок";
 		if (user.roles.some(r => ["✯Управляющие сервером.✯"].includes(r.name))){
 		    info_user = "Управляющий администратор Yuma";
 		}else if (user.roles.some(r => ["Тех.поддержка сервера"].includes(r.name))){
@@ -3434,7 +3434,7 @@ if (message.content.startsWith("/warn")){
 		    info_user = "Лидер Yuma";
 		}else if (user.roles.some(r => ["✫Deputy Leader✫"].includes(r.name))){
 		    info_user = "Заместитель лидера Yuma";
-		}
+		}*/
                 let date = user.user.createdAt;
                 let registed = `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
                 date = user.joinedAt
@@ -3445,8 +3445,8 @@ if (message.content.startsWith("/warn")){
                 .setFooter(`Аккаунт пользователя: ${user.displayName}`, user.user.avatarURL)
                 .setTimestamp()
                 .addField(`Краткая информация`, `**Аккаунт создан:** \`${registed}\`\n**Вошел к нам:** \`${joindate}\``)
-                //.addField("Roles and Permissions", `**Роли:** ${userroles}\n**PERMISSIONS:** \`${perms}\``)
-		.addField(`Статус пользователя`, `\`${info_user)\``)
+                .addField("Roles and Permissions", `**Роли:** ${userroles}\n**PERMISSIONS:** \`${perms}\``)
+		//.addField(`Статус пользователя`, `\`${info_user)\``)
                 message.reply(`**вот информация по поводу аккаунта <@${user.id}>**`, embed)
             }
             return message.delete();
