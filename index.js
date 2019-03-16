@@ -1458,7 +1458,7 @@ if (message.content == '/active'){
             });
         }
         if (!message.member.hasPermission("ADMINISTRATOR") && +level_mod != 3 && +level_mod != 4) return
-        message.reply(`\`Команды для модерации: /embsetup, /embfield, \ - отправить.\``);
+        message.reply(`\`Команды для модерации: /embsetup, /embfield, /embsend - отправить.\``);
         return message.delete();
     }
 
