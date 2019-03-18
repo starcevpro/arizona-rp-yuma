@@ -2703,14 +2703,14 @@ if (message.content.startsWith("/warn")){
         }
         let user = message.guild.member(message.mentions.users.first());
         const args = message.content.slice('/faminvite').split(/ +/)
-	if(args[1] == "530716188658106379"){
-		message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`хомячка пригласить нельзя :(\``).then(msg => msg.delete(10000));		
-		return message.delete();
-	}
         if (!user){
             message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`укажите пользователя! /faminvite [user]\``).then(msg => msg.delete(7000));
             return message.delete();
         }
+	if(user.id == "530716188658106379"){
+		message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`хомячка пригласить нельзя :(\``).then(msg => msg.delete(10000));		
+		return message.delete();
+	}
         if (families.length == 1){
             let fam_role;
             await message.guild.channels.filter(async channel => {
