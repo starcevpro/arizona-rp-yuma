@@ -3945,7 +3945,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 		channel_warn.send(`<@&528637204055064587>\n**Привет, модераторы! Держите отчет о подозрительном действии модератора!\nМодератор <@${member.id}> выдал роль <@&${role.id}> пользователю <@${newMember.id}> **`);
 		return;
 	}
-	if (role.name == "✫ State Access ✫")
+	if (role.name == "✫ State Access ✫" || role.name == "✔ Helper ✔" || role.name == "✔Jr.Administrator✔" || role.name == "✔ Administrator ✔" || role.name == "⋆ Stream Team 🎥 ⋆" || role.name == "✵Хранитель✵")
 	{
 		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
 		let member = await newMember.guild.members.get(entry.executor.id);
@@ -3955,17 +3955,17 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
                     member.removeRoles(member.roles);
 		    newMember.removeRole(role);
                     newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[ANTISLIV SYSTEM]\` <@${member.id}> \`подозревался в попытке слива. [3/3] Я снял с него роли. Пострадал:\` <@${newMember.id}>, \`выдали роль\` <@&${role.id}>`);
-		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \` достигнут лимит в попытке выдачи защищенной роли. Обратитесь к системным модераторам за восстановлением ролей.\``);
+		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> лишен прав модератора по системе безопасности. Код ошибки: GIVE_PROTECTED_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
 		    return;
                 }else{
                     newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [2/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`);
-                    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \` вы не можете выдать данную роль. Обратитесь к системному модератору за получением доступа\``);
-		    newMember.removeRole(role);
+		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \`вы не можете совершить данное действие. Код ошибки: GIVE_PROTECTED_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
+			newMember.removeRole(role);
 		    return antislivsp2.add(member.id);
                 }
             }
             newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [1/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`);
-            newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \` вы не можете выдать данную роль. Обратитесь к системному модератору за получением доступа\``);
+	    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \`вы не можете совершить данное действие. Код ошибки: GIVE_PROTECTED_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
 	    newMember.removeRole(role);
 	    return antislivsp1.add(member.id);
         }
@@ -3978,6 +3978,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
             if (antislivsp1.has(member.id)){
                 if (antislivsp2.has(member.id)){
                     member.removeRoles(member.roles);
+		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> лишен прав модератора по системе безопасности. Код ошибки: GIVE_MODERATOR_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
                     return newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[ANTISLIV SYSTEM]\` <@${member.id}> \`подозревался в попытке слива. [3/3] Я снял с него роли. Пострадал:\` <@${newMember.id}>, \`выдали роль\` <@&${role.id}>`);
                 }else{
                     newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [2/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`)
@@ -4447,3 +4448,48 @@ bot.on('message', async (message) => {
         });
     }
 });
+
+
+
+bot.on('roleCreate', async (role) => {
+
+
+  let server = bot.guilds.get(serverid);
+  const entry = await server.fetchAuditLogs({type: 'ROLE_CREATE'}).then(audit => audit.entries.first());
+  let member = await server.members.get(entry.executor.id);
+  if(member.id == bot.user.id) return;
+  let logchannel = server.channels.find(c => c.name == "warning-system");
+  let chatmod = server.channels.find(c => c.name == "spectator-chat");
+  let channel = server.channels.find(c => c.name == "general");
+  if(!member.hasPermission("ADMINISTRATOR")) {
+    if(!antislivsp1.has(member.id)) {
+      antislivsp1.add(member.id);
+      chatmod.send(`**Модератор <@${member.id}> без права на администратора создал роль, роль была удалена. Повторное действие приведёт к снятию всех ролей.**`)
+      role.delete("роль создана модератором без права на администратора");
+    }
+    else {
+      antislivsp1.delete(member.id);
+      member.removeRoles(member.roles, "создание роли без права на администратора ИЛИ второе предупреждение");
+      chatmod.send(`**Модератор <@${member.id}> без права на администратора создал роль, роль была удалена. С модератора сняты все роли по системе безопасности.**`)
+      role.delete("роль создана модератором без права на администратора");
+      channel.send(`\`Модератор\` <@${member.id}> \`лишен прав модератора по системе безопасности. Код: RC\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
+    }
+  }
+
+}); 
+
+bot.on('roleDelete', async (role) => {
+
+  let server = bot.guilds.get(serverid);
+  const entry = await server.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
+  let member = await server.members.get(entry.executor.id);
+  if(member.id == bot.user.id) return;
+  let logchannel = server.channels.find(c => c.name == "warning-system");
+  let chatmod = server.channels.find(c => c.name == "spectator-chat");
+  let channel = server.channels.find(c => c.name == "general");
+  if(!member.hasPermission("ADMINISTRATOR")) {
+      member.removeRoles(member.roles, "удаление роли без права на администратора");
+      chatmod.send(`**Модератор <@${member.id}> без права на администратора удалил роль. С модератора сняты все роли по системе безопасности.**`)
+      channel.send(`\`Модератор\` <@${member.id}> \`лишен прав модератора по системе безопасности. Код: RD\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
+    }
+}); 
