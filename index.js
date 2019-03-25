@@ -3979,14 +3979,19 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
                 if (antislivsp2.has(member.id)){
                     member.removeRoles(member.roles);
 		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \`лишен прав модератора по системе безопасности. Код ошибки: GIVE_MODERATOR_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
+		    newMember.removeRole(role);
                     return newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[ANTISLIV SYSTEM]\` <@${member.id}> \`подозревался в попытке слива. [3/3] Я снял с него роли. Пострадал:\` <@${newMember.id}>, \`выдали роль\` <@&${role.id}>`);
                 }else{
+		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \`вы не можете совершить данное действие. Код ошибки: GIVE_PROTECTED_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
                     newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [2/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`)
-                    return antislivsp2.add(member.id);
+                    newMember.removeRole(role);
+		    return antislivsp2.add(member.id);
                 }
             }
             newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [1/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`)
-            return antislivsp1.add(member.id);
+            newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \`вы не можете совершить данное действие. Код ошибки: GIVE_MODERATOR_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
+	    newMember.removeRole(role);
+	    return antislivsp1.add(member.id);
         }
         let spec_chat = await newMember.guild.channels.find(c => c.name == "spectator-chat");
         let question = await spec_chat.send(`<@${member.id}>, \`вы выдали роль\` <@&${role.id}> \`пользователю\` <@${newMember.id}>\n\`Укажите причину выдачи роли в новом сообщении!\``);
