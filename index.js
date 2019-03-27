@@ -12,6 +12,7 @@ const snyatie = new Set(); // Уже отправленные запросы н�
 const support_cooldown = new Set(); // Запросы от игроков.
 const accinfo_cooldown = new Set(); // Кулдаун игроков на /accinfo
 const support_loop = new Set(); // Кулдаун сервера
+const allow_global_rp = new Set(); // Временные права лидерам на команду /togrp
 
 let antislivsp1 = new Set();
 let antislivsp2 = new Set();
@@ -1314,6 +1315,25 @@ if (message.content == '/active'){
     }).catch(() => {
         message.reply(`я не смог снять ему заглушение`);
     })
+    return message.delete()
+}
+    if (message.content.startsWith("/setgrp")){
+    if (!message.author.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name)) && !message.member.hasPermission("ADMINISTRATOR")) return message.reply(`\`нет прав\``);
+    let user = message.guild.member(message.mentions.users.first());
+    if (!user){
+        message.delete()
+        return message.reply(`пользователь не указан.`)
+    } 
+    if(!allow_global_rp.has(user.id)) {
+    	message.reply(`\`вы успешно дали доступ к перемещению пользователей в комнату ГРП. Пользователь:\` ${user}`);
+	allow_global_rp.add(user.id);
+	message.delete();
+    }
+    else {
+	message.reply(`\`вы успешно забрали доступ к перемещению пользователей в комнату ГРП. Пользователь:\` ${user}`);
+	allow_global_rp.delete(user.id);
+	message.delete();
+    }
     return message.delete()
 }
 	
