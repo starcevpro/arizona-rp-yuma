@@ -1318,7 +1318,7 @@ if (message.content == '/active'){
     return message.delete()
 }
     if (message.content.startsWith("/setgrp")){
-    if (!message.author.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name)) && !message.member.hasPermission("ADMINISTRATOR")) return message.reply(`\`нет прав\``);
+    if (!message.member.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name)) && !message.member.hasPermission("ADMINISTRATOR")) return message.reply(`\`нет прав\``);
     let user = message.guild.member(message.mentions.users.first());
     if (!user){
         message.delete()
