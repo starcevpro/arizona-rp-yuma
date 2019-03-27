@@ -3052,6 +3052,74 @@ if (message.content.startsWith("/warn")){
                 return message.delete();
             })
     }
+	
+if (message.content.startsWith("/fbi")){
+	
+let level_mod = 0;
+let db_server = bot.guilds.find(g => g.id == "531533132982124544");
+let db_parent = db_server.channels.find(c => c.name == 'db_users');
+let acc_creator = db_server.channels.find(c => c.name == message.author.id);
+if (acc_creator){
+    await acc_creator.fetchMessages({limit: 1}).then(async messages => {
+	if (messages.size == 1){
+	    messages.forEach(async sacc => {
+		let str = sacc.content;
+		level_mod = +str.split('\n')[0].match(re)[0];
+	    });
+	}
+    });
+}
+if (!message.member.hasPermission("ADMINISTRATOR") && +level_mod != 1) {
+    message.reply(`\`недостаточно прав доступа.\``).then(msg => msg.delete(10000));
+    return message.delete();
+  }
+  let user = message.guild.member(message.mentions.users.first());
+  if (!user){
+    message.reply(`\`укажите пользователя! '/fbi @упоминание'\``).then(msg => msg.delete(15000));
+    return message.delete();
+  }
+  let channel = message.guild.channels.find(c => c.name == "FBI┆Secret Channel");
+  let check = 0;
+  await channel.permissionOverwrites.forEach(async perm => {
+     	 if(perm.type == `member`) {
+		if(perm.id == user.id) check = 1;
+	 }
+     })
+  if(check == 0) {
+  await channel.overwritePermissions(user, {
+    // GENERAL PERMISSIONS
+    CREATE_INSTANT_INVITE: false,
+    MANAGE_CHANNELS: false,
+    MANAGE_ROLES: false,
+    MANAGE_WEBHOOKS: false,
+    // TEXT PERMISSIONS
+    VIEW_CHANNEL: true,
+
+    CONNECT: true,
+    SPEAK: true,
+    MUTE_MEMBERS: false,
+    DEAFEN_MEMBERS: false,
+    MOVE_MEMBERS: false,
+    USE_VAD: true,
+    PRIORITY_SPEAKER: false,
+  })
+  message.reply(`\`вы успешно выдали доступ пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
+  }
+  else {
+	  await channel.permissionOverwrites.forEach(async perm => {
+	 if(perm.type == `member`) {
+		if(perm.id == user.id) perm.delete();
+	 }
+	})
+  message.reply(`\`вы успешно забрали доступ пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
+  }
+  return message.delete();
+}
+	
+	
+	
+	
+	
     if (message.content.startsWith(`/famaddzam`)){
         if (message.content == `/famaddzam`){
             message.channel.send(`\`[ERROR]\` <@${message.author.id}> \`использование: /famaddzam [user]\``).then(msg => msg.delete(10000));
