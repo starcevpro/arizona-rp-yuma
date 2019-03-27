@@ -739,6 +739,7 @@ bot.on('message', async message => {
     if (message.content == "/ping") return message.reply("`я онлайн!`") && console.log(`Бот ответил ${message.member.displayName}, что я онлайн.`)
     if (message.author.id == bot.user.id) return
     if (message.content.startsWith("-+ban")) lasttestid = message.author.id;
+    let yuma = bot.guilds.find(g => g.id == "528635749206196232");
     
     let re = /(\d+(\.\d)*)/i;	
     const authorrisbot = new Discord.RichEmbed()
@@ -1325,17 +1326,67 @@ if (message.content == '/active'){
         return message.reply(`пользователь не указан.`)
     } 
     if(!allow_global_rp.has(user.id)) {
-    	message.reply(`\`вы успешно дали доступ к перемещению пользователей в комнату ГРП. Пользователь:\` ${user}`);
+    	message.reply(`\`вы успешно дали доступ к добавлению доступа в комнату ГРП. Пользователь:\` ${user}`);
 	allow_global_rp.add(user.id);
 	message.delete();
     }
     else {
-	message.reply(`\`вы успешно забрали доступ к перемещению пользователей в комнату ГРП. Пользователь:\` ${user}`);
+	message.reply(`\`вы успешно забрали доступ к добавлению доступа в комнату ГРП. Пользователь:\` ${user}`);
 	allow_global_rp.delete(user.id);
 	message.delete();
     }
     return message.delete()
 }
+    if (message.content.startsWith("/grp")){
+    if (!allow_global_rp.has(message.member.id)) return message.reply(`\`нет прав\``);
+    let user = message.guild.member(message.mentions.users.first());
+    if (!user){
+        message.delete()
+        return message.reply(`пользователь не указан.`)
+    } 
+    let channel = yuma.channels.find(c => c.name == "Глобальные РП");
+    if(!channel){
+        message.delete()
+        return message.reply(`ошибка, обратитесь к системному модератору за помощью`)
+    } 
+    let check = 0;
+     await channel.permissionOverwrites.forEach(async perm => {
+     	 if(perm.type == `member`) {
+		if(perm.id == user.id) check = 1;
+	 }
+     })
+    if(check == 0) {
+    await channel.overwritePermissions(user, {
+    // GENERAL PERMISSIONS
+    CREATE_INSTANT_INVITE: false,
+    MANAGE_CHANNELS: false,
+    MANAGE_ROLES: false,
+    MANAGE_WEBHOOKS: false,
+    VIEW_CHANNEL: true,
+    CONNECT: true,
+    SPEAK: true,
+    MUTE_MEMBERS: false,
+    DEAFEN_MEMBERS: false,
+    MOVE_MEMBERS: false,
+    USE_VAD: true,
+    PRIORITY_SPEAKER: false,
+  })
+  message.reply(`\`вы успешно выдали доступ пользователю\` <@${user.id}> \`к каналу Глобальных РП.\``);
+    }
+    else {
+         await channel.permissionOverwrites.forEach(async perm => {
+     	 if(perm.type == `member`) {
+		if(perm.id == user.id) { 
+			perm.delete();
+			message.reply(`\`вы успешно забрали доступ пользователю\` <@${user.id}> \`к каналу Глобальных РП.\``);
+		}
+		 
+	 }
+     })
+    }
+    return message.delete()
+}
+	
 	
     if (message.content.startsWith("/setup")){
         let level_mod = 0;
@@ -2518,7 +2569,7 @@ if (message.content.startsWith("/warn")){
     spchangg.send(`\`${message.member.displayName} очистил все предупреждения системой антислива пользователю\` <@${user.id}>`);
     message.delete()
     }
-    let yuma = bot.guilds.find(g => g.id == "528635749206196232");
+    
     if (message.content.startsWith("/givesa")){
     if (!message.member.hasPermission("MANAGE_ROLES")) return message.delete();
     let level_mod = 0;
