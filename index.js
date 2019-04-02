@@ -3849,11 +3849,11 @@ if (message.content.startsWith("/accinfo")){
             }).then(async (answer) => {
                 question.delete().catch(() => {});
                 if(answer.first().content != answerget) {
-                    message.reply(`не верно`);
+                    message.reply(`\`Не верно\``);
                 }
                 else {
                     answercaptcha.add(message.member.id);
-                     message.reply(`Верно`);
+                     message.reply(`\`Верно\``);
                      let question2 = await channel.send(`<@${message.member.id}>, \`Введите ответ на поставленную задачу от Ведущих:\nВремя на ответ ограничено - 2 минуты.\nВ новом сообщении данного чата!\``);
                      channel.awaitMessages(response => response.member.id == message.member.id, {
                         max: 1,
@@ -3862,17 +3862,17 @@ if (message.content.startsWith("/accinfo")){
                      }).then(async (answer) => {
                         question2.delete().catch(() => {});
                         answercaptcha.delete(message.member.id);
-                        channel.send(`Пользователь ${message.member} ответил на вопрос: ${answer.first().content}`)
+                        channel.send(`\`Пользователь ${message.member} ответил на вопрос: ${answer.first().content}\``)
 
                      }).catch(async () => {
                         question2.delete().catch(() => {});
-                        return message.reply(`Время вышло`);
+                        return message.reply(`\`Время вышло\``);
                     })
                 }
 
             }).catch(async () => {
                 question.delete().catch(() => {});
-                message.reply(`Время вышло`);
+                message.reply(`\`Время вышло\``);
             })
         return message.delete();
     }
