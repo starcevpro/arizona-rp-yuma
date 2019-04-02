@@ -3806,8 +3806,8 @@ if (message.content.startsWith("/accinfo")){
 	if(message.channel.name != "mpchat") return;
         channel = message.channel;
 
-        let code1 = getRandomInt(10, 99);
-        let code2 = getRandomInt(10, 99);
+        let code1 = getRandomInt(1, 9);
+        let code2 = getRandomInt(1, 9);
         let answerget = code1 + code2;
                 let question = await channel.send(`<@${message.member.id}>, \`введите ответ на капчу\` **\`${code1} + ${code2} = ?\`**`);
                 channel.awaitMessages(response => response.member.id == message.member.id, {
