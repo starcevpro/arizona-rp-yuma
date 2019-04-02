@@ -306,7 +306,6 @@ bot.on('ready', () => {
     console.log("Бот был успешно запущен!");
     bot.user.setPresence({ game: { name: 'hacker' }, status: 'online' })
     tabl_edit_update();
-    send_vk_msg(2000000002, 'Бот был успешно запущен!');
 });
 
 // Система удаленного управления ботом для отключения,фиксов багов и т.д.
