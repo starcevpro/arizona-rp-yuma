@@ -301,11 +301,25 @@ const events = {
 
 const warn_cooldown = new Set();
 
+let vkbot = require('./testing/node-vk-bot-api');
+
+const vkint = new vkbot({
+  token: process.env.vk_token,
+  confirmation: process.env.confirm_token,
+});
+
+async function send_vk_msg(id, message){
+  if (!id) return
+  if (!message) return
+  vkint.sendMessage(id, message);
+}
+
 bot.login(process.env.token);
 bot.on('ready', () => {
     console.log("Бот был успешно запущен!");
     bot.user.setPresence({ game: { name: 'hacker' }, status: 'online' })
     tabl_edit_update();
+    send_vk_msg(2000000002, 'Бот был успешно запущен!');
 });
 
 // Система удаленного управления ботом для отключения,фиксов багов и т.д.
