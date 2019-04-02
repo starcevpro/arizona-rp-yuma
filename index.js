@@ -301,7 +301,7 @@ const events = {
 
 const warn_cooldown = new Set();
 
-let vkbot = require('./testing/node-vk-bot-api');
+let vkbot = require('./modules/node-vk-bot-api');
 
 const vkint = new vkbot({
   token: process.env.vk_token,
