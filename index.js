@@ -3803,7 +3803,7 @@ if (message.content.startsWith("/accinfo")){
     }
     if (message.content == slovo){
         if(mpstart == 0 || slovolock == 1) return;
-	if(message.channel.name !== "mpchat") return;
+	if(message.channel.name != "mpchat") return;
         channel = message.channel;
 
         let code1 = getRandomInt(10, 99);
@@ -4737,6 +4737,15 @@ bot.on('roleCreate', async (role) => {
   }
 
 }); 
+
+function getRandomInt(min, max)
+{
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+
+}
+
+
 
 bot.on('roleDelete', async (role) => {
 
