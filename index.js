@@ -301,19 +301,6 @@ const events = {
 
 const warn_cooldown = new Set();
 
-let vkbot = require('./modules/node-vk-bot-api');
-
-const vkint = new vkbot({
-  token: process.env.vk_token,
-  confirmation: process.env.confirm_token,
-});
-
-async function send_vk_msg(id, message){
-  if (!id) return
-  if (!message) return
-  vkint.sendMessage(id, message);
-}
-
 bot.login(process.env.token);
 bot.on('ready', () => {
     console.log("Бот был успешно запущен!");
