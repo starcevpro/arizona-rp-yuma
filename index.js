@@ -13,7 +13,9 @@ const support_cooldown = new Set(); // Запросы от игроков.
 const accinfo_cooldown = new Set(); // Кулдаун игроков на /accinfo
 const support_loop = new Set(); // Кулдаун сервера
 const allow_global_rp = new Set(); // Временные права лидерам на команду /togrp
-
+let mpstart = 0;
+let slovolock = 1;
+const answercaptcha = new Set(); 
 let antislivsp1 = new Set();
 let antislivsp2 = new Set();
 
@@ -3772,7 +3774,109 @@ if (message.content.startsWith("/accinfo")){
         return message.delete();
     }
 }
-    
+    if (message.content.startsWith(`/slovo`)){
+        if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
+        const args = message.content.slice(`/slovo`).split(/ +/);
+        slovo  = args.slice(1).join(" ");
+        message.reply(`\`Слово для МП: ${slovo} было установлено\``)
+        return message.delete();
+    }
+    if (message.content.startsWith(`/sans`)){
+        if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
+        const args = message.content.slice(`/sans`).split(/ +/);
+        if(args[1] == 1) {
+            mpstart = 1;
+            slovolock = 0; 
+            message.reply(`\`Установите слово для данного мероприятия(/slovo) и вы можете начинать МП\``)
+        }
+        if(args[1] == 2) {
+            mpstart = 1;
+            slovolock = 1; 
+            message.reply(`\`Приём ответов через команду /ans запущен\``)
+        }
+        if(args[1] == 0) {
+            mpstart = 0;
+            slovolock = 1; 
+            message.reply(`\`Проведение МП закончено, не забывайте записать победителя в логи проведения МП!\``)
+        }
+
+    }
+    if (message.content == slovo){
+        if(mpstart == 0 || slovolock == 1) return;
+	if(message.channel.name !== "mpchat") return;
+        channel = message.channel;
+
+        let code1 = getRandomInt(10, 99);
+        let code2 = getRandomInt(10, 99);
+        let answerget = code1 + code2;
+                let question = await channel.send(`<@${message.member.id}>, \`введите ответ на капчу\` **\`${code1} + ${code2} = ?\`**`);
+                channel.awaitMessages(response => response.member.id == message.member.id, {
+                max: 1,
+                time: 15000,
+                errors: ['time'],
+            }).then(async (answer) => {
+                question.delete().catch(() => {});
+                if(answer.first().content != answerget) {
+                    message.reply(`не верно`);
+                }
+                else {
+                    if(slovolock == 1) return message.reply(`\`вы опаздали, вас уже опередили!\``);
+                     message.reply(`Верно`);
+                     channel.send(`Пользователь ${message.member} ответил правильно и быстрее всех и получает 1 балл!`)
+                     mpstart = 0;
+                     slovolock = 1;
+                    }
+
+            }).catch(async () => {
+                question.delete().catch(() => {});
+                message.reply(`Время вышло`);
+            })
+        return message.delete();
+    }
+    if (message.content.startsWith(`/ans`)){
+        if(mpstart == 0 || slovolock == 0) return message.reply("`В данный момент ответить невозможно.\nПримечание: приём ответов через эту команду закрыт или мероприятие не начато`")
+        const args = message.content.slice(`/ans`).split(/ +/);
+        channel = message.channel;
+
+        let code1 = getRandomInt(10, 99);
+        let code2 = getRandomInt(10, 99);
+        let answerget = code1 + code2;
+                let question = await channel.send(`<@${message.member.id}>, \`введите ответ на капчу\` **\`${code1} + ${code2} = ?\`**`);
+                channel.awaitMessages(response => response.member.id == message.member.id, {
+                max: 1,
+                time: 15000,
+                errors: ['time'],
+            }).then(async (answer) => {
+                question.delete().catch(() => {});
+                if(answer.first().content != answerget) {
+                    message.reply(`не верно`);
+                }
+                else {
+                    answercaptcha.add(message.member.id);
+                     message.reply(`Верно`);
+                     let question2 = await channel.send(`<@${message.member.id}>, \`Введите ответ на поставленную задачу от Ведущих:\nВремя на ответ ограничено - 2 минуты.\nВ новом сообщении данного чата!\``);
+                     channel.awaitMessages(response => response.member.id == message.member.id, {
+                        max: 1,
+                        time: 120000,
+                        errors: ['time'],
+                     }).then(async (answer) => {
+                        question2.delete().catch(() => {});
+                        answercaptcha.delete(message.member.id);
+                        channel.send(`Пользователь ${message.member} ответил на вопрос: ${answer.first().content}`)
+
+                     }).catch(async () => {
+                        question2.delete().catch(() => {});
+                        return message.reply(`Время вышло`);
+                    })
+                }
+
+            }).catch(async () => {
+                question.delete().catch(() => {});
+                message.reply(`Время вышло`);
+            })
+        return message.delete();
+    }
+
     if (message.content.toLowerCase().includes("сними") || message.content.toLowerCase().includes("снять")){
         if (!message.member.roles.some(r => canremoverole.includes(r.name)) && !message.member.hasPermission("MANAGE_ROLES")) return
         const args = message.content.split(/ +/)
