@@ -181,18 +181,12 @@ tags = ({
     "LVMC": "⋆ Las-Venturas Medical Center ⋆",
     "ЛВМЦ": "⋆ Las-Venturas Medical Center ⋆",
 
-    "R-LS": "⋆ Radiocentre Los-Santos ⋆",
-    "RLS": "⋆ Radiocentre Los-Santos ⋆",
-    "Р-ЛС": "⋆ Radiocentre Los-Santos ⋆",
-    "РЛС": "⋆ Radiocentre Los-Santos ⋆",
-    "R-SF": "⋆ Radiocentre San-Fierro ⋆",
-    "RSF": "⋆ Radiocentre San-Fierro ⋆",
-    "Р-СФ": "⋆ Radiocentre San-Fierro ⋆",
-    "РСФ": "⋆ Radiocentre San-Fierro ⋆",
-    "R-LV": "⋆ Radiocentre Las-Venturas ⋆",
-    "RLV": "⋆ Radiocentre Las-Venturas ⋆",
-    "Р-ЛВ": "⋆ Radiocentre Las-Venturas ⋆",
-    "РЛВ": "⋆ Radiocentre Las-Venturas ⋆",
+    "CNN LS": "⋆ CNN Los-Santos ⋆",
+    "СМИ ЛС": "⋆ CNN Los-Santos ⋆",
+    "CNN SF": "⋆ CNN San-Fierro ⋆,
+    "СМИ СФ": "⋆ CNN San-Fierro ⋆",
+    "CNN LV": "⋆ CNN Las-Venturas ⋆",
+    "СМИ ЛВ": "⋆ CNN Las-Venturas ⋆",
 
     "WMC": "⋆ Warlock MC ⋆",
     "W-MC": "⋆ Warlock MC ⋆",
@@ -256,18 +250,12 @@ let manytags = [
 "LVMC",
 "ЛВМЦ",
 
-"R-LS",
-"RLS",
-"Р-ЛС",
-"РЛС",
-"R-SF",
-"RSF",
-"Р-СФ",
-"РСФ",
-"R-LV",
-"RLV",
-"Р-ЛВ",
-"РЛВ",
+"CNN LS",
+"СМИ ЛС",
+"CNN SF",
+"СМИ СФ",
+"CNN LV",
+"СМИ ЛВ",
 
 "WMC",
 "W-MC",
@@ -291,7 +279,7 @@ let manytags = [
 "NW",
 "НВ",
 ];
-let rolesgg = ["⋆ Government ⋆", "⋆ Central Bank of Los-Santos ⋆", "⋆ Driving School ⋆", "⋆ Federal Bureau of Investigation ⋆", "⋆ Las Venturas Police Department ⋆", "⋆ Los-Santos Police Department ⋆", "⋆ San-Fierro Police Department ⋆", "⋆ Red County Sheriff Department ⋆", "⋆ Los-Santos Army ⋆", "⋆ San-Fierro Army ⋆", "⋆ Maximum Security Prison ⋆", "⋆ Los-Santos Medical Center ⋆", "⋆ San-Fierro Medical Center ⋆", "⋆ Las-Venturas Medical Center ⋆", "⋆ Radiocentre Los-Santos ⋆", "⋆ Radiocentre San-Fierro ⋆", "⋆ Radiocentre Las-Venturas ⋆", "⋆ Warlock MC ⋆", "⋆ Russian Mafia ⋆", "⋆ La Cosa Nostra ⋆", "⋆ Yakuza ⋆", "⋆ Grove Street Gang ⋆", "⋆ East Side Ballas Gang ⋆", "⋆ Vagos Gang ⋆", "⋆ Aztecas Gang ⋆", "⋆ Rifa Gang ⋆", "⋆ Night Wolfs ⋆"]
+let rolesgg = ["⋆ Government ⋆", "⋆ Central Bank of Los-Santos ⋆", "⋆ Driving School ⋆", "⋆ Federal Bureau of Investigation ⋆", "⋆ Las Venturas Police Department ⋆", "⋆ Los-Santos Police Department ⋆", "⋆ San-Fierro Police Department ⋆", "⋆ Red County Sheriff Department ⋆", "⋆ Los-Santos Army ⋆", "⋆ San-Fierro Army ⋆", "⋆ Maximum Security Prison ⋆", "⋆ Los-Santos Medical Center ⋆", "⋆ San-Fierro Medical Center ⋆", "⋆ Las-Venturas Medical Center ⋆", "⋆ CNN Los-Santos ⋆", "⋆ CNN San-Fierro ⋆", "⋆ CNN Las-Venturas ⋆", "⋆ Warlock MC ⋆", "⋆ Russian Mafia ⋆", "⋆ La Cosa Nostra ⋆", "⋆ Yakuza ⋆", "⋆ Grove Street Gang ⋆", "⋆ East Side Ballas Gang ⋆", "⋆ Vagos Gang ⋆", "⋆ Aztecas Gang ⋆", "⋆ Rifa Gang ⋆", "⋆ Night Wolfs ⋆"]
 let canremoverole = ["✫Deputy Leader✫", "✵Leader✵", "✮Ministers✮", "✔ Helper ✔"];
 
 const events = {
