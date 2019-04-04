@@ -183,7 +183,7 @@ tags = ({
 
     "CNN LS": "⋆ CNN Los-Santos ⋆",
     "СМИ ЛС": "⋆ CNN Los-Santos ⋆",
-    "CNN SF": "⋆ CNN San-Fierro ⋆,
+    "CNN SF": "⋆ CNN San-Fierro ⋆",
     "СМИ СФ": "⋆ CNN San-Fierro ⋆",
     "CNN LV": "⋆ CNN Las-Venturas ⋆",
     "СМИ ЛВ": "⋆ CNN Las-Venturas ⋆",
