@@ -3951,8 +3951,8 @@ if (message.content.startsWith("/accinfo")){
         const args = message.content.slice(`/ans`).split(/ +/);
         channel = message.channel;
 
-        let code1 = getRandomInt(10, 99);
-        let code2 = getRandomInt(10, 99);
+        let code1 = getRandomInt(1, 9);
+        let code2 = getRandomInt(1, 9);
         let answerget = code1 + code2;
                 let question = await channel.send(`<@${message.member.id}>, \`введите ответ на капчу\` **\`${code1} + ${code2} = ?\`**`);
                 channel.awaitMessages(response => response.member.id == message.member.id, {
@@ -3975,7 +3975,9 @@ if (message.content.startsWith("/accinfo")){
                      }).then(async (answer) => {
                         question2.delete().catch(() => {});
                         answercaptcha.delete(message.member.id);
-                        channel.send(`\`Пользователь ${message.member} ответил на вопрос: ${answer.first().content}\``)
+		    	message.reply(`\`вы ответили на вопрос\``);
+		        channel = yuma.channels.find(c => c.name == "answers");
+                        channel.send(`\`Пользователь \`${message.member}\` ответил на вопрос: ${answer.first().content}\``)
 
                      }).catch(async () => {
                         question2.delete().catch(() => {});
