@@ -3912,8 +3912,8 @@ if (message.content.startsWith("/accinfo")){
             slovolock = 1; 
             message.reply(`\`Проведение МП закончено, не забывайте записать победителя в логи проведения МП!\``)
         }
-
     }
+/*
     if (message.content == slovo){
         if(mpstart == 0 || slovolock == 1) return;
 	if(message.channel.name != "mpchat") return;
@@ -3945,7 +3945,7 @@ if (message.content.startsWith("/accinfo")){
                 message.reply(`Время вышло`);
             })
         return message.delete();
-    }
+    }*/
     if (message.content.startsWith(`/ans`)){
         if(mpstart == 0) return message.reply("`В данный момент ответить невозможно.\nПримечание: приём ответов через эту команду закрыт или мероприятие не начато`")
         const args = message.content.slice(`/ans`).split(/ +/);
