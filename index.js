@@ -409,33 +409,7 @@ if (message.content.startsWith("/del") && !message.content.includes("fam")){
   message.reply(`\`вы успешно забрали доступ у пользователя\` <@${user.id}> \`к каналу FBI.\``);
   return message.delete();
 }
-*/  
-if (message.content.toLowerCase().startsWith(`/report`)){
-        const args = message.content.slice('/report').split(/ +/);
-        if (!args[1]){
-            message.reply(`\`привет! Для отправки используй: /report [текст]\``).then(msg => msg.delete(15000));
-            return message.delete()
-        }
-        let bugreport = args.slice(1).join(" ");
-        let spchat = yuma.channels.find(c => c.name == "spectator-chat");
-        if (bugreport.length < 5 || bugreport.length > 1300){
-            message.reply(`\`нельзя отправить запрос с длинной меньше 5 или больше 1300 символов!\``).then(msg => msg.delete(15000));
-            return message.delete()
-        }
-        if(reportsys == 1) {
-            channel.awaitMessages(response => response.member.id == "562710153862840320", {
-                max: 1,
-                time: 15000,
-                errors: ['time'],
-            }).then(async (answer) => {
-                if(answer.first().content == `сообщение отправлено системному администратору`) return spchat.send(`\`[SYSTEM] Сообщение доставлено! (debug test)\``);    
-            }).catch(async () => {
-                reportsys = 0;
-                spchat.send(`\`[SYSTEM] Возникла нештатная ситуация со системой репорта. Она возвращена в старый режим (отправка в ЛС Дискорда)\``)
-            })
-        }
-        if(reportsys == 0) return message.reply(`\`[SYSTEM] В данный момент - система не разработана\``)
-    }		
+*/  	
 	
     if (message.content.startsWith("/dwarn")){
     if (!message.member.hasPermission("ADMINISTRATOR")){
