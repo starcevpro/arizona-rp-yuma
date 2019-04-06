@@ -21,10 +21,10 @@ let antislivsp2 = new Set();
 
 
 // New Report System
-const reportsys = 1;
-const reportid;
-const reportmember;
-const reported;
+let reportsys = 1;
+let reportid;
+let reportmember;
+let reported;
 
 
 
