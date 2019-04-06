@@ -234,7 +234,7 @@ bot.on('message', async message => {
             message.reply(`\`привет! Для отправки используй: /repinfo [id репорта]\``).then(msg => msg.delete(15000));
             return message.delete()
         }
-	if(reported[args[1]] == false) return message.reply(`\`Данный репорт не существует!\``);
+	if(!reported[args[1]]) return message.reply(`\`Данный репорт не существует!\``);
 	else return message.reply(`\`[REPINFO] Репорт№${args[1]}\nПользователь:\`<@${reports[args[1]]}>`);
     }
     
