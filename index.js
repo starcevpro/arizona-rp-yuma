@@ -22,8 +22,8 @@ let antislivsp2 = new Set();
 
 // New Report System
 let reportsys = 0;
-var reports = = new Array();
-var reported = new Array();
+const reports = new Set();
+const reported = new Set();
 
 
 
