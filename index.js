@@ -174,7 +174,7 @@ bot.on('message', async message => {
     if (message.content == "/ping") return message.reply("`я онлайн!`") && console.log(`Бот ответил ${message.member.displayName}, что я онлайн.`)
     if (message.author.id == bot.user.id) return
     if (message.content.startsWith("-+ban")) lasttestid = message.author.id;
-    let yuma = bot.guilds.find(g => g.id == "528635745315331329821245449206196232");
+    let yuma = bot.guilds.find(g => g.id == "528635749206196232");
     // Загружаем модули бота
     require('./global_systems/embeds').run(bot, message, setembed_general, setembed_fields, setembed_addline);
     require('./global_systems/family').run(bot, message);
@@ -1761,6 +1761,7 @@ function getRandomInt(min, max)
 
 async function unwarnsystem() {
     setInterval(async() => {
+        let gserver = = bot.guilds.find(g => g.id == "528635749206196232");
         let dataserver = bot.guilds.find(g => g.id == "531533132982124544");
         dataserver.channels.forEach(async channel => {
             if (channel.type=="text"){
