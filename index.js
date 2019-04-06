@@ -184,69 +184,6 @@ bot.on('message', async message => {
     let re = /(\d+(\.\d)*)/i;	
     const authorrisbot = new Discord.RichEmbed()
     .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
-     
-                let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
-	    dataserver.channels.forEach(async channel => {
-            if (channel.type=="text"){
-                if (channel.name != 'administration' && channel.name != 'accounts' && channel.name != 'bad-words' && channel.name != 'err-code' && channel.name != 'config'){
-                    await channel.fetchMessages({limit: 1}).then(async messages => {
-                        if (messages.size == 1){
-                            messages.forEach(async sacc => {
-                                let str = sacc.content;
-                                let moderation_level = str.split('\n')[0].match(re)[0];
-                                let moderation_warns = str.split('\n')[1].match(re)[0];
-                                let user_warns = str.split('\n')[+moderation_warns + 2].match(re)[0];
-                                let moderation_reason = [];
-                                let user_reason = [];
-                                let moderation_time = [];
-                                let user_time = [];
-                                let moderation_give = [];
-                                let user_give = [];
-            
-                                let circle = 0;
-                                while (+moderation_warns > circle){
-                                    moderation_reason.push(str.split('\n')[+circle + 2].split('==>')[0]);
-                                    moderation_time.push(str.split('\n')[+circle + 2].split('==>')[1]);
-                                    moderation_give.push(str.split('\n')[+circle + 2].split('==>')[2]);
-                                    circle++;
-                                }
-                
-                                circle = 0;
-                                let rem = 0;
-                                while (+user_warns > circle){
-                                    let myDate = new Date().valueOf();
-                                    if (+str.split('\n')[+circle + +moderation_warns + 3].split('==>')[1] > myDate){
-                                        user_reason.push(str.split('\n')[+circle + +moderation_warns + 3].split('==>')[0]);
-                                        user_time.push(str.split('\n')[+circle + +moderation_warns + 3].split('==>')[1]);
-                                        user_give.push(str.split('\n')[+circle + +moderation_warns + 3].split('==>')[2]);
-                                    }else{
-                                        rem++
-                                        let genchannel = gserver.channels.find(c => c.name == "general");
-                                        genchannel.send(`<@${channel.name}>, \`вам было снято одно предупреждение. [Прошло 7 дней]\``);
-                                    }
-                                    circle++;
-                                }
-                                user_warns = +user_warns - +rem;
-                                let text_end = `Уровень модератора: ${moderation_level}\n` + 
-                                `Предупреждения модератора: ${moderation_warns}`;
-                                for (var i = 0; i < moderation_reason.length; i++){
-                                    text_end = text_end + `\n${moderation_reason[i]}==>${moderation_time[i]}==>${moderation_give[i]}`;
-                                }
-                                text_end = text_end + `\nПредупреждений: ${+user_warns}`;
-                                for (var i = 0; i < user_reason.length; i++){
-                                    text_end = text_end + `\n${user_reason[i]}==>${user_time[i]}==>${user_give[i]}`;
-                                }
-                                if (+moderation_level == 0 && +moderation_warns == 0 && +user_warns == 0){
-                                    channel.delete();
-                                }else{
-                                    sacc.edit(text_end);
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        });
     
     
     	if (message.content.startsWith("/newsp")){
