@@ -21,7 +21,7 @@ let antislivsp2 = new Set();
 
 
 // New Report System
-let reportsys = 0;
+let reportsys = 1;
 var reports = new Array();
 var reported = new Array();
 var report_text = new Array();
