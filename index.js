@@ -1761,7 +1761,7 @@ function getRandomInt(min, max)
 
 async function unwarnsystem() {
     setInterval(async() => {
-        let dataserver = bot.guilds.find(g => g.id == "493459379878625320");
+        let dataserver = bot.guilds.find(g => g.id == "531533132982124544");
         dataserver.channels.forEach(async channel => {
             if (channel.type=="text"){
                 if (channel.name != 'administration' && channel.name != 'accounts' && channel.name != 'bad-words' && channel.name != 'err-code' && channel.name != 'config'){
