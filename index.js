@@ -226,6 +226,20 @@ bot.on('message', async message => {
         }
     }
   
+	
+	
+
+	if (message.content.toLowerCase().startsWith(`/repinfo`)){
+	    const args = message.content.slice('/repinfo').split(/ +/);
+	if (!args[1]){
+		message.reply(`\`привет! Для отправки используй: /repinfo [id репорта]\``).then(msg => msg.delete(15000));
+		return message.delete()
+	    }
+	if(!reported[args[1]]) return message.reply(`\`Данный репорт не существует!\``);
+	else return message.reply(`\`[REPINFO] Репорт№${args[1]}\nПользователь:\`<@${reports[args[1]]}>`);
+	}	
+	
+	
     
     	if (message.content.startsWith("/newsp")){
         const args = message.content.slice(`/newsp`).split(/ +/);
