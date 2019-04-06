@@ -22,9 +22,8 @@ let antislivsp2 = new Set();
 
 // New Report System
 let reportsys = 0;
-const reports = new Set();
-const reported = new Set();
-
+var reports = new Array();
+var reported = new Array();
 
 
 
@@ -196,15 +195,6 @@ bot.on('message', async message => {
     .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
     
   
-    if (message.content.toLowerCase().startsWith(`/repinfo`)){
-        const args = message.content.slice('/repinfo').split(/ +/);
-	if (!args[1]){
-            message.reply(`\`привет! Для отправки используй: /repinfo [id репорта]\``).then(msg => msg.delete(15000));
-            return message.delete()
-        }
-	if(!reported[args[1]]) return message.reply(`\`Данный репорт не существует!\``);
-	else return message.reply(`\`[REPINFO] Репорт№${args[1]}\nПользователь:\`<@${reports[args[1]]}>`);
-    }
     
     	if (message.content.startsWith("/newsp")){
         const args = message.content.slice(`/newsp`).split(/ +/);
