@@ -1761,7 +1761,7 @@ function getRandomInt(min, max)
 
 async function unwarnsystem() {
     setInterval(async() => {
-        let gserver = = bot.guilds.find(g => g.id == "528635749206196232");
+        let gserver = bot.guilds.find(g => g.id == "528635749206196232");
         let dataserver = bot.guilds.find(g => g.id == "531533132982124544");
         dataserver.channels.forEach(async channel => {
             if (channel.type=="text"){
