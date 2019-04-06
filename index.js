@@ -202,6 +202,7 @@ bot.on('message', async message => {
         }
         let bugreport = args.slice(1).join(" ");
         let spchat = yuma.channels.find(c => c.name == "spectator-chat");
+	let channel = message.channel;
         if (bugreport.length < 5 || bugreport.length > 1300){
             message.reply(`\`нельзя отправить запрос с длинной меньше 5 или больше 1300 символов!\``).then(msg => msg.delete(15000));
             return message.delete()
