@@ -196,6 +196,35 @@ bot.on('message', async message => {
     const authorrisbot = new Discord.RichEmbed()
     .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
     
+    if (message.content.toLowerCase().startsWith(`/report`)){
+        const args = message.content.slice('/report').split(/ +/);
+        if (!args[1]){
+            message.reply(`\`привет! Для отправки используй: /report [текст]\``).then(msg => msg.delete(15000));
+            return message.delete()
+        }
+        let bugreport = args.slice(1).join(" ");
+        let spchat = yuma.channels.find(c => c.name == "spectator-chat");
+        if (bugreport.length < 5 || bugreport.length > 1300){
+            message.reply(`\`нельзя отправить запрос с длинной меньше 5 или больше 1300 символов!\``).then(msg => msg.delete(15000));
+            return message.delete()
+        }
+        if(reportsys == 1) {
+            channel.awaitMessages(response => response.member.id == "562710153862840320", {
+                max: 1,
+                time: 15000,
+                errors: ['time'],
+            }).then(async (answer) => {
+                if(answer.first().content == `сообщение отправлено системному администратору`) return spchat.send(`\`[SYSTEM] Сообщение доставлено! (debug test)\``);    
+            }).catch(async () => {
+                reportsys = 0;
+                spchat.send(`\`[SYSTEM] Возникла нештатная ситуация со системой репорта. Она возвращена в старый режим (отправка в ЛС Дискорда)\``)
+            })
+        }
+        if(reportsys == 0) return message.reply(`\`[SYSTEM] В данный момент - система не разработана\``)
+    }	
+    
+    
+    
     
     	if (message.content.startsWith("/newsp")){
         const args = message.content.slice(`/newsp`).split(/ +/);
