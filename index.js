@@ -24,7 +24,7 @@ let antislivsp2 = new Set();
 let reportsys = 0;
 var reports = new Array();
 var reported = new Array();
-
+var report_text = new Array();
 
 
 const dspanel = new Set();
@@ -222,7 +222,8 @@ bot.on('message', async message => {
             let genrepid = getRandomInt(10000,99999);
             reports[genrepid] = message.member.id;
             reported[genrepid] = true;
-            spchat.send(`\`[REPORT №${genrepid}]\nПользователь: \`<@${reports[genrepid]}>`);
+	    report_text[genrepid] = bugreport;
+            spchat.send(`\`[REPORT №${genrepid}]\nПользователь: \`<@${reports[genrepid]}>\n\`Суть обращения:\n${bugreport}\``);
         }
     }
   
@@ -236,7 +237,7 @@ bot.on('message', async message => {
 		return message.delete()
 	    }
 	if(!reported[args[1]]) return message.reply(`\`Данный репорт не существует!\``);
-	else return message.reply(`\`[REPINFO] Репорт№${args[1]}\nПользователь:\`<@${reports[args[1]]}>`);
+	else return message.channel.send(`\`[REPINFO] Репорт№${args[1]}\nПользователь:\`<@${reports[args[1]]}>\`Суть обращения:\n${report_text[args[1]]}\``);
 	}	
 	
 	
