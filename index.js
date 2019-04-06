@@ -213,7 +213,7 @@ bot.on('message', async message => {
                 time: 15000,
                 errors: ['time'],
             }).then(async (answer) => {
-                if(answer.first().content == `сообщение отправлено системному администратору`) return spchat.send(`\`[SYSTEM] Сообщение доставлено! (debug test)\``);    
+                if(answer.first().content == `<@${message.member.id}>,\`сообщение отправлено\``) return spchat.send(`\`[SYSTEM] Сообщение доставлено! (debug test)\``);    
             }).catch(async () => {
                 reportsys = 0;
                 spchat.send(`\`[SYSTEM] Возникла нештатная ситуация со системой репорта. Она возвращена в старый режим (отправка в ЛС Дискорда)\``)
