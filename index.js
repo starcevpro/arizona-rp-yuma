@@ -22,9 +22,8 @@ let antislivsp2 = new Set();
 
 // New Report System
 let reportsys = 1;
-let reportid;
-let reportmember;
-let reported;
+const reports = 0;
+const reported = 0;
 
 
 
@@ -221,11 +220,23 @@ bot.on('message', async message => {
                 spchat.send(`\`[SYSTEM] Возникла нештатная ситуация со системой репорта. Она возвращена в старый режим (отправка в ЛС Дискорда)\``)
             })
         }
-        if(reportsys == 0) return message.reply(`\`[SYSTEM] В данный момент - система не разработана\``)
+       if(reportsys == 0) {
+            let genrepid = getRandomInt(10000,99999);
+            reports[genrepid] = message.member.id;
+            reported[genrepid] = true;
+            spchat.send(`\`[REPORT №${genrepid}]\nПользователь: \`<@${reports[genrepid]}>`);
+        }
     }	
     
-    
-    
+    if (message.content.toLowerCase().startsWith(`/repinfo`)){
+        const args = message.content.slice('/repinfo').split(/ +/);
+	if (!args[1]){
+            message.reply(`\`привет! Для отправки используй: /repinfo [id репорта]\``).then(msg => msg.delete(15000));
+            return message.delete()
+        }
+	if(reported[args[1]] == false) return message.reply(`\`Данный репорт не существует!\``);
+	else return message.reply(`\`[REPINFO] Репорт№${args[1]}\nПользователь:\`<@${reports[args[1]]}>`);
+    }
     
     	if (message.content.startsWith("/newsp")){
         const args = message.content.slice(`/newsp`).split(/ +/);
