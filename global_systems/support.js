@@ -28,7 +28,7 @@ exports.run = async (bot, message, support_loop, support_cooldown) => {
         });
         if (!rep_message){
             await message.channel.send(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Yuma!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: 0**\n` +
             `**Необработанных модераторами: 0**\n` +
@@ -47,7 +47,7 @@ exports.run = async (bot, message, support_loop, support_cooldown) => {
 	    .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
         .setImage("https://imgur.com/LKDbJeM.gif")
         rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Yuma!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${+info_rep[0] + 1}**\n` +
             `**Необработанных модераторами: ${+info_rep[1] + 1}**\n` +
@@ -136,7 +136,7 @@ exports.run = async (bot, message, support_loop, support_cooldown) => {
         .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
         .setImage("https://imgur.com/LKDbJeM.gif")
         rep_message.edit(`` +
-        `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+        `**Приветствую! Вы попали в канал поддержки сервера Yuma!**\n` +
         `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
         `**Количество вопросов за все время: ${info_rep[0]}**\n` +
         `**Необработанных модераторами: ${+info_rep[1] - 1}**\n` +
@@ -277,7 +277,7 @@ exports.run = async (bot, message, support_loop, support_cooldown) => {
         .setImage("https://imgur.com/LKDbJeM.gif");
         if (message.channel.topic == 'Жалоба на рассмотрении.'){
             rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Yuma!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${info_rep[0]}**\n` +
             `**Необработанных модераторами: ${info_rep[1]}**\n` +
@@ -285,7 +285,7 @@ exports.run = async (bot, message, support_loop, support_cooldown) => {
             `**Закрытых: ${+info_rep[3] + 1}**`, imageemb)
         }else{
             rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Yuma!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${info_rep[0]}**\n` +
             `**Необработанных модераторами: ${+info_rep[1] - 1}**\n` +
@@ -356,7 +356,7 @@ exports.run = async (bot, message, support_loop, support_cooldown) => {
 	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
         .setImage("https://imgur.com/LKDbJeM.gif")
         rep_message.edit(`` +
-            `**Приветствую! Вы попали в канал поддержки сервера Scottdale Brotherhood!**\n` +
+            `**Приветствую! Вы попали в канал поддержки сервера Yuma!**\n` +
             `**Тут Вы сможете задать вопрос модераторам или администраторам сервера!**\n\n` +
             `**Количество вопросов за все время: ${info_rep[0]}**\n` +
             `**Необработанных модераторами: ${+info_rep[1] + 1}**\n` +
