@@ -1283,7 +1283,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 		channel_warn.send(`<@&528637204055064587>\n**Привет, модераторы! Держите отчет о подозрительном действии модератора!\nМодератор <@${member.id}> выдал роль <@&${role.id}> пользователю <@${newMember.id}> **`);
 		return;
 	}
-	if (role.name == "✫ State Access ✫" || role.name == "✔ Helper ✔" || role.name == "✔Jr.Administrator✔" || role.name == "✔ Administrator ✔" || role.name == "⋆ Stream Team 🎥 ⋆" || role.name == "✵Хранитель✵")
+	if (role.name == "✫ State Access ✫" || role.name == "✔Jr.Administrator✔" || role.name == "✔ Administrator ✔" || role.name == "⋆ Stream Team 🎥 ⋆" || role.name == "✵Хранитель✵")
 	{
 		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
 		let member = await newMember.guild.members.get(entry.executor.id);
