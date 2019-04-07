@@ -304,6 +304,19 @@ bot.on('message', async message => {
         levelhigh = 0;
         message.channel.send(`\`[SYSTEM]\` \`Уровень опасности сервера был установлен на 0. Источник: ${message.member.displayName}\``)
     }
+	 if (message.content == '/repsys'){
+	if (!message.member.hasPermission("ADMINISTRATOR")) return message.reply(`нет прав.`)
+	if(reportsys == 0) {
+	reportsys = 1;
+	message.channel.send(`\`[SYSTEM]\` \`Система репорта изменена на новую. Источник: ${message.member.displayName}\``)
+	return message.delete();
+	}
+	if(reportsys == 1) {
+	reportsys = 0;
+	message.channel.send(`\`[SYSTEM]\` \`Система репорта изменена на старую. Источник: ${message.member.displayName}\``)
+	return message.delete();
+	}
+	}
     
     if (message.content.toLowerCase().startsWith(`/bug`)){
         const args = message.content.slice('/bug').split(/ +/);
