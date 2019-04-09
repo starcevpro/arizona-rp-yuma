@@ -4,7 +4,7 @@ const fs = require("fs");
 
 let levelhigh = 0;
 let lasttestid = 'net';
-// АААААа
+// АААААаf
 
 const nrpnames = new Set(); // Невалидные ники будут записаны в nrpnames
 const sened = new Set(); // Уже отправленные запросы будут записаны в sened
