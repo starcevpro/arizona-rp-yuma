@@ -1967,7 +1967,7 @@ async function ticket_delete(){
                 }
             }
         });
-    });
+    },18000000);
 }
 
 
