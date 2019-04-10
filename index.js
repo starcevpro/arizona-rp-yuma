@@ -13,6 +13,8 @@ const support_cooldown = new Set(); // Запросы от игроков.
 const accinfo_cooldown = new Set(); // Кулдаун игроков на /accinfo
 const support_loop = new Set(); // Кулдаун сервера
 const allow_global_rp = new Set(); // Временные права лидерам на команду /togrp
+
+
 let mpstart = 0;
 let slovolock = 1;
 const answercaptcha = new Set(); 
@@ -1901,6 +1903,67 @@ async function unwarnsystem() {
         });
 
     }, 25000)
+        setInterval(async () => {
+        let spchat = gserver.channels.find(c => c.name == 'spectator-chat');
+        await spchat.fetchPinnedMessages().then(messages => {
+	let re = /(\d+(\.\d)*)/i;
+        let gserver = bot.guilds.find(g => g.id == "528635749206196232");
+        gserver.channels.forEach(async channel => {
+            if (channel.name.startsWith('ticket-')){
+                if (gserver.channels.find(c => c.id == channel.parentID).name == 'Корзина'){
+                    let log_channel = gserver.channels.find(c => c.name == "reports-log");
+                    channel.fetchMessages({limit: 1}).then(async messages => {
+                        if (messages.size == 1){
+                            messages.forEach(async msg => {
+                                let s_now = new Date().valueOf() - 86400000;
+                                if (msg.createdAt.valueOf() < s_now){
+                                    let archive_messages = [];
+                                    await channel.fetchMessages({limit: 100}).then(async messagestwo => {
+                                        messagestwo.forEach(async msgcopy => {
+                                            let date = new Date(+msgcopy.createdAt.valueOf() + 10800000);
+                                            let formate_date = `[${date.getFullYear()}-` + 
+                                            `${(date.getMonth() + 1).toString().padStart(2, '0')}-` +
+                                            `${date.getDate().toString().padStart(2, '0')} ` + 
+                                            `${date.getHours().toString().padStart(2, '0')}-` + 
+                                            `${date.getMinutes().toString().padStart(2, '0')}-` + 
+                                            `${date.getSeconds().toString().padStart(2, '0')}]`;
+                                            if (!msgcopy.embeds[0]){
+                                                archive_messages.push(`${formate_date} ${msgcopy.member.displayName}: ${msgcopy.content}`);
+                                            }else{
+                                                archive_messages.push(`[К СООБЩЕНИЮ БЫЛО ДОБАВЛЕНО] ${msgcopy.embeds[0].fields[1].value}`);
+                                                archive_messages.push(`[К СООБЩЕНИЮ БЫЛО ДОБАВЛЕНО] ${msgcopy.embeds[0].fields[0].value}`);
+                                                archive_messages.push(`${formate_date} ${msgcopy.member.displayName}: ${msgcopy.content}`);
+                                            }
+                                        });
+                                    });
+                                    let i = archive_messages.length - 1;
+                                    while (i>=0){
+                                        await fs.appendFileSync(`./${channel.name}.txt`, `${archive_messages[i]}\n`);
+                                        i--
+                                    }
+                                    await log_channel.send(`\`[SYSTEM]\` \`Канал ${channel.name} был удален. [24 часа в статусе 'Закрыт']\``, { files: [ `./${channel.name}.txt` ] });
+                                    channel.delete();
+                                    fs.unlinkSync(`./${channel.name}.txt`);
+                                }
+                            });
+                        }
+                    });
+                }else if(gserver.channels.find(c => c.id == channel.parentID).name == 'Активные жалобы'){
+                    let log_channel = gserver.channels.find(c => c.name == "spectator-chat");
+                    channel.fetchMessages({limit: 1}).then(messages => {
+                        if (messages.size == 1){
+                            messages.forEach(msg => {
+                                let s_now = new Date().valueOf() - 18000000;
+                                if (msg.createdAt.valueOf() < s_now){
+                                    log_channel.send(`\`[SYSTEM]\` \`Жалоба\` <#${channel.id}> \`уже более 5-ти часов ожидает проверки!\``);
+                                    channel.send(`\`[SYSTEM]\` \`Привет! Я напомнил модераторам про твое обращение!\``)
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
 }
 
 
