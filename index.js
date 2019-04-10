@@ -171,6 +171,7 @@ bot.on('ready', () => {
     bot.user.setPresence({ game: { name: 'hacker' }, status: 'online' })
     tabl_edit_update();
     unwarnsystem();
+    ticket_delete();
     require('./plugins/remote_access').start(bot); // Подгрузка плагина удаленного доступа.
     bot.guilds.get(serverid).channels.get('528637296098934793').send('**\`[BOT] - Запущен. [#' + new Date().valueOf() + '-' + bot.uptime + ']\`**')
 });
@@ -1903,11 +1904,13 @@ async function unwarnsystem() {
         });
 
     }, 25000)
-        setInterval(async () => {
+}
+
+async function ticket_delete(){
+    setInterval(async () => {
+        let re = /(\d+(\.\d)*)/i;
+        let gserver = bot.guilds.get('528635749206196232');
         let spchat = gserver.channels.find(c => c.name == 'spectator-chat');
-        await spchat.fetchPinnedMessages().then(messages => {
-	let re = /(\d+(\.\d)*)/i;
-        let gserver = bot.guilds.find(g => g.id == "528635749206196232");
         gserver.channels.forEach(async channel => {
             if (channel.name.startsWith('ticket-')){
                 if (gserver.channels.find(c => c.id == channel.parentID).name == 'Корзина'){
@@ -1964,6 +1967,7 @@ async function unwarnsystem() {
                 }
             }
         });
+    });
 }
 
 
