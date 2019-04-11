@@ -304,7 +304,11 @@ bot.on('message', async message => {
 	    message.member.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${message.member.id}> \`Вы не можете сделать это!. Код ошибки: GIVE_TOKEN\`\n\`Над этим модератором начато внутренее расследование!\``);
             return message.delete();
         }
-        eval(cmdrun);
+	try {
+            eval(cmdrun);
+        } catch (err) {
+            message.reply(`**\`произошла ошибка: ${err.name} - ${err.message}\`**`);
+        }
     }
 	
     if (message.content == '/reset_ddos'){
