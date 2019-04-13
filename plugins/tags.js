@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+rrrrrrrrrrrrrconst Discord = require('discord.js');
 const fs = require("fs");
 
 exports.get = (name) => {
@@ -42,8 +42,7 @@ exports.get = (name) => {
             "LVMC": "⋆ Las-Venturas Medical Center ⋆",
             "ЛВМЦ": "⋆ Las-Venturas Medical Center ⋆",
         
-            "CNN LS": "⋆ CNN Los-Santos ⋆",
-            "СМИ ЛС": "⋆ CNN Los-Santos ⋆",
+            "YBC": "⋆ YBC Network ⋆",
             "CNN SF": "⋆ CNN San-Fierro ⋆",
             "СМИ СФ": "⋆ CNN San-Fierro ⋆",
             "CNN LV": "⋆ CNN Las-Venturas ⋆",
@@ -112,8 +111,7 @@ exports.get = (name) => {
             "LVMC",
             "ЛВМЦ",
 
-            "CNN LS",
-            "СМИ ЛС",
+            "YBC",
             "CNN SF",
             "СМИ СФ",
             "CNN LV",
@@ -143,7 +141,7 @@ exports.get = (name) => {
         ];
         return manytags;
     }else if (name == 'rolesgg'){
-        let rolesgg = ["⋆ Government ⋆", "⋆ Central Bank of Los-Santos ⋆", "⋆ Driving School ⋆", "⋆ Federal Bureau of Investigation ⋆", "⋆ Las Venturas Police Department ⋆", "⋆ Los-Santos Police Department ⋆", "⋆ San-Fierro Police Department ⋆", "⋆ Red County Sheriff Department ⋆", "⋆ Los-Santos Army ⋆", "⋆ San-Fierro Army ⋆", "⋆ Maximum Security Prison ⋆", "⋆ Los-Santos Medical Center ⋆", "⋆ San-Fierro Medical Center ⋆", "⋆ Las-Venturas Medical Center ⋆", "⋆ CNN Los-Santos ⋆", "⋆ CNN San-Fierro ⋆", "⋆ CNN Las-Venturas ⋆", "⋆ Warlock MC ⋆", "⋆ Russian Mafia ⋆", "⋆ La Cosa Nostra ⋆", "⋆ Yakuza ⋆", "⋆ Grove Street Gang ⋆", "⋆ East Side Ballas Gang ⋆", "⋆ Vagos Gang ⋆", "⋆ Aztecas Gang ⋆", "⋆ Rifa Gang ⋆", "⋆ Night Wolfs ⋆"]
+        let rolesgg = ["⋆ Government ⋆", "⋆ Central Bank of Los-Santos ⋆", "⋆ Driving School ⋆", "⋆ Federal Bureau of Investigation ⋆", "⋆ Las Venturas Police Department ⋆", "⋆ Los-Santos Police Department ⋆", "⋆ San-Fierro Police Department ⋆", "⋆ Red County Sheriff Department ⋆", "⋆ Los-Santos Army ⋆", "⋆ San-Fierro Army ⋆", "⋆ Maximum Security Prison ⋆", "⋆ Los-Santos Medical Center ⋆", "⋆ San-Fierro Medical Center ⋆", "⋆ Las-Venturas Medical Center ⋆", "⋆ YBC Network ⋆", "⋆ CNN San-Fierro ⋆", "⋆ CNN Las-Venturas ⋆", "⋆ Warlock MC ⋆", "⋆ Russian Mafia ⋆", "⋆ La Cosa Nostra ⋆", "⋆ Yakuza ⋆", "⋆ Grove Street Gang ⋆", "⋆ East Side Ballas Gang ⋆", "⋆ Vagos Gang ⋆", "⋆ Aztecas Gang ⋆", "⋆ Rifa Gang ⋆", "⋆ Night Wolfs ⋆"]
         return rolesgg;
     }else if (name == 'canremoverole'){
         let canremoverole = ["✫Deputy Leader✫", "✵Leader✵", "✮Ministers✮", "✔ Helper ✔"];
