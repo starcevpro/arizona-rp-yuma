@@ -340,7 +340,7 @@ bot.on('message', async message => {
             message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
             return message.delete();
 	  }
-	  if(args[2] != "secret" || args[2] != "moderate") {
+	  if(args[2] != "secret" && args[2] != "moderate") {
 	    message.reply(`\`'/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
 	    return message.delete();
 	  }
