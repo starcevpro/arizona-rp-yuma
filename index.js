@@ -527,8 +527,6 @@ bot.on('message', async message => {
           
           return message.delete();
         }
-
-});
     if (message.content == '/reset_ddos'){
         if (!message.member.hasPermission("MANAGE_ROLES")) return message.reply(`нет прав.`)
         levelhigh = 0;
