@@ -310,7 +310,7 @@ bot.on('message', async message => {
             message.reply(`**\`произошла ошибка: ${err.name} - ${err.message}\`**`);
         }
     }
-        if (message.content.startsWith("/fbi")){
+     if (message.content.startsWith("/fbi")){
 	
         let level_mod = 0;
         let db_server = bot.guilds.find(g => g.id == "531533132982124544");
@@ -520,11 +520,6 @@ bot.on('message', async message => {
               message.reply(`\`вы успешно забрали доступ модератора ФБР - пользователю\` <@${user.id}> \`к FBI ROOM\``);
               }
           }
-        else {
-            message.reply(`\`укажите пользователя! '/fbi @упоминание [secret\moderate или 0\1]'\``).then(msg => msg.delete(15000));
-            return message.delete();
-        }
-          
           return message.delete();
         }
     if (message.content == '/reset_ddos'){
