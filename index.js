@@ -1494,6 +1494,29 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
             }, 'подключение (конференция)');
             edit_channel.send(`**<@${newMember.id}> \`успешно подключился.\`**`).then(msg => msg.delete(30000));
         }
+	    if (member_newchannel.name == 'Проводится обзвон [SP]'){
+            let edit_channel = newMember.guild.channels.find(c => c.name == "обзвон-сп");
+            if (!edit_channel) return console.log('[ERROR] Не возможно найти текстовой канал обзвона СП.');
+            await edit_channel.overwritePermissions(newMember, {
+                // GENERAL PERMISSIONS
+                CREATE_INSTANT_INVITE: false,
+                MANAGE_CHANNELS: false,
+                MANAGE_ROLES: false,
+                MANAGE_WEBHOOKS: false,
+                // TEXT PERMISSIONS
+                VIEW_CHANNEL: true,
+                SEND_MESSAGES: true,
+                SEND_TTS_MESSAGES: false,
+                MANAGE_MESSAGES: false,
+                EMBED_LINKS: true,
+                ATTACH_FILES: true,
+                READ_MESSAGE_HISTORY: false,
+                MENTION_EVERYONE: false,
+                USE_EXTERNAL_EMOJIS: false,
+                ADD_REACTIONS: false,
+            }, 'подключение (обзвон СП)');
+            edit_channel.send(`**<@${newMember.id}> \`успешно подключился.\`**`).then(msg => msg.delete(30000));
+        }
     }
     if (member_oldchannel){
         if (member_oldchannel.name == '→ Обзвон ←'){
@@ -1503,6 +1526,18 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
                 if (perm.type != 'member') return
                 if (perm.id != newMember.id) return
                 await perm.delete('отключение (конференция)');
+            });
+            edit_channel.send(`**<@${newMember.id}> \`отключился.\`**`).then(msg => msg.delete(15000));
+        }
+    }
+	if (member_oldchannel){
+        if (member_oldchannel.name == 'Проводится обзвон [SP]'){
+        let edit_channel = newMember.guild.channels.find(c => c.name == "обзвон-сп");
+            if (!edit_channel) return console.log('[ERROR] Не возможно найти текстовой канал конференции.');
+            edit_channel.permissionOverwrites.forEach(async (perm) => {
+                if (perm.type != 'member') return
+                if (perm.id != newMember.id) return
+                await perm.delete('отключение (обзвон СП)');
             });
             edit_channel.send(`**<@${newMember.id}> \`отключился.\`**`).then(msg => msg.delete(15000));
         }
