@@ -624,6 +624,17 @@ bot.on('message', async message => {
     message.reply(`**Доступ в эту комнату по правам пользователя у всех убрано!**`)
     return message.delete()
 }
+    if (message.content == "/clearfbi") {
+    if (!message.member.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name)) && !message.member.hasPermission("ADMINISTRATOR")) return message.reply(`\`нет прав\``);
+    let channel = yuma.channels.find(c => c.name == "FBI┆Secret Channel");
+     await channel.permissionOverwrites.forEach(async perm => {
+     	 if(perm.type == `member`) {
+		perm.delete();
+	 }
+     })
+    message.reply(`**Доступ в эту комнату по правам пользователя у всех убрано!**`)
+    return message.delete()
+}
     if (message.content.startsWith("/grp")){
     if (!allow_global_rp.has(message.member.id) && !message.member.roles.some(r => ["✔ Administrator ✔", "✔Jr.Administrator✔"].includes(r.name)) && !message.member.hasPermission("ADMINISTRATOR")) return message.reply(`\`нет прав, вам права на команду должен подтвердить любой администратор 3+ уровня, обратитесь к нему\``);
     let user = message.guild.member(message.mentions.users.first());
