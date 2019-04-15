@@ -333,14 +333,18 @@ bot.on('message', async message => {
           let user = message.guild.member(message.mentions.users.first());
           const args = message.content.slice('/fbi').split(/ +/);
           if(!args[1] || !args[2]) {
-            message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate или 0 или 1]'\``).then(msg => msg.delete(15000));
+            message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
             return message.delete();
           }
           if (!user){
-            message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate или 0 или 1]'\``).then(msg => msg.delete(15000));
+            message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
             return message.delete();
-          }
-          if(args[2] == "secret" || args[2] == "0") {
+	  }
+	  if(args[2] != "secret" || args[2] != "moderate") {
+	    message.reply(`\`'/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
+	    return message.delete();
+	  }
+          if(args[2] == "secret") {
               let channel = message.guild.channels.find(c => c.name == "FBI┆Secret Channel");
               let check = 0;
               await channel.permissionOverwrites.forEach(async perm => {
@@ -377,7 +381,7 @@ bot.on('message', async message => {
               message.reply(`\`вы успешно забрали доступ пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
               }
           }
-          if(args[2] == "moderate" || args[2] == 1) 
+          if(args[2] == "moderate") 
           {
               let channel = message.guild.channels.find(c => c.name == "FBI┆Secret Channel");
               let check = 0;
@@ -519,12 +523,7 @@ bot.on('message', async message => {
                 })
               message.reply(`\`вы успешно забрали доступ модератора ФБР - пользователю\` <@${user.id}> \`к FBI ROOM\``);
               }
-          }
-        else {
-            message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate или 0 или 1]'\``).then(msg => msg.delete(15000));
-            return message.delete();
-        }
-          
+          }    
           return message.delete();
         }
     if (message.content == '/reset_ddos'){
