@@ -752,7 +752,6 @@ else {
     message.reply(`\`укажите пользователя! '/fbi @упоминание [secret\moderate или 0\1]'\``).then(msg => msg.delete(15000));
     return message.delete();
 }
-  }
   return message.delete();
 }
 	
