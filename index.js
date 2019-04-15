@@ -488,7 +488,7 @@ bot.on('message', async message => {
                 })
               message.reply(`\`вы успешно забрали доступ модератора ФБР - пользователю\` <@${user.id}> \`к каналу FBI┆Case Investigation.\``);
               }
-              channel = message.guild.channels.find(c => c.name == "FBI┆Roomn");
+              channel = message.guild.channels.find(c => c.name == "FBI┆Room");
               check = 0;
               await channel.permissionOverwrites.forEach(async perm => {
                  if(perm.type == `member`) {
