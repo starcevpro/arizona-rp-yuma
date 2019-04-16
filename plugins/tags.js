@@ -16,7 +16,7 @@ exports.get = (name) => {
             "SFPD": "⋆ San-Fierro Police Department ⋆",
             "СФПД": "⋆ San-Fierro Police Department ⋆",
             "LVPD": "⋆ Special Weapons Assault Team ⋆",
-            "ЛВПД": "⋆ Special Weapons Assault Team⋆",
+            "ЛВПД": "⋆ Special Weapons Assault Team ⋆",
             "SWAT": "⋆ Special Weapons Assault Team ⋆",
             "СВАТ": "⋆ Special Weapons Assault Team ⋆",
             "RCPD": "⋆ Red County Sheriff Department ⋆",
