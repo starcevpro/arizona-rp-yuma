@@ -3,12 +3,12 @@ const bot = new Discord.Client();
 const user = new Discord.Client();
 const fs = require("fs");
 
-const version = '5.0.4';
+const version = '5.1.4';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Добавление текста обновлений."
+const update_information = "Добавление текста обновлений [test]."
 
 async function check_updates(){
     setTimeout(async () => {
@@ -17,10 +17,16 @@ async function check_updates(){
             let msg = messages.first();
             if (msg.content != version){
                 let server = bot.guilds.get('528635749206196232');
-                if (!server) return console.error('ошибка загрузки обновления, сервер не найден');
                 let sp_channel = server.channels.find(c => c.name == 'spectator-chat');
+                if (!server) return console.error('ошибка загрузки обновления, сервер не найден');
                 if (!sp_channel) return console.error('ошибка загрузки обновления, sp-chat не найден');
-                await sp_channel.send(`Обновление. Версия: ${version}.\n${update_information}`);
+                const embed = new Discord.RichEmbed();
+                embed.setColor(`#FF0000`);
+                embed.setTitle(`Обновление бота`);
+                embed.setTimestamp(new Date());
+                embed.addField(`Версия ${version}`, update_information);
+                //await sp_channel.send(`Обновление. Версия: ${version}.\n${update_information}`);
+                await sp_channel.send(embed);
                 await channel.send(version);
             }
         });
