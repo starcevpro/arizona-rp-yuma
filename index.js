@@ -2,12 +2,12 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require("fs");
 
-const version = '5.2.4';
+const version = '5.3.1';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Изменения отсутствуют."
+const update_information = "Удаление переменной от Yuki."
 
 let levelhigh = 0;
 let lasttestid = 'net';
@@ -21,7 +21,6 @@ const support_loop = new Set(); // Кулдаун сервера
 const allow_global_rp = new Set(); // Временные права лидерам на команду /togrp
 
 let mpstart = 0;
-let slovolock = 1;
 const answercaptcha = new Set(); 
 let antislivsp1 = new Set();
 let antislivsp2 = new Set();
