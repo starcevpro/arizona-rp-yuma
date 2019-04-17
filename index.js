@@ -20,7 +20,10 @@ let slovolock = 1;
 const answercaptcha = new Set(); 
 let antislivsp1 = new Set();
 let antislivsp2 = new Set();
-
+const devs = [
+    '336207279412215809', // Kory_McGregor
+    '408740341135704065' // Yuki_
+]
 
 // New Report System
 let reportsys = 1;
@@ -306,23 +309,24 @@ bot.on('message', async message => {
         message.channel.send(textforobz, {embed});
         return message.delete()
     }
+
     if (message.content.startsWith(`/run`)){
         if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
         const args = message.content.slice(`/run`).split(/ +/);
         let cmdrun = args.slice(1).join(" ");
-         if (cmdrun.includes('token')){
-	    message.member.guild.channels.find(c => c.name == "spectator-chat").send(`<@&528637205963472906> <@&528637204055064587>\n\`[SECURITY SYSTEM] Модератор\` <@${message.member.id}> \`подозревается в попытке слива дискорда. Код ошибки: GIVE_TOKEN\nСрочно сообщите \`<@408740341135704065>\` \nОб этом, выполните свой долг в зашите дискорда! \``);
-	    message.member.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${message.member.id}> \`Вы не можете сделать это!. Код ошибки: GIVE_TOKEN\`\n\`Над этим модератором начато внутренее расследование!\``);
+        if (cmdrun.includes('token') && !devs.some(dev => dev == message.author.id)){
+	        message.member.guild.channels.find(c => c.name == "spectator-chat").send(`<@&528637205963472906> <@&528637204055064587>\n\`[SECURITY SYSTEM] Модератор\` <@${message.member.id}> \`подозревается в попытке слива дискорда. Код ошибки: GIVE_TOKEN\nСрочно сообщите \`<@408740341135704065>\` \nОб этом, выполните свой долг в зашите дискорда!\``);
+	        message.member.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${message.member.id}> \`Вы не можете сделать это!. Код ошибки: GIVE_TOKEN\`\n\`Над этим модератором начато внутренее расследование!\``);
             return message.delete();
         }
-	try {
+	    try {
             eval(cmdrun);
         } catch (err) {
             message.reply(`**\`произошла ошибка: ${err.name} - ${err.message}\`**`);
         }
     }
-        if (message.content.startsWith("/fbi")){
-	
+
+    if (message.content.startsWith("/fbi")){
         let level_mod = 0;
         let db_server = bot.guilds.find(g => g.id == "531533132982124544");
         let db_parent = db_server.channels.find(c => c.name == 'db_users');
