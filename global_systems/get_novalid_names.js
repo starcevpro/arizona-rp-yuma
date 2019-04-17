@@ -28,7 +28,7 @@ exports.run = async (bot, message, tags, rolesgg, canremoverole, manytags) => {
         });
         setTimeout(async () => {
             let vrem = [];
-            no_valid_members.forEach(id => {
+            no_valid_members.forEach(async id => {
                 vrem.push('<@' + id + '>');
                 if (vrem.length >= 20){
                     await message.channel.send(`Невалидные юзеры:\n${vrem.join('\n')}`);

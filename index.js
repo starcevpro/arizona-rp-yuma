@@ -2,12 +2,12 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require("fs");
 
-const version = '6.0.1';
+const version = '6.0.2';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Оптимизация. Добавлена команда /start_check_users. На тестировании."
+const update_information = "Багофикс с /start_check_users."
 
 let levelhigh = 0;
 let lasttestid = 'net';
