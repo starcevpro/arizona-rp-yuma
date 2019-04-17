@@ -290,7 +290,7 @@ bot.on('message', async message => {
         if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
         let textforobz = "**  ╔┓┏╦━━╦┓╔┓╔━━╗ @everyone\n  ║┗┛║┗━╣┃║┃║╯╰║ @everyone\n  ║┏┓║┏━╣┗╣┗╣╰╯║ @everyone\n  ╚┛┗╩━━╩━╩━╩━━╝ @everyone**";
         const embed = new Discord.RichEmbed()
-	.setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
+	    .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
         .setTitle("**Заявления на пост модератора группы**")
         .setColor("#FF8E01")
         .setDescription("**Мы вернулись, что бы обрадовать вас! Ведь " + args[1] + " " + args[2] + " пройдет набор на пост Spectator'a нашей группы Discord!\nВы сможете стать одним из нас, почуствовать себя в роли модератора группы, последить за игроками, а так же получить доступ к супер секретным функциям канала Yuma Brotherhood. Все, что вам нужно будет делать, это наводить порядок в нашей группе и помогать игрокам!**")
@@ -1460,7 +1460,7 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
         })
         let role = newMember.guild.roles.get(newRoleID);
 	if (role.name == "🏆 Победитель 🏆" || role.name == "🎤 Народный артист 🎤" || role.name == "🎶 Музыкант 🎶" || role.name == "🎮 Геймер 🎮" || role.name == "Muted"){
-		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE'}).then(audit => audit.entries.first());
+		const entry = await newMember.guild.fetchAuditLogs({type: 'MEMBER_ROLE_UPDATE', before: new Date()}).then(audit => audit.entries.first());
 		let member = await newMember.guild.members.get(entry.executor.id);
 		if(member.id == "159985870458322944" || member.id == "155149108183695360") return; // Игнор ботов-модераторов
 		let server = bot.guilds.find(g => g.id == 528635749206196232);
@@ -1477,10 +1477,10 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
 		 if (antislivsp1.has(member.id)){
                 if (antislivsp2.has(member.id)){
                     member.removeRoles(member.roles);
-		    newMember.removeRole(role);
+		            newMember.removeRole(role);
                     newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[ANTISLIV SYSTEM]\` <@${member.id}> \`подозревался в попытке слива. [3/3] Я снял с него роли. Пострадал:\` <@${newMember.id}>, \`выдали роль\` <@&${role.id}>`);
-		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \`лишен прав модератора по системе безопасности. Код ошибки: GIVE_PROTECTED_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
-		    return;
+		            newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \`лишен прав модератора по системе безопасности. Код ошибки: GIVE_PROTECTED_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
+		            return;
                 }else{
                     newMember.guild.channels.find(c => c.name == "spectator-chat").send(`\`[WARNING]\` <@${member.id}> \`подозревается в попытке слива!!! [2/3] Выдача роли\` <@&${role.id}> \`пользователю\` <@${newMember.id}>`);
 		    newMember.guild.channels.find(c => c.name == "general").send(`\`[SECURITY SYSTEM]\` <@${member.id}> \`вы не можете совершить данное действие. Код ошибки: GIVE_PROTECTED_ROLE\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
