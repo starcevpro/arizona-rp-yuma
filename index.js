@@ -13,7 +13,7 @@ const update_information = "Добавление текста обновлени
 async function check_updates(){
     setTimeout(async () => {
         let channel = bot.guilds.get('531533132982124544').channels.find(c => c.name == 'bot-updates');
-        channel.fetchMessages({limit: 1}).then(messages => {
+        channel.fetchMessages({limit: 1}).then(async messages => {
             let msg = messages.first();
             if (msg.content != version){
                 let server = bot.guilds.get('528635749206196232');
