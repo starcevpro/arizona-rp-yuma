@@ -32,7 +32,9 @@ exports.run = async (bot, message, tags, rolesgg, canremoverole, manytags) => {
                 vrem.push('<@' + id + '>');
                 if (vrem.length >= 20){
                     await message.channel.send(`Невалидные юзеры:\n${vrem.join('\n')}`);
-                    vrem = [];
+                    for (let i = 0; i < 19; i++){
+                        vrem.pop();
+                    }
                 }        
             });
             if (vrem.length >= 20){
