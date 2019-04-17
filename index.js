@@ -1,10 +1,10 @@
 const Discord = require('discord.js'); 
 const bot = new Discord.Client();
+const user = new Discord.Client();
 const fs = require("fs");
 
 let levelhigh = 0;
 let lasttestid = 'net';
-// АААААаf
 
 const nrpnames = new Set(); // Невалидные ники будут записаны в nrpnames
 const sened = new Set(); // Уже отправленные запросы будут записаны в sened
@@ -166,6 +166,12 @@ const events = {
 const warn_cooldown = new Set();
 
 bot.login(process.env.token);
+user.login(process.env.user_token);
+
+user.on('ready', () => {
+    console.log(`Авторизован как пользователь!`);
+});
+
 bot.on('ready', () => {
     console.log("Бот был успешно запущен!");
     bot.user.setPresence({ game: { name: 'hacker' }, status: 'online' })
@@ -253,7 +259,7 @@ bot.on('message', async message => {
             return message.delete();
         }
         if (!args[2]){
-            message.reply(`\`укажите название месяца! '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));
+            message.reply(`\`укажите номер месяца! '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));
             return message.delete();
         }
         if (!args[3]){
@@ -265,17 +271,22 @@ bot.on('message', async message => {
             return message.delete();
         }
         if (args[2] == 1) args[2] = 'января';
-        if (args[2] == 2) args[2] = 'февраля';
-        if (args[2] == 3) args[2] = 'марта';
-        if (args[2] == 4) args[2] = 'апреля';
-        if (args[2] == 5) args[2] = 'мая';
-        if (args[2] == 6) args[2] = 'июня';
-        if (args[2] == 7) args[2] = 'июля';
-        if (args[2] == 8) args[2] = 'августа';
-        if (args[2] == 9) args[2] = 'сентября';
-        if (args[2] == 10) args[2] = 'октября';
-        if (args[2] == 11) args[2] = 'ноября';
-        if (args[2] == 12) args[2] = 'декабря';
+        else if (args[2] == 2) args[2] = 'февраля';
+        else if (args[2] == 3) args[2] = 'марта';
+        else if (args[2] == 4) args[2] = 'апреля';
+        else if (args[2] == 5) args[2] = 'мая';
+        else if (args[2] == 6) args[2] = 'июня';
+        else if (args[2] == 7) args[2] = 'июля';
+        else if (args[2] == 8) args[2] = 'августа';
+        else if (args[2] == 9) args[2] = 'сентября';
+        else if (args[2] == 10) args[2] = 'октября';
+        else if (args[2] == 11) args[2] = 'ноября';
+        else if (args[2] == 12) args[2] = 'декабря';
+        else {
+            message.reply(`\`укажите номер месяца! '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));
+            return message.delete();
+        }
+        
         if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
         let textforobz = "**  ╔┓┏╦━━╦┓╔┓╔━━╗ @everyone\n  ║┗┛║┗━╣┃║┃║╯╰║ @everyone\n  ║┏┓║┏━╣┗╣┗╣╰╯║ @everyone\n  ╚┛┗╩━━╩━╩━╩━━╝ @everyone**";
         const embed = new Discord.RichEmbed()
