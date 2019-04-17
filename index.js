@@ -1,37 +1,13 @@
 const Discord = require('discord.js'); 
 const bot = new Discord.Client();
-const user = new Discord.Client();
 const fs = require("fs");
 
-const version = '5.1.4';
+const version = '5.2.3';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Добавление текста обновлений [test]."
-
-async function check_updates(){
-    setTimeout(async () => {
-        let channel = bot.guilds.get('531533132982124544').channels.find(c => c.name == 'bot-updates');
-        channel.fetchMessages({limit: 1}).then(async messages => {
-            let msg = messages.first();
-            if (msg.content != version){
-                let server = bot.guilds.get('528635749206196232');
-                let sp_channel = server.channels.find(c => c.name == 'spectator-chat');
-                if (!server) return console.error('ошибка загрузки обновления, сервер не найден');
-                if (!sp_channel) return console.error('ошибка загрузки обновления, sp-chat не найден');
-                const embed = new Discord.RichEmbed();
-                embed.setColor(`#FF0000`);
-                embed.setTitle(`Обновление бота`);
-                embed.setTimestamp(new Date());
-                embed.addField(`Версия ${version}`, update_information);
-                //await sp_channel.send(`Обновление. Версия: ${version}.\n${update_information}`);
-                await sp_channel.send(embed);
-                await channel.send(version);
-            }
-        });
-    }, 10000);
-};
+const update_information = "Теперь будет писать при активном обновлении."
 
 let levelhigh = 0;
 let lasttestid = 'net';
@@ -198,11 +174,6 @@ const events = {
 const warn_cooldown = new Set();
 
 bot.login(process.env.token);
-// user.login(process.env.user_token);
-
-user.on('ready', () => {
-    console.log(`Авторизован как пользователь!`);
-});
 
 bot.on('ready', () => {
     console.log("Бот был успешно запущен!");
@@ -211,8 +182,9 @@ bot.on('ready', () => {
     unwarnsystem();
     ticket_delete();
     require('./plugins/remote_access').start(bot); // Подгрузка плагина удаленного доступа.
-    bot.guilds.get(serverid).channels.get('528637296098934793').send('**\`[BOT] - Запущен. [#' + new Date().valueOf() + '-' + bot.uptime + ']\`**')
-    check_updates();
+    bot.guilds.get(serverid).channels.get('528637296098934793').send('**\`[BOT] - Запущен. [#' + new Date().valueOf() + '-' + bot.uptime + '] [Проверка наличия обновлений...]\`**').then(msg => {
+        check_updates(msg);
+    });
 });
 
 
@@ -2217,19 +2189,42 @@ async function ticket_delete(){
     },18000000);
 }
 
+async function check_updates(r_msg){
+    setTimeout(async () => {
+        let channel = bot.guilds.get('531533132982124544').channels.find(c => c.name == 'bot-updates');
+        channel.fetchMessages({limit: 1}).then(async messages => {
+            let msg = messages.first();
+            if (msg.content != version){
+                let server = bot.guilds.get('528635749206196232');
+                let sp_channel = server.channels.find(c => c.name == 'spectator-chat');
+                if (!server) return console.error('ошибка загрузки обновления, сервер не найден');
+                if (!sp_channel) return console.error('ошибка загрузки обновления, sp-chat не найден');
+                const embed = new Discord.RichEmbed();
+                embed.setColor(`#FF0000`);
+                embed.setTitle(`Обновление бота`);
+                embed.setTimestamp(new Date());
+                embed.addField(`Версия ${version}`, update_information);
+                //await sp_channel.send(`Обновление. Версия: ${version}.\n${update_information}`);
+                await sp_channel.send(embed);
+                await channel.send(version);
+                await r_msg.edit(r_msg.content.replace('[Проверка наличия обновлений...]', '[Обновление завершено.]'));
+            }else{
+                r_msg.edit(r_msg.content.replace('[Проверка наличия обновлений...]', '[Версии совпадают.]'));
+            }
+        });
+    }, 10000);
+};
 
 bot.on('roleDelete', async (role) => {
-
-  let server = bot.guilds.get(serverid);
-  const entry = await server.fetchAuditLogs({type: 'ROLE_DELETE'}).then(audit => audit.entries.first());
-  let member = await server.members.get(entry.executor.id);
-  if(member.id == bot.user.id) return;
-  let logchannel = server.channels.find(c => c.name == "warning-system");
-  let chatmod = server.channels.find(c => c.name == "spectator-chat");
-  let channel = server.channels.find(c => c.name == "general");
-  if(!member.hasPermission("ADMINISTRATOR")) {
-      member.removeRoles(member.roles, "удаление роли без права на администратора");
-      chatmod.send(`**Модератор <@${member.id}> без права на администратора удалил роль. С модератора сняты все роли по системе безопасности.**`)
-      channel.send(`\`Модератор\` <@${member.id}> \`лишен прав модератора по системе безопасности. Код: RD\`\n\`Обратитесь к системному модератору:\`<@408740341135704065>`);
+    let server = bot.guilds.get(serverid);
+    const entry = await server.fetchAuditLogs({type: 'ROLE_DELETE', before: new Date()}).then(audit => audit.entries.first());
+    let member = await server.members.get(entry.executor.id);
+    if (member.id == bot.user.id) return;
+    let chatmod = server.channels.find(c => c.name == "spectator-chat");
+    let channel = server.channels.find(c => c.name == "general");
+    if (!member.hasPermission("ADMINISTRATOR")){
+        member.removeRoles(member.roles, "удаление роли без права на администратора");
+        chatmod.send(`**Модератор <@${member.id}> без права на администратора удалил роль. С модератора сняты все роли по системе безопасности.**`)
+        channel.send(`\`Модератор\` <@${member.id}> \`лишен прав модератора по системе безопасности. Код: RD\`\n\`Обратитесь к системному модератору:\` <@408740341135704065>`);
     }
 }); 
