@@ -2199,17 +2199,11 @@ async function check_updates(r_msg){
                 let sp_channel = server.channels.find(c => c.name == 'spectator-chat');
                 if (!server) return console.error('ошибка загрузки обновления, сервер не найден');
                 if (!sp_channel) return console.error('ошибка загрузки обновления, sp-chat не найден');
-                const embed = new Discord.RichEmbed();
-                embed.setColor(`#FF0000`);
-                embed.setTitle(`Обновление бота`);
-                embed.setTimestamp(new Date());
-                embed.addField(`Версия ${version}`, update_information);
-                //await sp_channel.send(`Обновление. Версия: ${version}.\n${update_information}`);
-                await sp_channel.send(embed);
+                await sp_channel.send(`**Обновление. Версия: \`${version}\`.**\n**Содержание: ${update_information}**`);
                 await channel.send(version);
-                await r_msg.edit(r_msg.content.replace('[Проверка наличия обновлений...]', '[Обновление завершено.]'));
+                await r_msg.edit(r_msg.content.replace('[Проверка наличия обновлений...]', `[Обновление завершено. (v.${version})]`));
             }else{
-                r_msg.edit(r_msg.content.replace('[Проверка наличия обновлений...]', '[Версии совпадают.]'));
+                r_msg.edit(r_msg.content.replace('[Проверка наличия обновлений...]', `[Версии совпадают. (v.${version})]`));
             }
         });
     }, 10000);
