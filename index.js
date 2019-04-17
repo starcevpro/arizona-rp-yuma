@@ -22,7 +22,7 @@ let antislivsp1 = new Set();
 let antislivsp2 = new Set();
 const devs = [
     '336207279412215809', // Kory_McGregor
-    '408740341135704065' // Yuki_
+    '408740341135704065' // Yuki_Flores
 ]
 
 // New Report System
