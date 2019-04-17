@@ -2,12 +2,12 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require("fs");
 
-const version = '5.3.1';
+const version = '6.0.1';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Удаление переменной от Yuki."
+const update_information = "Оптимизация. Добавлена команда /start_check_users. На тестировании."
 
 let levelhigh = 0;
 let lasttestid = 'net';
@@ -42,7 +42,7 @@ let setembed_general = ["не указано", "не указано", "не ук
 let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
 let setembed_addline = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
 
-let serverid = '528635749206196232'
+let serverid = '528635749206196232';
 
 async function tabl_edit_update(){
     setInterval(async () => {
@@ -174,14 +174,14 @@ const warn_cooldown = new Set();
 
 bot.login(process.env.token);
 
-bot.on('ready', () => {
+bot.on('ready', async () => {
     console.log("Бот был успешно запущен!");
     bot.user.setPresence({ game: { name: 'hacker' }, status: 'online' })
     tabl_edit_update();
     unwarnsystem();
     ticket_delete();
     require('./plugins/remote_access').start(bot); // Подгрузка плагина удаленного доступа.
-    bot.guilds.get(serverid).channels.get('528637296098934793').send('**\`[BOT] - Запущен. [#' + new Date().valueOf() + '-' + bot.uptime + '] [Проверка наличия обновлений...]\`**').then(msg => {
+    await bot.guilds.get(serverid).channels.get('528637296098934793').send('**\`[BOT] - Запущен. [#' + new Date().valueOf() + '-' + bot.uptime + '] [Проверка наличия обновлений...]\`**').then(msg => {
         check_updates(msg);
     });
 });
@@ -202,6 +202,7 @@ bot.on('message', async message => {
     require('./global_systems/role').run(bot, message, tags, rolesgg, canremoverole, manytags, nrpnames, sened, snyatie);
     require('./global_systems/warn').run(bot, message, warn_cooldown);
     require('./global_systems/support').run(bot, message, support_loop, support_cooldown);
+    require('./global_systems/get_novalid_names').run(bot, message, tags, rolesgg, canremoverole, manytags)
 
     let re = /(\d+(\.\d)*)/i;	
     const authorrisbot = new Discord.RichEmbed()
