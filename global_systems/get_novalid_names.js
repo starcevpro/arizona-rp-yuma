@@ -20,7 +20,7 @@ exports.run = async (bot, message, tags, rolesgg, canremoverole, manytags) => {
                             valid_roles_accept_has.push(m_role);
                         }
                     }
-                    if (!valid_roles_accept_has.includes(role.name)){
+                    if (!valid_roles_accept_has.includes(role.name) && !no_valid_members.some(mem => mem == member.id)){
                         no_valid_members.push(member.id);
                     }
                 }
