@@ -3,6 +3,7 @@ const fs = require("fs");
 
 exports.run = async (bot, message, tags, rolesgg, canremoverole, manytags) => {
     if (message.content == '/start_check_users'){
+        return message.reply(`\`данная команда отключена\``);
         if (!message.member.hasPermission("MANAGE_ROLES")){
             message.reply(`\`ошибка прав доступа\``).then(msg => msg.delete(7000));
             return message.delete();
