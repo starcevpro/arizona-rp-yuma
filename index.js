@@ -3,6 +3,30 @@ const bot = new Discord.Client();
 const user = new Discord.Client();
 const fs = require("fs");
 
+const version = '5.0.4';
+// Первая цифра означает глобальное обновление. (global_systems)
+// Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
+// Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
+
+const update_information = "Добавление текста обновлений."
+
+async function check_updates(){
+    setTimeout(async () => {
+        let channel = bot.guilds.get('531533132982124544').channels.find(c => c.name == 'bot-updates');
+        channel.fetchMessages({limit: 1}).then(messages => {
+            let msg = messages.first();
+            if (msg.content != version){
+                let server = bot.guilds.get('528635749206196232');
+                if (!server) return console.error('ошибка загрузки обновления, сервер не найден');
+                let sp_channel = server.channels.find(c => c.name == 'spectator-chat');
+                if (!sp_channel) return console.error('ошибка загрузки обновления, sp-chat не найден');
+                await sp_channel.send(`Обновление. Версия: ${version}.\n${update_information}`);
+                await channel.send(version);
+            }
+        });
+    }, 10000);
+};
+
 let levelhigh = 0;
 let lasttestid = 'net';
 
@@ -10,10 +34,9 @@ const nrpnames = new Set(); // Невалидные ники будут запи
 const sened = new Set(); // Уже отправленные запросы будут записаны в sened
 const snyatie = new Set(); // Уже отправленные запросы на снятие роли быдут записаны в snyatie
 const support_cooldown = new Set(); // Запросы от игроков.
-const accinfo_cooldown = new Set(); // Кулдаун игроков на /accinfo
+const accinfo_cooldown = new Set(); // Кулдаун игроков на /accinfo  
 const support_loop = new Set(); // Кулдаун сервера
 const allow_global_rp = new Set(); // Временные права лидерам на команду /togrp
-
 
 let mpstart = 0;
 let slovolock = 1;
@@ -33,7 +56,7 @@ var report_text = new Array();
 
 
 const dspanel = new Set();
-
+    
 let setembed_general = ["не указано", "не указано", "не указано", "не указано", "не указано", "не указано", "не указано"];
 let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
 let setembed_addline = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
@@ -169,7 +192,7 @@ const events = {
 const warn_cooldown = new Set();
 
 bot.login(process.env.token);
-user.login(process.env.user_token);
+// user.login(process.env.user_token);
 
 user.on('ready', () => {
     console.log(`Авторизован как пользователь!`);
@@ -183,6 +206,7 @@ bot.on('ready', () => {
     ticket_delete();
     require('./plugins/remote_access').start(bot); // Подгрузка плагина удаленного доступа.
     bot.guilds.get(serverid).channels.get('528637296098934793').send('**\`[BOT] - Запущен. [#' + new Date().valueOf() + '-' + bot.uptime + ']\`**')
+    check_updates();
 });
 
 
@@ -214,7 +238,7 @@ bot.on('message', async message => {
         }
         let bugreport = args.slice(1).join(" ");
         let spchat = yuma.channels.find(c => c.name == "spectator-chat");
-	let channel = message.channel;
+	    let channel = message.channel;
         if (bugreport.length < 5 || bugreport.length > 1300){
             message.reply(`\`нельзя отправить запрос с длинной меньше 5 или больше 1300 символов!\``).then(msg => msg.delete(15000));
             return message.delete()
@@ -255,7 +279,7 @@ bot.on('message', async message => {
 	
 	
     
-    	if (message.content.startsWith("/newsp")){
+    if (message.content.startsWith("/newsp")){
         const args = message.content.slice(`/newsp`).split(/ +/);
         if (!args[1]){
             message.reply(`\`укажите день! '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));

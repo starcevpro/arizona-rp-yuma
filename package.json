@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.4.2",
+    "google-spreadsheet": "^2.0.7",
     "mongoose-paginate": "git://github.com/zerok78/mongoose-paginate.git#version-5.0.4",
     "random-number": "0.0.9",
     "superagent": "^3.8.3",
