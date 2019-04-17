@@ -12,6 +12,9 @@ const update_information = "To realase version `flores`"
 let levelhigh = 0;
 let lasttestid = 'net';
 
+
+
+
 const nrpnames = new Set(); // Невалидные ники будут записаны в nrpnames
 const sened = new Set(); // Уже отправленные запросы будут записаны в sened
 const snyatie = new Set(); // Уже отправленные запросы на снятие роли быдут записаны в snyatie
