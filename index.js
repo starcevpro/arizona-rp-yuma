@@ -1794,7 +1794,6 @@ function getRandomInt(min, max){
 
 async function unwarnsystem() {
     setInterval(async() => {
-        let re = /(\d+(\.\d)*)/i;
         console.log(`Вызван эвент unwarnsystem`);
         let gserver = bot.guilds.find(g => g.id == "528635749206196232");
         let dataserver = bot.guilds.find(g => g.id == "531533132982124544");
@@ -1805,6 +1804,8 @@ async function unwarnsystem() {
                         if (messages.size == 1){
                             messages.forEach(async sacc => {
                                 let str = sacc.content;
+                                let re = /(\d+(\.\d)*)/i;
+                                console.log(str.split('\n'));
                                 let moderation_level = str.split('\n')[0].match(re)[0];
                                 let moderation_warns = str.split('\n')[1].match(re)[0];
                                 let user_warns = str.split('\n')[+moderation_warns + 2].match(re)[0];
