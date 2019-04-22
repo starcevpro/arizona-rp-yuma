@@ -1794,14 +1794,14 @@ function getRandomInt(min, max){
 
 async function unwarnsystem() {
     setInterval(async() => {
-    let re = /(\d+(\.\d)*)/i;
-    console.log(`Вызван эвент unwarnsystem`);
+        let re = /(\d+(\.\d)*)/i;
+        console.log(`Вызван эвент unwarnsystem`);
         let gserver = bot.guilds.find(g => g.id == "528635749206196232");
         let dataserver = bot.guilds.find(g => g.id == "531533132982124544");
-        dataserver.channels.forEach(async channel => {
-            if (channel.type=="text"){
-                if (channel.name != 'administration' && channel.name != 'accounts' && channel.name != 'bad-words' && channel.name != 'err-code' && channel.name != 'config'){
-                    await channel.fetchMessages({limit: 1}).then(async messages => {
+        dataserver.channels.forEach(async sacc => {
+            if (sacc.type == "text"){
+                if (sacc.name != 'administration' && sacc.name != 'accounts' && sacc.name != 'bad-words' && sacc.name != 'err-code' && sacc.name != 'config'){
+                    await sacc.fetchMessages({limit: 1}).then(async messages => {
                         if (messages.size == 1){
                             messages.forEach(async sacc => {
                                 let str = sacc.content;
