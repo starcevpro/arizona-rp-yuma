@@ -3,12 +3,12 @@ const bot = new Discord.Client();
 const fs = require("fs");
 const md5 = require('./my_modules/md5');
 
-const version = '6.0.1';
+const version = '6.0.2';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Исправление ошибок. Бот в debug режиме."
+const update_information = "Исправление ошибок."
 
 let levelhigh = 0;
 let lasttestid = 'net';
@@ -1795,17 +1795,16 @@ function getRandomInt(min, max){
 async function unwarnsystem() {
     setInterval(async() => {
         console.log(`Вызван эвент unwarnsystem`);
+        let re = /(\d+(\.\d)*)/i;
         let gserver = bot.guilds.find(g => g.id == "528635749206196232");
         let dataserver = bot.guilds.find(g => g.id == "531533132982124544");
         dataserver.channels.forEach(async sacc => {
             if (sacc.type == "text"){
-                if (sacc.name != 'administration' && sacc.name != 'accounts' && sacc.name != 'bad-words' && sacc.name != 'err-code' && sacc.name != 'config'){
+                if (!['chat', 'config', 'bot-updates'].includes(sacc.name)){
                     await sacc.fetchMessages({limit: 1}).then(async messages => {
                         if (messages.size == 1){
                             messages.forEach(async sacc => {
                                 let str = sacc.content;
-                                let re = /(\d+(\.\d)*)/i;
-                                console.log(str.split('\n'));
                                 let moderation_level = str.split('\n')[0].match(re)[0];
                                 let moderation_warns = str.split('\n')[1].match(re)[0];
                                 let user_warns = str.split('\n')[+moderation_warns + 2].match(re)[0];
