@@ -3,12 +3,12 @@ const bot = new Discord.Client();
 const fs = require("fs");
 const md5 = require('./my_modules/md5');
 
-const version = '6.0.4';
+const version = '6.0.1';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Оптимизация."
+const update_information = "Исправление ошибок. Бот в debug режиме."
 
 let levelhigh = 0;
 let lasttestid = 'net';
@@ -183,14 +183,13 @@ bot.on('ready', async () => {
     });
 });
 
-
-
 bot.on('message', async message => {
     if (message.channel.type == "dm") return // Если в ЛС, то выход.
     if (message.guild.id != serverid && message.guild.id != "531533132982124544") return
     if (message.type === "PINS_ADD") if (message.channel.name == "requests-for-roles") message.delete();
     if (message.content == "/ping") return message.reply("`я онлайн!`") && console.log(`Бот ответил ${message.member.displayName}, что я онлайн.`)
     if (message.author.id == bot.user.id) return
+    console.log(`Вызван эвент Message#1`);
     let yuma = bot.guilds.find(g => g.id == "528635749206196232");
 
     // Загружаем модули бота
