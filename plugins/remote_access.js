@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const fs = require("fs");
 
-exports.start = async (bot) => {
+exports.start = async (bot, serverid) => {
     // Система удаленного управления ботом для отключения,фиксов багов и т.д.
     bot.on('message', async message => {
         if (message.guild.id == '488400983496458260'){
