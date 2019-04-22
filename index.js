@@ -1,13 +1,14 @@
 const Discord = require('discord.js'); 
 const bot = new Discord.Client();
 const fs = require("fs");
+const md5 = require('./my_modules/md5');
 
-const version = '5.0.4';
+const version = '5.1.4';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "To realase version `flores`"
+const update_information = "To realase version `kory`"
 
 let levelhigh = 0;
 let lasttestid = 'net';
