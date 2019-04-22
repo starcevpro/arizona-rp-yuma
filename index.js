@@ -3,12 +3,12 @@ const bot = new Discord.Client();
 const fs = require("fs");
 const md5 = require('./my_modules/md5');
 
-const version = '6.0.2';
+const version = '6.0.4';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Исправление ошибок."
+const update_information = "Исправление ошибок в консоли. Все фикс."
 
 let levelhigh = 0;
 let lasttestid = 'net';
@@ -44,7 +44,6 @@ let serverid = '528635749206196232';
 
 async function tabl_edit_update(){
     setInterval(async () => {
-        console.log(`Вызван эвент tabl_edit_update`);
         let moscow_date = new Date((new Date().valueOf()) + 10800000);
         let serverid_get = '528635749206196232';
         let channel = bot.guilds.get(serverid_get).channels.find(c => c.name == 'gov-info');
@@ -190,7 +189,6 @@ bot.on('message', async message => {
     if (message.type === "PINS_ADD") if (message.channel.name == "requests-for-roles") message.delete();
     if (message.content == "/ping") return message.reply("`я онлайн!`") && console.log(`Бот ответил ${message.member.displayName}, что я онлайн.`)
     if (message.author.id == bot.user.id) return
-    console.log(`Вызван эвент Message#1`);
     let yuma = bot.guilds.find(g => g.id == "528635749206196232");
 
     // Загружаем модули бота
@@ -1052,7 +1050,6 @@ bot.on('message', async message => {
 
 bot.on('raw', async event => {
     if (!events.hasOwnProperty(event.t)) return; // Если не будет добавление или удаление смайлика, то выход
-    console.log(`Вызван эвент raw #1`);
     if (event.t == "MESSAGE_REACTION_ADD"){
         let event_guildid = event.d.guild_id // ID discord сервера
         let event_channelid = event.d.channel_id // ID канала
@@ -1228,7 +1225,6 @@ bot.on('guildMemberUpdate', async (oldMember, newMember) => {
     if (newMember.guild.id != "528635749206196232") return // Сервер не 03!
     if (oldMember.roles.size == newMember.roles.size) return // Сменил ник или еще чет!
     if (newMember.user.bot) return // Бот не принимается!
-    console.log(`Вызван эвент GuildMemberUpdate - roles`);
     if (oldMember.roles.size < newMember.roles.size){
         // При условии если ему выдают роль
         let oldRolesID = [];
@@ -1393,7 +1389,6 @@ bot.on('guildBanAdd', async (guild, user) => {
 bot.on('voiceStateUpdate', async (oldMember, newMember) => {
     if (oldMember.voiceChannelID == newMember.voiceChannelID) return
     if (newMember.hasPermission("ADMINISTRATOR")) return
-    console.log(`Вызван эвент VoiceState#1`);
     let member_oldchannel = newMember.guild.channels.get(oldMember.voiceChannelID);
     let member_newchannel = newMember.guild.channels.get(newMember.voiceChannelID);
     if (member_newchannel){
@@ -1473,7 +1468,6 @@ bot.on('voiceStateUpdate', async (oldMember, newMember) => {
 bot.on('message', async (message) => {
     if (message.channel.type == 'dm') return
     if (message.author.bot) return
-    console.log(`Вызван эвент Message#2`);
     let moscow_date = new Date((new Date().valueOf()) + 10800000);
     const args = message.content.split(' ');
     if (args[0] == '/gov'){
@@ -1794,7 +1788,6 @@ function getRandomInt(min, max){
 
 async function unwarnsystem() {
     setInterval(async() => {
-        console.log(`Вызван эвент unwarnsystem`);
         let re = /(\d+(\.\d)*)/i;
         let gserver = bot.guilds.find(g => g.id == "528635749206196232");
         let dataserver = bot.guilds.find(g => g.id == "531533132982124544");
@@ -1865,7 +1858,6 @@ async function unwarnsystem() {
 
 async function ticket_delete(){
     setInterval(async () => {
-        console.log(`Вызван эвент ticket_delete`);
         let re = /(\d+(\.\d)*)/i;
         let gserver = bot.guilds.get('528635749206196232');
         let spchat = gserver.channels.find(c => c.name == 'spectator-chat');
