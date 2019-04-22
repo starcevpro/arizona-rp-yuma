@@ -10,7 +10,6 @@ const version = '6.0.4';
 
 const update_information = "Исправление ошибок в консоли. Все фикс."
 
-let levelhigh = 0;
 let lasttestid = 'net';
 
 const nrpnames = new Set(); // Невалидные ники будут записаны в nrpnames
@@ -33,8 +32,6 @@ let reportsys = 1;
 var reports = new Array();
 var reported = new Array();
 var report_text = new Array();
-
-const dspanel = new Set();
     
 let setembed_general = ["не указано", "не указано", "не указано", "не указано", "не указано", "не указано", "не указано"];
 let setembed_fields = ["нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет", "нет"];
