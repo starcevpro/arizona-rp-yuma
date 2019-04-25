@@ -659,8 +659,8 @@ bot.on('message', async message => {
             if(value == false || value[2] < 5) return message.reply(`\`ошибка выполнения! нет прав\``).then(msg => msg.delete(9000));
             let user = message.guild.member(message.mentions.users.first());
             const args = message.content.slice('/setup').split(/ +/);
-            if(args[1] == 5 && value[1] != 1) return message.reply(`**\`ошибка выполнения! на данный уровень может назначить только разработчик\``)
-            if(args[1] == 0) {
+            if(args[2] == 5 && value[1] != 1) return message.reply(`**\`ошибка выполнения! на данный уровень может назначить только разработчик\``)
+            if(args[2] == 0) {
                 get_profile(9, user.id).then(value_two => {
                     if(value_two == false) {
                         message.reply(`\`модератора\` ${user} \`не существует\``)
@@ -680,13 +680,13 @@ bot.on('message', async message => {
                 if(value_two == false) {
                     add_profile(9, user.id); 
                     setTimeout(() => {
-                        change_profile(9, user.id, 'уровеньмодератора', args[1])
-                        message.reply(`\`вы успешно назначили модератора\` ${user} \`с уровнем доступа ${args[1]}\``)
+                        change_profile(9, user.id, 'уровеньмодератора', args[2])
+                        message.reply(`\`вы успешно назначили модератора\` ${user} \`с уровнем доступа ${args[2]}\``)
                     }, 2500);                   
                 }
                 else {
-                    change_profile(9, user.id, 'уровеньмодератора', args[1]);
-                    message.reply(`\`вы успешно изменили уровень модератора\` ${user} \`с ${value_two[2]} на ${args[1]}\``)
+                    change_profile(9, user.id, 'уровеньмодератора', args[2]);
+                    message.reply(`\`вы успешно изменили уровень модератора\` ${user} \`с ${value_two[2]} на ${args[2]}\``)
                 }
             })
         })

@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const fs = require("fs");
 
-exports.run = async (bot, message, setembed_general, setembed_fields, setembed_addline) => {
+exports.run = async (bot, message, setembed_general, setembed_fields, setembed_addline, get_profile, add_profile, change_profile) => {
     let re = /(\d+(\.\d)*)/i;	
     if (message.content == '/embhelp'){
         let level_mod = 0;
