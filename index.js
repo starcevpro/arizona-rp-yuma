@@ -82,12 +82,12 @@ async function delete_profile(gameserver, author_id){
     });
 }
 
-const version = '8.0.0';
+const version = '8.0.1';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Введение системы базы данных в действие, привязка бд к командам!"
+const update_information = "Введение в режим тестирования"
 
 let lasttestid = 'net';
 
@@ -676,6 +676,7 @@ bot.on('message', async message => {
                         return message.reply(`\`модератор\` ${user} \`удален из базы модераторов\``)
                         }
                     }
+
                 })
             }
             get_profile(9, user.id).then(value_two => {
@@ -689,7 +690,7 @@ bot.on('message', async message => {
                 else {
                     if(value_two[2] == 5 || value_two[1] == 1) {
                         message.reply(`\`данный аккаунт изменить из базы - нельзя\``)
-                        return message.delete();
+                        return;
                     }
                     change_profile(9, user.id, 'уровеньмодератора', args[2]);
                     return message.reply(`\`вы успешно изменили уровень модератора\` ${user} \`с ${value_two[2]} на ${args[2]}\``)
