@@ -664,15 +664,17 @@ bot.on('message', async message => {
                 get_profile(9, user.id).then(value_two => {
                     if(value_two == false) {
                         message.reply(`\`модератора\` ${user} \`не существует\``)
-                        message.delete();
+                        return message.delete();
                     }
                     else {
                         if(value_two[2] == 5 || value_two[1] == 1) {
                             message.reply(`\`данный аккаунт удалить из базы - нельзя\``)
-                            message.delete();
+                            return message.delete();
                         }
+                        else {
                         delete_profile(9, user.id);
-                        message.reply(`\`модератор\` ${user} \`удален из базы модераторов\``)
+                        return message.reply(`\`модератор\` ${user} \`удален из базы модераторов\``)
+                        }
                     }
                 })
             }
@@ -681,12 +683,12 @@ bot.on('message', async message => {
                     add_profile(9, user.id); 
                     setTimeout(() => {
                         change_profile(9, user.id, 'уровеньмодератора', args[2])
-                        message.reply(`\`вы успешно назначили модератора\` ${user} \`с уровнем доступа ${args[2]}\``)
+                        return message.reply(`\`вы успешно назначили модератора\` ${user} \`с уровнем доступа ${args[2]}\``)
                     }, 2500);                   
                 }
                 else {
                     change_profile(9, user.id, 'уровеньмодератора', args[2]);
-                    message.reply(`\`вы успешно изменили уровень модератора\` ${user} \`с ${value_two[2]} на ${args[2]}\``)
+                    return message.reply(`\`вы успешно изменили уровень модератора\` ${user} \`с ${value_two[2]} на ${args[2]}\``)
                 }
             })
         })
