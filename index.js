@@ -397,7 +397,7 @@ bot.on('message', async message => {
     }
 
     if (message.content.startsWith("/fbi")){
-        get_profile(9, message.author.id).then(value => {
+        get_profile(9, message.author.id).then(async value => {
             if(value == false || value[2] < 1) {
                 message.reply(`\`недостаточно прав доступа.\``).then(msg => msg.delete(10000));
                 return message.delete();
