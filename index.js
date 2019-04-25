@@ -687,6 +687,10 @@ bot.on('message', async message => {
                     }, 2500);                   
                 }
                 else {
+                    if(value_two[2] == 5 || value_two[1] == 1) {
+                        message.reply(`\`данный аккаунт изменить из базы - нельзя\``)
+                        return message.delete();
+                    }
                     change_profile(9, user.id, 'уровеньмодератора', args[2]);
                     return message.reply(`\`вы успешно изменили уровень модератора\` ${user} \`с ${value_two[2]} на ${args[2]}\``)
                 }
