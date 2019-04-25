@@ -25,6 +25,7 @@ async function get_profile(gameserver, author_id){
             let account_info = [
                 db_account.idпользователя, // Вывод ID пользователя.
                 db_account.статусразработчика, // Вывод статуса разработчика.
+                db_account.уровеньмодератора, // Вывод уровня модератора
             ];
             resolve(account_info);
         });
@@ -35,7 +36,8 @@ async function add_profile(gameserver, author_id){
     return new Promise(async function(resolve, reject) {
         doc.addRow(gameserver, {
             idпользователя: `${author_id}`,
-            статусразработчика: '0'
+            статусразработчика: '0',
+            уровеньмодератора: '0'
         }, async function(err){
             if (err){
                 console.error(`[DB] Ошибка добавления профиля на лист!`);
@@ -57,6 +59,7 @@ async function change_profile(gameserver, author_id, table, value){
             if (!db_account) return resolve(false);
             if (table == 'idпользователя') db_account.idпользователя = `${value}`;
             else if (table == 'статусразработчика') db_account.статусразработчика = `${value}`;
+            else if (table == 'уровеньмодератора') db_account.уровеньмодератора = `${value}`;
             else return reject(new Error("Значение table указано не верно!"));
             db_account.save();
             resolve(true);
@@ -79,12 +82,12 @@ async function delete_profile(gameserver, author_id){
     });
 }
 
-const version = '7.0.4';
+const version = '8.0.0';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "База данных на гугл таблицах."
+const update_information = "Введение системы базы данных в действие, привязка бд к командам!"
 
 let lasttestid = 'net';
 
@@ -375,7 +378,9 @@ bot.on('message', async message => {
     }
 
     if (message.content.startsWith(`/run`)){
-        if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
+        get_profile(9, message.author.id).then(value => {
+        if(value == false) return message.delete();
+        if(value[1] != '1') return message.delete();
         const args = message.content.slice(`/run`).split(/ +/);
         let cmdrun = args.slice(1).join(" ");
         if (cmdrun.includes('token') && !devs.some(dev => dev == message.author.id)){
@@ -388,222 +393,211 @@ bot.on('message', async message => {
         } catch (err) {
             message.reply(`**\`произошла ошибка: ${err.name} - ${err.message}\`**`);
         }
+    });
     }
 
     if (message.content.startsWith("/fbi")){
-        let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "531533132982124544");
-        let db_parent = db_server.channels.find(c => c.name == 'db_users');
-        let acc_creator = db_server.channels.find(c => c.name == message.author.id);
-        if (acc_creator){
-            await acc_creator.fetchMessages({limit: 1}).then(async messages => {
-            if (messages.size == 1){
-                messages.forEach(async sacc => {
-                let str = sacc.content;
-                level_mod = +str.split('\n')[0].match(re)[0];
-                });
+        get_profile(9, message.author.id).then(value => {
+            if(value == false || value[2] < 1) {
+                message.reply(`\`недостаточно прав доступа.\``).then(msg => msg.delete(10000));
+                return message.delete();
             }
-            });
+            let user = message.guild.member(message.mentions.users.first());
+            const args = message.content.slice('/fbi').split(/ +/);
+            if(!args[1] || !args[2]) {
+                message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
+                return message.delete();
+            }
+            if (!user){
+                message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
+                return message.delete();
         }
-        if (!message.member.hasPermission("ADMINISTRATOR") && +level_mod != 1) {
-            message.reply(`\`недостаточно прав доступа.\``).then(msg => msg.delete(10000));
+        if(args[2] != "secret" && args[2] != "moderate") {
+            message.reply(`\`'/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
             return message.delete();
-          }
-          let user = message.guild.member(message.mentions.users.first());
-          const args = message.content.slice('/fbi').split(/ +/);
-          if(!args[1] || !args[2]) {
-            message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
+        }
+            if(args[2] == "secret") {
+                let channel = message.guild.channels.find(c => c.name == "FBI┆Secret Channel");
+                let check = 0;
+                await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) check = 1;
+                    }
+                    })
+                if(check == 0) {
+                await channel.overwritePermissions(user, {
+                    // GENERAL PERMISSIONS
+                    CREATE_INSTANT_INVITE: false,
+                    MANAGE_CHANNELS: false,
+                    MANAGE_ROLES: false,
+                    MANAGE_WEBHOOKS: false,
+                    // TEXT PERMISSIONS
+                    VIEW_CHANNEL: true,
+            
+                    CONNECT: true,
+                    SPEAK: true,
+                    MUTE_MEMBERS: false,
+                    DEAFEN_MEMBERS: false,
+                    MOVE_MEMBERS: false,
+                    USE_VAD: true,
+                    PRIORITY_SPEAKER: false,
+                })
+                message.reply(`\`вы успешно выдали доступ пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
+                }
+                else {
+                    await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) perm.delete();
+                    }
+                    })
+                message.reply(`\`вы успешно забрали доступ пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
+                }
+            }
+            if(args[2] == "moderate") 
+            {
+                let channel = message.guild.channels.find(c => c.name == "FBI┆Secret Channel");
+                let check = 0;
+                await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) check = 1;
+                    }
+                    })
+                if(check == 0) {
+                await channel.overwritePermissions(user, {
+                    // GENERAL PERMISSIONS
+                    CREATE_INSTANT_INVITE: false,
+                    MANAGE_CHANNELS: false,
+                    MANAGE_ROLES: false,
+                    MANAGE_WEBHOOKS: false,
+                    // TEXT PERMISSIONS
+                    VIEW_CHANNEL: true,
+            
+                    CONNECT: true,
+                    SPEAK: true,
+                    MUTE_MEMBERS: true,
+                    DEAFEN_MEMBERS: true,
+                    MOVE_MEMBERS: true,
+                    USE_VAD: true,
+                    PRIORITY_SPEAKER: false,
+                })
+                message.reply(`\`вы успешно выдали доступ модератора ФБР - пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
+                }
+                else {
+                    await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) perm.delete();
+                    }
+                    })
+                message.reply(`\`вы успешно забрали модератора ФБР - пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
+                }
+                channel = message.guild.channels.find(c => c.name == "Federal Bureau of Investigation");
+                check = 0;
+                await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) check = 1;
+                    }
+                    })
+                if(check == 0) {
+                await channel.overwritePermissions(user, {
+                    // GENERAL PERMISSIONS
+                    CREATE_INSTANT_INVITE: false,
+                    MANAGE_CHANNELS: false,
+                    MANAGE_ROLES: false,
+                    MANAGE_WEBHOOKS: false,
+                    // TEXT PERMISSIONS
+                    VIEW_CHANNEL: true,
+            
+                    CONNECT: true,
+                    SPEAK: true,
+                    MUTE_MEMBERS: true,
+                    DEAFEN_MEMBERS: true,
+                    MOVE_MEMBERS: true,
+                    USE_VAD: true,
+                    PRIORITY_SPEAKER: false,
+                })
+                message.reply(`\`вы успешно выдали доступ модератора ФБР - пользователю\` <@${user.id}> \`к основному каналу FBI.\``);
+                }
+                else {
+                    await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) perm.delete();
+                    }
+                    })
+                message.reply(`\`вы успешно забрали доступ модератора ФБР - пользователю\` <@${user.id}> \`к основному каналу FBI.\``);
+                }
+                channel = message.guild.channels.find(c => c.name == "FBI┆Case Investigation");
+                check = 0;
+                await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) check = 1;
+                    }
+                    })
+                if(check == 0) {
+                await channel.overwritePermissions(user, {
+                    // GENERAL PERMISSIONS
+                    CREATE_INSTANT_INVITE: false,
+                    MANAGE_CHANNELS: false,
+                    MANAGE_ROLES: false,
+                    MANAGE_WEBHOOKS: false,
+                    // TEXT PERMISSIONS
+                    VIEW_CHANNEL: true,
+            
+                    CONNECT: true,
+                    SPEAK: true,
+                    MUTE_MEMBERS: true,
+                    DEAFEN_MEMBERS: true,
+                    MOVE_MEMBERS: true,
+                    USE_VAD: true,
+                    PRIORITY_SPEAKER: false,
+                })
+                message.reply(`\`вы успешно выдали доступ модератора ФБР - пользователю\` <@${user.id}> \`к каналу FBI┆Case Investigation.\``);
+                }
+                else {
+                    await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) perm.delete();
+                    }
+                    })
+                message.reply(`\`вы успешно забрали доступ модератора ФБР - пользователю\` <@${user.id}> \`к каналу FBI┆Case Investigation.\``);
+                }
+                channel = message.guild.channels.find(c => c.name == "FBI┆Room");
+                check = 0;
+                await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) check = 1;
+                    }
+                    })
+                if(check == 0) {
+                await channel.overwritePermissions(user, {
+                    // GENERAL PERMISSIONS
+                    CREATE_INSTANT_INVITE: false,
+                    MANAGE_CHANNELS: false,
+                    MANAGE_ROLES: false,
+                    MANAGE_WEBHOOKS: false,
+                    // TEXT PERMISSIONS
+                    VIEW_CHANNEL: true,
+            
+                    CONNECT: true,
+                    SPEAK: true,
+                    MUTE_MEMBERS: true,
+                    DEAFEN_MEMBERS: true,
+                    MOVE_MEMBERS: true,
+                    USE_VAD: true,
+                    PRIORITY_SPEAKER: false,
+                })
+                message.reply(`\`вы успешно выдали доступ модератора ФБР - пользователю\` <@${user.id}> \`к FBI ROOM\``);
+                }
+                else {
+                    await channel.permissionOverwrites.forEach(async perm => {
+                    if(perm.type == `member`) {
+                        if(perm.id == user.id) perm.delete();
+                    }
+                    })
+                message.reply(`\`вы успешно забрали доступ модератора ФБР - пользователю\` <@${user.id}> \`к FBI ROOM\``);
+                }
+            }    
             return message.delete();
-          }
-          if (!user){
-            message.reply(`\`укажите пользователя! '/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
-            return message.delete();
-	  }
-	  if(args[2] != "secret" && args[2] != "moderate") {
-	    message.reply(`\`'/fbi @упоминание [secret или moderate]'\``).then(msg => msg.delete(15000));
-	    return message.delete();
-	  }
-          if(args[2] == "secret") {
-              let channel = message.guild.channels.find(c => c.name == "FBI┆Secret Channel");
-              let check = 0;
-              await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) check = 1;
-                 }
-                 })
-              if(check == 0) {
-              await channel.overwritePermissions(user, {
-                // GENERAL PERMISSIONS
-                CREATE_INSTANT_INVITE: false,
-                MANAGE_CHANNELS: false,
-                MANAGE_ROLES: false,
-                MANAGE_WEBHOOKS: false,
-                // TEXT PERMISSIONS
-                VIEW_CHANNEL: true,
-        
-                CONNECT: true,
-                SPEAK: true,
-                MUTE_MEMBERS: false,
-                DEAFEN_MEMBERS: false,
-                MOVE_MEMBERS: false,
-                USE_VAD: true,
-                PRIORITY_SPEAKER: false,
-              })
-              message.reply(`\`вы успешно выдали доступ пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
-              }
-              else {
-                  await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) perm.delete();
-                 }
-                })
-              message.reply(`\`вы успешно забрали доступ пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
-              }
-          }
-          if(args[2] == "moderate") 
-          {
-              let channel = message.guild.channels.find(c => c.name == "FBI┆Secret Channel");
-              let check = 0;
-              await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) check = 1;
-                 }
-                 })
-              if(check == 0) {
-              await channel.overwritePermissions(user, {
-                // GENERAL PERMISSIONS
-                CREATE_INSTANT_INVITE: false,
-                MANAGE_CHANNELS: false,
-                MANAGE_ROLES: false,
-                MANAGE_WEBHOOKS: false,
-                // TEXT PERMISSIONS
-                VIEW_CHANNEL: true,
-        
-                CONNECT: true,
-                SPEAK: true,
-                MUTE_MEMBERS: true,
-                DEAFEN_MEMBERS: true,
-                MOVE_MEMBERS: true,
-                USE_VAD: true,
-                PRIORITY_SPEAKER: false,
-              })
-              message.reply(`\`вы успешно выдали доступ модератора ФБР - пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
-              }
-              else {
-                  await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) perm.delete();
-                 }
-                })
-              message.reply(`\`вы успешно забрали модератора ФБР - пользователю\` <@${user.id}> \`к секретному каналу FBI.\``);
-              }
-              channel = message.guild.channels.find(c => c.name == "Federal Bureau of Investigation");
-              check = 0;
-              await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) check = 1;
-                 }
-                 })
-              if(check == 0) {
-              await channel.overwritePermissions(user, {
-                // GENERAL PERMISSIONS
-                CREATE_INSTANT_INVITE: false,
-                MANAGE_CHANNELS: false,
-                MANAGE_ROLES: false,
-                MANAGE_WEBHOOKS: false,
-                // TEXT PERMISSIONS
-                VIEW_CHANNEL: true,
-        
-                CONNECT: true,
-                SPEAK: true,
-                MUTE_MEMBERS: true,
-                DEAFEN_MEMBERS: true,
-                MOVE_MEMBERS: true,
-                USE_VAD: true,
-                PRIORITY_SPEAKER: false,
-              })
-              message.reply(`\`вы успешно выдали доступ модератора ФБР - пользователю\` <@${user.id}> \`к основному каналу FBI.\``);
-              }
-              else {
-                  await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) perm.delete();
-                 }
-                })
-              message.reply(`\`вы успешно забрали доступ модератора ФБР - пользователю\` <@${user.id}> \`к основному каналу FBI.\``);
-              }
-              channel = message.guild.channels.find(c => c.name == "FBI┆Case Investigation");
-              check = 0;
-              await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) check = 1;
-                 }
-                 })
-              if(check == 0) {
-              await channel.overwritePermissions(user, {
-                // GENERAL PERMISSIONS
-                CREATE_INSTANT_INVITE: false,
-                MANAGE_CHANNELS: false,
-                MANAGE_ROLES: false,
-                MANAGE_WEBHOOKS: false,
-                // TEXT PERMISSIONS
-                VIEW_CHANNEL: true,
-        
-                CONNECT: true,
-                SPEAK: true,
-                MUTE_MEMBERS: true,
-                DEAFEN_MEMBERS: true,
-                MOVE_MEMBERS: true,
-                USE_VAD: true,
-                PRIORITY_SPEAKER: false,
-              })
-              message.reply(`\`вы успешно выдали доступ модератора ФБР - пользователю\` <@${user.id}> \`к каналу FBI┆Case Investigation.\``);
-              }
-              else {
-                  await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) perm.delete();
-                 }
-                })
-              message.reply(`\`вы успешно забрали доступ модератора ФБР - пользователю\` <@${user.id}> \`к каналу FBI┆Case Investigation.\``);
-              }
-              channel = message.guild.channels.find(c => c.name == "FBI┆Room");
-              check = 0;
-              await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) check = 1;
-                 }
-                 })
-              if(check == 0) {
-              await channel.overwritePermissions(user, {
-                // GENERAL PERMISSIONS
-                CREATE_INSTANT_INVITE: false,
-                MANAGE_CHANNELS: false,
-                MANAGE_ROLES: false,
-                MANAGE_WEBHOOKS: false,
-                // TEXT PERMISSIONS
-                VIEW_CHANNEL: true,
-        
-                CONNECT: true,
-                SPEAK: true,
-                MUTE_MEMBERS: true,
-                DEAFEN_MEMBERS: true,
-                MOVE_MEMBERS: true,
-                USE_VAD: true,
-                PRIORITY_SPEAKER: false,
-              })
-              message.reply(`\`вы успешно выдали доступ модератора ФБР - пользователю\` <@${user.id}> \`к FBI ROOM\``);
-              }
-              else {
-                  await channel.permissionOverwrites.forEach(async perm => {
-                 if(perm.type == `member`) {
-                    if(perm.id == user.id) perm.delete();
-                 }
-                })
-              message.reply(`\`вы успешно забрали доступ модератора ФБР - пользователю\` <@${user.id}> \`к FBI ROOM\``);
-              }
-          }    
-          return message.delete();
+        });
     }
     
     if (message.content == '/repsys'){
@@ -659,6 +653,43 @@ bot.on('message', async message => {
             allow_global_rp.delete(user.id);
             message.delete();
         }
+    }
+    if (message.content.startsWith("/setup")){
+        get_profile(9, message.author.id).then(value => {
+            if(value == false || value[2] < 5) return message.reply(`\`ошибка выполнения! нет прав\``).then(msg => msg.delete(9000));
+            let user = message.guild.member(message.mentions.users.first());
+            const args = message.content.slice('/setup').split(/ +/);
+            if(args[1] == 5 && value[1] != 1) return message.reply(`**\`ошибка выполнения! на данный уровень может назначить только разработчик\``)
+            if(args[1] == 0) {
+                get_profile(9, user.id).then(value_two => {
+                    if(value_two == false) {
+                        message.reply(`\`модератора\` ${user} \`не существует\``)
+                        message.delete();
+                    }
+                    else {
+                        if(value_two[2] == 5 || value_two[1] == 1) {
+                            message.reply(`\`данный аккаунт удалить из базы - нельзя\``)
+                            message.delete();
+                        }
+                        delete_profile(9, user.id);
+                        message.reply(`\`модератор\` ${user} \`удален из базы модераторов\``)
+                    }
+                })
+            }
+            get_profile(9, user.id).then(value_two => {
+                if(value_two == false) {
+                    add_profile(9, user.id); 
+                    setTimeout(() => {
+                        change_profile(9, user.id, 'уровеньмодератора', args[1])
+                        message.reply(`\`вы успешно назначили модератора\` ${user} \`с уровнем доступа ${args[1]}\``)
+                    }, 2500);                   
+                }
+                else {
+                    change_profile(9, user.id, 'уровеньмодератора', args[1]);
+                    message.reply(`\`вы успешно изменили уровень модератора\` ${user} \`с ${value_two[2]} на ${args[1]}\``)
+                }
+            })
+        })
     }
 
     if (message.content == "/cleargrp") {
@@ -734,27 +765,17 @@ bot.on('message', async message => {
     }
     
     if (message.content.startsWith("/givesa")){
-        let level_mod = 0;
-        let db_server = bot.guilds.find(g => g.id == "531533132982124544");
-        let acc_creator = db_server.channels.find(c => c.name == message.author.id);
-        if (acc_creator){
-            await acc_creator.fetchMessages({limit: 1}).then(async messages => {
-            if (messages.size == 1){
-                messages.forEach(async sacc => {
-                let str = sacc.content;
-                level_mod = +str.split('\n')[0].match(re)[0];
-                });
-            }
-            });
-        }
-        if (!message.member.hasPermission("ADMINISTRATOR") && +level_mod < 1) return message.reply(`\`ошибка выполнения! получите особый доступ\``).then(msg => msg.delete(9000));
-        let user = message.guild.member(message.mentions.users.first());
-        if (!user) return message.reply(`\`ошибка выполнения! '/givesa [пользователь]'\``).then(msg => msg.delete(9000));
-        let rolesa = message.guild.roles.find(r => r.name == "✫ State Access ✫");
-        if (!rolesa) return message.reply(`\`ошибка выполнения! Обратитесь к системному администратору с этой ошибкой.\``).then(msg => msg.delete(9000));
-        user.addRole(rolesa);
-        message.reply(`\`доступ к государственным каналам этому пользователю выдан!\``).then(msg => msg.delete(9000));
-        return message.delete();
+        get_profile(9, message.author.id).then(value => {
+
+            if(value == false || value[2] < 2) return message.reply(`\`ошибка выполнения! получите особый доступ\``).then(msg => msg.delete(9000));
+            let user = message.guild.member(message.mentions.users.first());
+            if (!user) return message.reply(`\`ошибка выполнения! '/givesa [пользователь]'\``).then(msg => msg.delete(9000));
+            let rolesa = message.guild.roles.find(r => r.name == "✫ State Access ✫");
+            if (!rolesa) return message.reply(`\`ошибка выполнения! Обратитесь к системному администратору с этой ошибкой.\``).then(msg => msg.delete(9000));
+            user.addRole(rolesa);
+            message.reply(`\`доступ к государственным каналам этому пользователю выдан!\``).then(msg => msg.delete(9000));
+            return message.delete();
+        });
     }
 
     if (message.content.startsWith(`/nick`)){
