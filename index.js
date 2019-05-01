@@ -82,12 +82,12 @@ async function delete_profile(gameserver, author_id){
     });
 }
 
-const version = '8.0.1';
+const version = '7.0.4';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Введение в режим тестирования"
+const update_information = "Частичный откат, добавление /newsp на юзер-аккаунт"
 
 let lasttestid = 'net';
 
@@ -322,60 +322,6 @@ bot.on('message', async message => {
         else return message.channel.send(`\`[REPINFO] Репорт№${args[1]}\nПользователь:\`<@${reports[args[1]]}>\`Суть обращения:\n${report_text[args[1]]}\``);
 	} // Report System Tickets
 	
-    if (message.content.startsWith("/newsp")){
-        const args = message.content.slice(`/newsp`).split(/ +/);
-        if (!args[1]){
-            message.reply(`\`укажите день! '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));
-            return message.delete();
-        }
-        if (!args[2]){
-            message.reply(`\`укажите номер месяца! '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));
-            return message.delete();
-        }
-        if (!args[3]){
-            message.reply(`\`укажите ссылку на заявку! '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));
-            return message.delete();
-        }
-        if (args[1] > 31 || args[1] < 1 || args[2] > 12 || args[2] < 1){
-            message.reply(`\`У нас всего 12 месяцев и 31 день. '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));
-            return message.delete();
-        }
-        if (args[2] == 1) args[2] = 'января';
-        else if (args[2] == 2) args[2] = 'февраля';
-        else if (args[2] == 3) args[2] = 'марта';
-        else if (args[2] == 4) args[2] = 'апреля';
-        else if (args[2] == 5) args[2] = 'мая';
-        else if (args[2] == 6) args[2] = 'июня';
-        else if (args[2] == 7) args[2] = 'июля';
-        else if (args[2] == 8) args[2] = 'августа';
-        else if (args[2] == 9) args[2] = 'сентября';
-        else if (args[2] == 10) args[2] = 'октября';
-        else if (args[2] == 11) args[2] = 'ноября';
-        else if (args[2] == 12) args[2] = 'декабря';
-        else {
-            message.reply(`\`укажите номер месяца! '/newsp [номер дня] [номер месяца] [url на заявку]\``).then(msg => msg.delete(30000));
-            return message.delete();
-        }
-        
-        if (!message.member.hasPermission("ADMINISTRATOR")) return message.delete();
-        let textforobz = "**  ╔┓┏╦━━╦┓╔┓╔━━╗ @everyone\n  ║┗┛║┗━╣┃║┃║╯╰║ @everyone\n  ║┏┓║┏━╣┗╣┗╣╰╯║ @everyone\n  ╚┛┗╩━━╩━╩━╩━━╝ @everyone**";
-        const embed = new Discord.RichEmbed()
-	    .setAuthor(`© 2018 Risbot Company™`, `https://pp.userapi.com/c849132/v849132806/b35ca/2RD_7K2ysns.jpg?ava=1`, "https://vk.com/risbot")
-        .setTitle("**Заявления на пост модератора группы**")
-        .setColor("#FF8E01")
-        .setDescription("**Мы вернулись, что бы обрадовать вас! Ведь " + args[1] + " " + args[2] + " пройдет набор на пост Spectator'a нашей группы Discord!\nВы сможете стать одним из нас, почуствовать себя в роли модератора группы, последить за игроками, а так же получить доступ к супер секретным функциям канала Yuma Brotherhood. Все, что вам нужно будет делать, это наводить порядок в нашей группе и помогать игрокам!**")
-        .setFooter("Предоставил: Kory_McGregor", "https://cdn.discordapp.com/avatars/336207279412215809/211ab8ef6f7b4dfd9d3bfbf45999eea0.png?size=128")
-        .setImage("https://i.imgur.com/nFD61xf.gif")
-        .setTimestamp()
-        .addBlankField(false)
-        .addField("**Что нужно, что бы попасть к нам?**", `**1) Вам нужно будет знать правила нашего discord-сервера! Если вы хотите стать модератором, то вы должны знать за что идут наказания? Не правда ли?\n2) Вам нужно понимать систему модерирования. Ведь просто ходить по каналам и орать на нарушителя "Прекрати!" будет выглядить глупо.\n3) Наметить себе будущую должность. Один модератор не может за всем уследить, кто-то может следить за чатом, когда другой сидит в канале и поет песни для наших участников сервера Discord.\n4) Быть дружелюбным и разумным! Одна из самых главных особенностей! Мы же помогаем игрокам! И даже если у них поломается биндер и они нафлудят в чат, более разумным будет удалить сообщение от пользователя, чем выдать мут за флуд!\n5) Не делать того, что не нужно! В будущем вы можете модерировать свой текстовой канал! ~~И делать обзвоны на редактора канала.~~ Стоп-стоп-стоп.. Зачем? Вы не справляетесь? Вам нужно лишнее внимание?! Пожалуй этого делать не стоит!**`)
-        .addBlankField(false)
-        .addField("**Требования к участникам**", "**1) Не состоять в черном списке Yuma [!]\n2) Быть активным участником нашей группы.\n3) У вас не должно быть грубых нарушений.\n4) Быть адекватным, коммуникабельным, ответственным.\n5) Не быть действующим лидером, министром, администратором.**")
-        .addBlankField(false)
-        .addField("**Дополнительные ссылки**", "**Оставить заявление вы можете нажав на [выделенный текст](" + args[3] + ").**");
-        message.channel.send(textforobz, {embed});
-        return message.delete()
-    }
 
     if (message.content.startsWith(`/run`)){
         get_profile(9, message.author.id).then(value => {
