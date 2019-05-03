@@ -82,12 +82,12 @@ async function delete_profile(gameserver, author_id){
     });
 }
 
-const version = '7.2.2';
+const version = '7.2.4';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Исправление запросов роли в support.";
+const update_information = "Релиз";
 
 let lasttestid = 'net';
 
