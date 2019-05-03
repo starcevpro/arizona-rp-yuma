@@ -1867,7 +1867,7 @@ async function unwarnsystem() {
         let dataserver = bot.guilds.find(g => g.id == "531533132982124544");
         dataserver.channels.forEach(async channel => {
             if (channel.type == "text"){
-                if (!['chat', 'config', 'bot-updates'].includes(sacc.name)){
+                if (!['chat', 'config', 'bot-updates'].includes(channel.name)){
                     await channel.fetchMessages({limit: 1}).then(async messages => {
                         if (messages.size == 1){
                             messages.forEach(async sacc => {
