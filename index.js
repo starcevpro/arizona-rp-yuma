@@ -82,12 +82,12 @@ async function delete_profile(gameserver, author_id){
     });
 }
 
-const version = '7.2.1';
+const version = '7.2.2';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Просмотр варнингов."
+const update_information = "Исправление ошибок.";
 
 let lasttestid = 'net';
 
@@ -211,19 +211,15 @@ async function tabl_edit_update(){
                             }
                         }
                     });
-                    try {
-                        const embed = new Discord.RichEmbed();
-                        embed.setTitle('**Arizona Role Play » Собеседования**');
-                        embed.setColor('#FF0000');
-                        embed.setTimestamp(new Date());
-                        embed.setFooter('Support Team » Central DataBase', bot.guilds.get(serverid_get).iconURL);
-                        embed.addField(msg.embeds[0].fields[0].name, fractions.join('\n'), msg.embeds[0].fields[0].inline);
-                        embed.addField(msg.embeds[0].fields[1].name, date.join('\n'), msg.embeds[0].fields[1].inline);
-                        embed.addField(msg.embeds[0].fields[2].name, modify.join('\n'), msg.embeds[0].fields[2].inline);
-                        if (modify_func_get) msg.edit(embed);
-                    } catch (err) {
-                        bot.guilds.get('528635749206196232').channels.get('528637279627902976').send(`**КОРИ БОТ ОШИБКИ ВЫДАЕТ!!\n\`произошла ошибка: ${err.name} - ${err.message}\`**`)
-                    }
+                    const embed = new Discord.RichEmbed();
+                    embed.setTitle('**Arizona Role Play » Собеседования**');
+                    embed.setColor('#FF0000');
+                    embed.setTimestamp(new Date());
+                    embed.setFooter('Support Team » Central DataBase', bot.guilds.get(serverid_get).iconURL);
+                    embed.addField(msg.embeds[0].fields[0].name, fractions.join('\n'), msg.embeds[0].fields[0].inline);
+                    embed.addField(msg.embeds[0].fields[1].name, date.join('\n'), msg.embeds[0].fields[1].inline);
+                    embed.addField(msg.embeds[0].fields[2].name, modify.join('\n'), msg.embeds[0].fields[2].inline);
+                    if (modify_func_get) msg.edit(embed);
                 });
             }else{
                 return console.error('канал содержит более 1 сообщения.');
