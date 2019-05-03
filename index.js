@@ -82,12 +82,12 @@ async function delete_profile(gameserver, author_id){
     });
 }
 
-const version = '7.0.4';
+const version = '7.1.4';
 // Первая цифра означает глобальное обновление. (global_systems)
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Частичный откат, добавление /newsp на юзер-аккаунт"
+const update_information = "Новая функция - проверка никнеймов, никнеймы состоящие в чёрном списке."
 
 let lasttestid = 'net';
 
@@ -228,6 +228,24 @@ async function tabl_edit_update(){
     }, 60000);
 }
 
+async function check_blacklisted(){
+    setInterval(() => {
+        let blacknames = ['Milky_Hokage'];
+        let server = bot.guilds.get(serverid);
+        let sp_chat = server.channels.find(c => c.name == 'spectator-chat');
+        server.members.forEach(member => {
+            blacknames.forEach(nick => {
+                let name = nick.split('_')[0];
+                let family = nick.split('_')[1];
+                if (!name || !family) return sp_chat.send(`Кто то в боте ник не верно указал.\nПеременная: blacknames, значение: ${nick}, нужно его с нижней палочкой указывать.`);
+                if (member.displayName.toLowerCase().includes(name.toLowerCase()) && member.displayName.toLowerCase().includes(family.toLowerCase())){
+                    member.ban('ник в чс');
+                }
+            });
+        });
+    }, 30000);
+}
+
 punishment_rep = ({
     "mute": "Вы были замучены в текстовых каналах.",
     "kick": "Вы были отключены от Discord-сервера.",
@@ -253,6 +271,7 @@ bot.on('ready', async () => {
     tabl_edit_update();
     unwarnsystem();
     ticket_delete();
+    check_blacklisted();
     require('./plugins/remote_access').start(bot, serverid); // Подгрузка плагина удаленного доступа.
     await bot.guilds.get(serverid).channels.get('528637296098934793').send('**\`[BOT] - Запущен. [#' + new Date().valueOf() + '-' + bot.uptime + '] [Проверка наличия обновлений...]\`**').then(msg => {
         check_updates(msg);
