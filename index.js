@@ -239,7 +239,11 @@ async function check_blacklisted(){
                 let family = nick.split('_')[1];
                 if (!name || !family) return sp_chat.send(`Кто то в боте ник не верно указал.\nПеременная: blacknames, значение: ${nick}, нужно его с нижней палочкой указывать.`);
                 if (member.displayName.toLowerCase().includes(name.toLowerCase()) && member.displayName.toLowerCase().includes(family.toLowerCase())){
-                    member.ban('ник в чс');
+                    if (member.hasPermission("MANAGE_ROLES")){
+                        sp_chat.send(`я не смог забанить ${member}, т.к он модератор. Запрещенный ник: ${nick} в blacknames`);
+                    }else{
+                        member.ban('ник в чс');
+                    }
                 }
             });
         });
