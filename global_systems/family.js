@@ -103,7 +103,7 @@ exports.run = async (bot, message) => {
         }
         let members = message.guild.roles.get(family_role.id).members; // members.size
         message.channel.send(`**<@${message.author.id}>, вот информация о семье: <@&${family_role.id}>**`, {embed: {
-            color: 3447003,
+            color: family_role.color,
             fields: [{
                 name: `Информация о семье: ${family_role.name}`,
                 value: `**Создатель семьи: ${family_leader}\nЗаместители: ${family_zams}\nКоличество участников: ${members.size}**`
