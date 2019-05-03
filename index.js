@@ -87,7 +87,7 @@ const version = '7.2.2';
 // Вторая цифра обозначет обновление одной из подсистем. (команда к примеру)
 // Третяя цифра обозначает статус обновления [0 (develop), 1 (testing), 2 (fix), 3 (debug relese), 4 (relese)]
 
-const update_information = "Исправление ошибок.";
+const update_information = "Исправление запросов роли в support.";
 
 let lasttestid = 'net';
 
