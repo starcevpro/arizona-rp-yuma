@@ -27,7 +27,7 @@ bot.login(process.env.token);
 
 bot.on('message', async (message) => {
     if (message.channel.type == 'dm') return
-    if (message.guild.id != '355656045600964609') return
+    if (message.guild.id != '528635749206196232') return
   
     if (message.content == '/authme'){
       if (message.member.roles.some(r => r.name == 'Проверенный 🔐')){
